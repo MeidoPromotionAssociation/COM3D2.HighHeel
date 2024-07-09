@@ -13,9 +13,9 @@ namespace COM3D2.HighHeel
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
-        public const string PluginGuid = "com.habeebweeb.com3d2.highheel";
+        public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2-Inory";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -38,12 +38,12 @@ namespace COM3D2.HighHeel
         private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "Bodyoffset.json");
         public Core.BodyOffsetConfig BodyOffsets { get; private set; }
 
+
         public Plugin()
         {
             try
             {
                 Harmony.CreateAndPatchAll(typeof(Core.Hooks));
-                LoadBodyOffsetConfig();
             }
             catch (Exception e)
             {
@@ -52,6 +52,8 @@ namespace COM3D2.HighHeel
                 DestroyImmediate(this);
                 return;
             }
+
+            LoadBodyOffsetConfig();
 
             Instance = this;
             Configuration = new(new(Path.Combine(ConfigPath, ConfigName), false, Info.Metadata));
@@ -161,7 +163,6 @@ namespace COM3D2.HighHeel
             }
         }
 
-
         public void LoadBodyOffsetConfig() {
             if (File.Exists(BodyOffsetConfigPath)) {
                 string jsonText = File.ReadAllText(BodyOffsetConfigPath);
@@ -175,5 +176,6 @@ namespace COM3D2.HighHeel
             string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
             File.WriteAllText(BodyOffsetConfigPath, jsonText);
         }
+
     }
 }
