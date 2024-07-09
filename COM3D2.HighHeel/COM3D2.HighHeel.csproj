@@ -57,12 +57,14 @@
     </ItemGroup>
 
     <ItemGroup>
-		<PackageReference Include="IsExternalInit" Version="1.0.0">
+		<PackageReference Include="IsExternalInit" Version="1.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
+
 	<ItemGroup>
 		<Compile Include="Plugin.cs" />
 		<Compile Include="PluginConfig.cs" />
@@ -71,7 +73,7 @@
 		<Compile Include="Core\ShoeConfig.cs" />
 		<Compile Include="Core\ShoeTransforms.cs" />
 		<Compile Include="Core\Utility.cs" />
-    <Compile Include="Core\BodyOffsetConfig.cs" />
+    	<Compile Include="Core\BodyOffsetConfig.cs" />
 		<Compile Include="UI\MainWindow.cs" />
 		<Compile Include="UI\NumberInput.cs" />
 		<Compile Include="UI\NumberInputEventArgs.cs" />

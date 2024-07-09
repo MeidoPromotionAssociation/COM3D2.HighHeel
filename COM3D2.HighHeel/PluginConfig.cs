@@ -5,8 +5,8 @@ namespace COM3D2.HighHeel
 {
     public class PluginConfig
     {
-        public ConfigEntry<bool> Enabled { get; private init; }
-        public ConfigEntry<KeyboardShortcut> UIShortcut { get; private init; }
+        public ConfigEntry<bool> Enabled { get; private set; }
+        public ConfigEntry<KeyboardShortcut> UIShortcut { get; private set; }
         public PluginConfig(ConfigFile config)
         {
             const string configSection = "Config";
