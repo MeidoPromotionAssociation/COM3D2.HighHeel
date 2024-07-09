@@ -35,6 +35,9 @@ namespace COM3D2.HighHeel
 
         public static Plugin? Instance { get; private set; }
 
+        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "Bodyoffset.json");
+        public BodyOffsetConfig BodyOffsets { get; private set; }
+
         public Plugin()
         {
             try
