@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace COM3D2.HighHeel.Core
 {

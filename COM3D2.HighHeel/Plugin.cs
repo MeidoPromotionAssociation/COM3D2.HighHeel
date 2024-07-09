@@ -15,7 +15,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.habeebweeb.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -162,7 +162,7 @@ namespace COM3D2.HighHeel
         }
 
 
-        private void LoadBodyOffsetConfig() {
+        public void LoadBodyOffsetConfig() {
             if (File.Exists(BodyOffsetConfigPath)) {
                 string jsonText = File.ReadAllText(BodyOffsetConfigPath);
                 BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
@@ -171,7 +171,7 @@ namespace COM3D2.HighHeel
             }
         }
 
-        private void SaveBodyOffsetConfig() {
+        public void SaveBodyOffsetConfig() {
             string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
             File.WriteAllText(BodyOffsetConfigPath, jsonText);
         }
