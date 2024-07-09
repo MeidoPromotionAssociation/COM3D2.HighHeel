@@ -61,9 +61,9 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
 	</ItemGroup>
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	<PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
 
 	<ItemGroup>
 		<Compile Include="Plugin.cs" />
