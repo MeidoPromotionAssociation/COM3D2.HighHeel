@@ -71,7 +71,7 @@
 		<Compile Include="Core\Hooks.cs" />
 		<Compile Include="Core\MaidTransforms.cs" />
 		<Compile Include="Core\ShoeConfig.cs" />
-		<Compile Include="IndividualAngles.cs" />
+		<Compile Include="Core\IndividualAngles.cs" />
 		<Compile Include="Core\ShoeTransforms.cs" />
 		<Compile Include="Core\Utility.cs" />
     	<Compile Include="Core\BodyOffsetConfig.cs" />
