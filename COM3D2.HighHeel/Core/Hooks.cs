@@ -80,6 +80,7 @@ namespace COM3D2.HighHeel.Core
             //overwrite offset
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
+            Debug.Log($"HighHeel currentSceneIndex: {currentSceneIndex} offset :{offset}");
 
             body.Translate(Vector3.up * offset, Space.World);
 
