@@ -165,9 +165,9 @@ namespace COM3D2.HighHeel
         private void LoadBodyOffsetConfig() {
             if (File.Exists(BodyOffsetConfigPath)) {
                 string jsonText = File.ReadAllText(BodyOffsetConfigPath);
-                BodyOffsets = JsonConvert.DeserializeObject<BodyOffsetConfig>(jsonText);
+                BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
             } else {
-                BodyOffsets = new BodyOffsetConfig();
+                BodyOffsets = new Core.BodyOffsetConfig();
             }
         }
 
