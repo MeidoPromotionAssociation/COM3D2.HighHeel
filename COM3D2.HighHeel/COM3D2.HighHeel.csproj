@@ -1,82 +1,39 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{9AAA1180-E788-460C-B767-5D663FD5D815}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
-		<AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-		<FileAlignment>512</FileAlignment>
-		<Deterministic>true</Deterministic>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net35</TargetFramework>
-		<LangVersion>9</LangVersion>
-		<Nullable>enable</Nullable>
-		<OutputType>Library</OutputType>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net35</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="0Harmony, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\0Harmony.dll</HintPath>
       </Reference>
-      <Reference Include="Assembly-CSharp, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       </Reference>
-      <Reference Include="BepInEx, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="BepInEx, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\BepInEx.dll</HintPath>
       </Reference>
-      <Reference Include="Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
         <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
       </Reference>
-      <Reference Include="UnityEngine, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\lib\UnityEngine.dll</HintPath>
       </Reference>
     </ItemGroup>
 
     <ItemGroup>
-		<PackageReference Include="IsExternalInit" Version="1.0.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
-	
-	<ItemGroup>
-		<Compile Include="Plugin.cs" />
-		<Compile Include="PluginConfig.cs" />
-		<Compile Include="Core\Hooks.cs" />
-		<Compile Include="Core\MaidTransforms.cs" />
-		<Compile Include="Core\ShoeConfig.cs" />
-		<Compile Include="Core\ShoeTransforms.cs" />
-		<Compile Include="Core\Utility.cs" />
-		<Compile Include="UI\MainWindow.cs" />
-		<Compile Include="UI\NumberInput.cs" />
-		<Compile Include="UI\NumberInputEventArgs.cs" />
-		<Compile Include="UI\TextInputEventArgs.cs" />
+      <PackageReference Include="IsExternalInit" Version="1.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
-	
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="xcopy /Y &quot;$(TargetPath)&quot; &quot;E:\Games\KISS\COM3D2\BepinEx\plugins\&quot;" />
+    </Target>
 	
 </Project>

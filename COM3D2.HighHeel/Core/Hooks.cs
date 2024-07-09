@@ -1,12 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
-using BepInEx;
-using System.IO;
-using Newtonsoft.Json; 
-using UnityEngine.SceneManagement;
-
 
 namespace COM3D2.HighHeel.Core
 {
@@ -52,7 +47,6 @@ namespace COM3D2.HighHeel.Core
             ShoeConfigs[__instance.body] = configName;
         }
 
-
         [HarmonyPostfix, HarmonyPatch(typeof(TBody), "LateUpdate")]
         public static void LateUpdate(TBody __instance)
         {
@@ -68,6 +62,7 @@ namespace COM3D2.HighHeel.Core
 
             if (!MaidTransforms.TryGetValue(__instance, out var transforms)) return;
 
+
             ShoeConfig config;
 
             if (Plugin.Instance.EditMode) config = Plugin.Instance.EditModeConfig;
@@ -78,29 +73,12 @@ namespace COM3D2.HighHeel.Core
             }
 
             var (body, footL, toesL, footR, toesR) = transforms;
-            var (offset, footLAngle, footLMax, toeLAngle, footRAngle, footRMax, toeRAngle) = config;
+            // var (offset, footLAngle, footLMax, toeLAngle, footRAngle, footRMax, toeRAngle) = config;
+            var (_, footLAngle, footLMax, toeLAngle, footRAngle, footRMax, toeRAngle) = config;
 
-            //#109 Hack
-            /*
+            //overwrite offset
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-            if (Plugin.Instance != null && Plugin.Instance.SceneOffsets != null && Plugin.Instance.SceneOffsets.ContainsKey(currentSceneIndex))
-            {
-                var offsetValue = Plugin.Instance.SceneOffsets[currentSceneIndex];
-                offset = offsetValue;
-            }
-            */
-
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            if (currentSceneIndex == 14 || currentSceneIndex == 10)
-            {
-                offset = 0.00f;
-            }
-            else if (currentSceneIndex == 65)
-            {
-                offset = 0.06f;
-            }
-            //#109 Hack
+            float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
 
             body.Translate(Vector3.up * offset, Space.World);
 

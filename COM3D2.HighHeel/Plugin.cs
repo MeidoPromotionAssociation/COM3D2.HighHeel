@@ -15,7 +15,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.habeebweeb.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.0";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -35,16 +35,12 @@ namespace COM3D2.HighHeel
 
         public static Plugin? Instance { get; private set; }
 
-        //#109 Hack
-        //public Dictionary<int, float> SceneOffsets { get; private set; }
-        //#109 Hack
-
         public Plugin()
         {
-
             try
             {
                 Harmony.CreateAndPatchAll(typeof(Core.Hooks));
+                LoadBodyOffsetConfig();
             }
             catch (Exception e)
             {
@@ -75,11 +71,6 @@ namespace COM3D2.HighHeel
 
             ImportConfiguration(ref EditModeConfig, "");
             mainWindow.UpdateEditModeValues();
-
-
-            //#109 Hack
-            //LoadSceneOffsets();
-            //#109 Hack
         }
 
         private void Update()
@@ -125,47 +116,6 @@ namespace COM3D2.HighHeel
             return database;
         }
 
-
-
-        //#109 Hack
-        /*
-        private void LoadSceneOffsets()
-            {
-                string offsetConfigPath = Path.Combine(ConfigPath, "Bodyoffset.json");
-
-                if (File.Exists(offsetConfigPath))
-                {
-                    try
-                    {
-                        string jsonText = File.ReadAllText(offsetConfigPath);
-                        var sceneOffsets = JsonConvert.DeserializeObject<Dictionary<string, float>>(jsonText);
-
-                        SceneOffsets = new Dictionary<int, float>();
-
-                        foreach (var sceneOffset in sceneOffsets)
-                        {
-                            if (int.TryParse(sceneOffset.Key, out int sceneIndex))
-                            {
-                                SceneOffsets[sceneIndex] = sceneOffset.Value;
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.LogError($"Error loading scene offsets: {e.Message}");
-                    }
-                }
-                else
-                {
-                    Logger.LogWarning("Bodyoffset.json not found.");
-                }
-            }
-        */
-        //#109 Hack
-
-
-
-
         private static void ExportConfiguration(Core.ShoeConfig config, string filename)
         {
             if (!Directory.Exists(ShoeConfigPath))
@@ -206,6 +156,21 @@ namespace COM3D2.HighHeel
                 path = path.Trim();
                 return string.Join("_", path.Split(invalid)).Replace(".", "").Trim('_');
             }
+        }
+
+
+        private void LoadBodyOffsetConfig() {
+            if (File.Exists(BodyOffsetConfigPath)) {
+                string jsonText = File.ReadAllText(BodyOffsetConfigPath);
+                BodyOffsets = JsonConvert.DeserializeObject<BodyOffsetConfig>(jsonText);
+            } else {
+                BodyOffsets = new BodyOffsetConfig();
+            }
+        }
+
+        private void SaveBodyOffsetConfig() {
+            string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
+            File.WriteAllText(BodyOffsetConfigPath, jsonText);
         }
     }
 }

@@ -88,6 +88,26 @@ namespace COM3D2.HighHeel.UI
             windowRect.height = pluginEnabled && editModeEnabled ? 280f : 55f;
 
             windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, WindowStyle);
+
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Scene Index:");
+            string sceneIndexText = GUILayout.TextField(currentSceneIndex.ToString(), GUILayout.Width(50));
+            if (int.TryParse(sceneIndexText, out int sceneIndex)) {
+                currentSceneIndex = sceneIndex;
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Body Offset:");
+            string bodyOffsetText = GUILayout.TextField(currentBodyOffset.ToString("F2"), GUILayout.Width(50));
+            if (float.TryParse(bodyOffsetText, out float bodyOffset)) {
+                if (GUILayout.Button("Set Offset")) {
+                    Plugin.Instance.BodyOffsets.SceneSpecificOffsets[currentSceneIndex] = bodyOffset;
+                    Plugin.Instance.SaveBodyOffsetConfig(); // Save the new configuration
+                }
+            }
+            GUILayout.EndHorizontal();
         }
 
         private void GuiFunc(int windowId)
