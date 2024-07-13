@@ -58,7 +58,11 @@ namespace COM3D2.HighHeel
             LoadBodyOffsetConfig();
 
             mainWindow = new();
-            mainWindow.ReloadEvent += (_, _) => ShoeDatabase = LoadShoeDatabase();
+            mainWindow.ReloadEvent += (_, _) =>
+            {
+                ShoeDatabase = LoadShoeDatabase();
+                LoadBodyOffsetConfig();
+            };
 
             mainWindow.ExportEvent += (_, args) => ExportConfiguration(EditModeConfig, args.Text);
 
