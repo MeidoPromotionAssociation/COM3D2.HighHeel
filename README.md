@@ -10,16 +10,16 @@ This is a sample of the config:
 ```
 {
   "DefaultBodyOffset": 0.04,   //Default Maid BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
-  "DefaultManBodyOffset": 0.0,  //Default Man BodyOffset
+  "DefaultManBodyOffset": 0.0,  //Default Man BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
   "SceneSpecificOffsets": {
-    "10": 0.05,    //This means setting the maid BodyOffset of scene index 10 to 0.05
-    "14": 0.05,    //This means setting the maid BodyOffset of scene index 14 to 0.05
+    "10": 0.05,    //This means setting the maid BodyOffset of scene index 10 to 0.05.
+    "14": 0.05,    //This means setting the maid BodyOffset of scene index 14 to 0.05.
     "63": 0.05,
     "65": 0.06
   },
   "SceneSpecificManOffsets":{
-    "10": 0.05,    //This means setting the man BodyOffset of scene index 10 to 0.05
-    "14": 0.05    //This means setting the man BodyOffset of scene index 14 to 0.05
+    "10": 0.05,    //This means setting the man BodyOffset of scene index 10 to 0.05.
+    "14": 0.05    //This means setting the man BodyOffset of scene index 14 to 0.05.
     "63": 0.05,
   }
 }
