@@ -14,7 +14,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.0.3";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -34,7 +34,10 @@ namespace COM3D2.HighHeel
 
         public static Plugin? Instance { get; private set; }
 
-        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "Bodyoffset.json");
+        private static readonly string BodyOffsetConfigPath = Path.Combine(
+            ConfigPath,
+            "Bodyoffset.json"
+        );
         public Core.BodyOffsetConfig BodyOffsets { get; private set; }
 
         public Plugin()
@@ -90,7 +93,8 @@ namespace COM3D2.HighHeel
 
         private void Update()
         {
-            if (Configuration.UIShortcut.Value.IsUp()) mainWindow.Visible = !mainWindow.Visible;
+            if (Configuration.UIShortcut.Value.IsUp())
+                mainWindow.Visible = !mainWindow.Visible;
 
             mainWindow.Update();
         }
@@ -99,12 +103,18 @@ namespace COM3D2.HighHeel
 
         private static Dictionary<string, Core.ShoeConfig> LoadShoeDatabase()
         {
-            var database = new Dictionary<string, Core.ShoeConfig>(StringComparer.OrdinalIgnoreCase);
+            var database = new Dictionary<string, Core.ShoeConfig>(
+                StringComparer.OrdinalIgnoreCase
+            );
 
             if (!Directory.Exists(ShoeConfigPath))
                 Directory.CreateDirectory(ShoeConfigPath);
 
-            var shoeConfigs = Directory.GetFiles(ShoeConfigPath, "hhmod_*.json", SearchOption.AllDirectories);
+            var shoeConfigs = Directory.GetFiles(
+                ShoeConfigPath,
+                "hhmod_*.json",
+                SearchOption.AllDirectories
+            );
 
             foreach (var configPath in shoeConfigs)
             {
@@ -114,7 +124,9 @@ namespace COM3D2.HighHeel
 
                     if (database.ContainsKey(key))
                     {
-                        Instance!.Logger.LogWarning($"Duplicate configuration filename found: {configPath}. Skipping");
+                        Instance!.Logger.LogWarning(
+                            $"Duplicate configuration filename found: {configPath}. Skipping"
+                        );
                         continue;
                     }
 
@@ -124,7 +136,9 @@ namespace COM3D2.HighHeel
                 catch (Exception e)
                 {
                     var errorVerb = e is IOException ? "load" : "parse";
-                    Instance!.Logger.LogWarning($"Could not {errorVerb} '{configPath}' because: {e.Message}");
+                    Instance!.Logger.LogWarning(
+                        $"Could not {errorVerb} '{configPath}' because: {e.Message}"
+                    );
                 }
             }
 
@@ -147,7 +161,8 @@ namespace COM3D2.HighHeel
         {
             var fullPath = CreateConfigFullPath(filename);
 
-            if (!File.Exists(fullPath)) return;
+            if (!File.Exists(fullPath))
+                return;
 
             string jsonText = File.ReadAllText(fullPath);
 
@@ -158,8 +173,10 @@ namespace COM3D2.HighHeel
         {
             var sanitizedFilename = SanitizeFilename(filename.ToLowerInvariant());
 
-            if (string.IsNullOrEmpty(sanitizedFilename)) sanitizedFilename = "hhmod_configuration";
-            else if (!sanitizedFilename.StartsWith("hhmod_")) sanitizedFilename = "hhmod_" + sanitizedFilename;
+            if (string.IsNullOrEmpty(sanitizedFilename))
+                sanitizedFilename = "hhmod_configuration";
+            else if (!sanitizedFilename.StartsWith("hhmod_"))
+                sanitizedFilename = "hhmod_" + sanitizedFilename;
 
             sanitizedFilename += ".json";
 
@@ -173,17 +190,21 @@ namespace COM3D2.HighHeel
             }
         }
 
-
-        public void LoadBodyOffsetConfig() {
-            if (File.Exists(BodyOffsetConfigPath)) {
+        public void LoadBodyOffsetConfig()
+        {
+            if (File.Exists(BodyOffsetConfigPath))
+            {
                 string jsonText = File.ReadAllText(BodyOffsetConfigPath);
                 BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
-            } else {
+            }
+            else
+            {
                 BodyOffsets = new Core.BodyOffsetConfig();
             }
         }
 
-        public void SaveBodyOffsetConfig() {
+        public void SaveBodyOffsetConfig()
+        {
             string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
             File.WriteAllText(BodyOffsetConfigPath, jsonText);
         }

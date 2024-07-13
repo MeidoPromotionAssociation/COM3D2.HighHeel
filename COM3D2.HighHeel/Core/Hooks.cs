@@ -277,7 +277,6 @@ namespace COM3D2.HighHeel.Core
                     //manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
                     __instance.SkinMeshUpdate();
                 }
-
             }
 
             static void RotateFoot(Transform foot, float angle, float max)
