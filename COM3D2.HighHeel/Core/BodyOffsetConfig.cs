@@ -4,7 +4,9 @@ namespace COM3D2.HighHeel.Core {
 
     public class BodyOffsetConfig {
         public float DefaultBodyOffset { get; set; }
+        public float DefaultManBodyOffset { get; set; }
         public Dictionary<int, float> SceneSpecificOffsets { get; set; }
+        public Dictionary<int, float> SceneSpecificManOffsets { get; set; }
 
         public BodyOffsetConfig() {
             SceneSpecificOffsets = new Dictionary<int, float>();
