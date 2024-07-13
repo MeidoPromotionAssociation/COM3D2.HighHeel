@@ -14,7 +14,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -34,12 +34,28 @@ namespace COM3D2.HighHeel
 
         public static Plugin? Instance { get; private set; }
 
+        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "Bodyoffset.json");
+        public Core.BodyOffsetConfig BodyOffsets { get; private set; }
+
         public Plugin()
         {
             Instance = this;
-            Harmony.CreateAndPatchAll(typeof(Core.Hooks));
+            try
+            {
+                Harmony.CreateAndPatchAll(typeof(Core.Hooks));
+            }
+            catch (Exception e)
+            {
+                base.Logger.LogError($"Unable to inject core because: {e.Message}");
+                base.Logger.LogError(e.StackTrace);
+                DestroyImmediate(this);
+                return;
+            }
+
             Configuration = new(new(Path.Combine(ConfigPath, ConfigName), false, Info.Metadata));
             Logger = base.Logger;
+
+            LoadBodyOffsetConfig();
 
             mainWindow = new();
             mainWindow.ReloadEvent += (_, _) => ShoeDatabase = LoadShoeDatabase();
@@ -151,6 +167,21 @@ namespace COM3D2.HighHeel
                 path = path.Trim();
                 return string.Join("_", path.Split(invalid)).Replace(".", "").Trim('_');
             }
+        }
+
+
+        public void LoadBodyOffsetConfig() {
+            if (File.Exists(BodyOffsetConfigPath)) {
+                string jsonText = File.ReadAllText(BodyOffsetConfigPath);
+                BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
+            } else {
+                BodyOffsets = new Core.BodyOffsetConfig();
+            }
+        }
+
+        public void SaveBodyOffsetConfig() {
+            string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
+            File.WriteAllText(BodyOffsetConfigPath, jsonText);
         }
     }
 }

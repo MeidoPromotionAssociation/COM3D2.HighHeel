@@ -79,6 +79,7 @@ namespace COM3D2.HighHeel.Core
 
             //var (body, footL, toesL, footR, toesR) = transforms;
             var (body, footL, toesL, toeL0, toeL1, toeL2, footR, toesR, toeR0, toeR1, toeR2) = transforms;
+            /*
             var (offset, 
                 footLAngle, footLMax, toeLAngle, 
                 toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle, 
@@ -90,6 +91,23 @@ namespace COM3D2.HighHeel.Core
                 toeR0AngleX, toeR01AngleX, toeR1AngleX, toeR11AngleX, toeR2AngleX, toeR21AngleX,
                 toeR0AngleY, toeR01AngleY, toeR1AngleY, toeR11AngleY, toeR2AngleY, toeR21AngleY,
                 toeR0AngleZ, toeR01AngleZ, toeR1AngleZ, toeR11AngleZ, toeR2AngleZ, toeR21AngleZ) = config;
+            */
+
+            var (_, 
+                footLAngle, footLMax, toeLAngle, 
+                toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle, 
+                toeL0AngleX, toeL01AngleX, toeL1AngleX, toeL11AngleX, toeL2AngleX, toeL21AngleX, 
+                toeL0AngleY, toeL01AngleY, toeL1AngleY, toeL11AngleY, toeL2AngleY, toeL21AngleY, 
+                toeL0AngleZ, toeL01AngleZ, toeL1AngleZ, toeL11AngleZ, toeL2AngleZ, toeL21AngleZ, 
+                footRAngle, footRMax, toeRAngle, 
+                toeR0Angle, toeR01Angle, toeR1Angle, toeR11Angle, toeR2Angle, toeR21Angle,
+                toeR0AngleX, toeR01AngleX, toeR1AngleX, toeR11AngleX, toeR2AngleX, toeR21AngleX,
+                toeR0AngleY, toeR01AngleY, toeR1AngleY, toeR11AngleY, toeR2AngleY, toeR21AngleY,
+                toeR0AngleZ, toeR01AngleZ, toeR1AngleZ, toeR11AngleZ, toeR2AngleZ, toeR21AngleZ) = config;
+            
+            //overwrite offset
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
 
             body.Translate(Vector3.up * offset, Space.World);
 

@@ -73,6 +73,7 @@
 		<Compile Include="Core\ShoeConfig.cs" />
 		<Compile Include="Core\ShoeTransforms.cs" />
 		<Compile Include="Core\Utility.cs" />
+		<Compile Include="Core\BodyOffsetConfig.cs" />
 		<Compile Include="UI\MainWindow.cs" />
 		<Compile Include="UI\NumberInput.cs" />
 		<Compile Include="UI\NumberInputEventArgs.cs" />
