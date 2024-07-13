@@ -269,10 +269,12 @@ namespace COM3D2.HighHeel.Core
                     currentSceneIndex
                 );
 
-                Transform manBody = __instance.GetBone("ManBip");
-                if (manBody != null)
+                Transform manbody = __instance.GetBone("ManBip");
+                if (manbody != null)
                 {
-                    manBody.Translate(Vector3.up * offset, Space.World);
+                    // manbody.Translate(Vector3.up * offset, Space.World);
+                    old_position = manbody.transform.position
+                    manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
                 }
             }
 
