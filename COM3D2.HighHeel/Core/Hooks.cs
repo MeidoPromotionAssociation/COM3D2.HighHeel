@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using COM3D2.HighHeel.UI;
 using HarmonyLib;
 using UnityEngine;
-using COM3D2.HighHeel.UI;
 using UnityEngine.SceneManagement;
 
 namespace COM3D2.HighHeel.Core
@@ -15,15 +15,27 @@ namespace COM3D2.HighHeel.Core
 
         [HarmonyPostfix]
         [HarmonyPatch(
-            typeof(TBodySkin), nameof(TBodySkin.Load), typeof(MPN), typeof(Transform), typeof(Transform),
-            typeof(Dictionary<string, Transform>), typeof(string), typeof(string), typeof(string), typeof(string),
-            typeof(int), typeof(bool), typeof(int)
+            typeof(TBodySkin),
+            nameof(TBodySkin.Load),
+            typeof(MPN),
+            typeof(Transform),
+            typeof(Transform),
+            typeof(Dictionary<string, Transform>),
+            typeof(string),
+            typeof(string),
+            typeof(string),
+            typeof(string),
+            typeof(int),
+            typeof(bool),
+            typeof(int)
         )]
         public static void OnTBodySkinLoad(TBodySkin __instance)
         {
-            if (__instance.SlotId != TBody.SlotID.shoes) return;
+            if (__instance.SlotId != TBody.SlotID.shoes)
+                return;
 
-            if (Plugin.Instance == null) return;
+            if (Plugin.Instance == null)
+                return;
 
             if (ShoeConfigs.ContainsKey(__instance.body))
             {
@@ -37,15 +49,17 @@ namespace COM3D2.HighHeel.Core
             var name = __instance.obj.name;
             int configNameIndex;
 
-            if ((configNameIndex = name.IndexOf("hhmod_", StringComparison.Ordinal)) < 0) return;
-
+            if ((configNameIndex = name.IndexOf("hhmod_", StringComparison.Ordinal)) < 0)
+                return;
 
             //var configName = name.Substring(configNameIndex);
             var configName = name.Substring(configNameIndex, 9);
 
             if (!Plugin.Instance.ShoeDatabase.ContainsKey(configName))
             {
-                Plugin.Instance.Logger.LogWarning($"Configuration '{configName}' could not be found!");
+                Plugin.Instance.Logger.LogWarning(
+                    $"Configuration '{configName}' could not be found!"
+                );
                 return;
             }
 
@@ -57,58 +71,112 @@ namespace COM3D2.HighHeel.Core
         [HarmonyPostfix, HarmonyPatch(typeof(TBody), "LateUpdate")]
         public static void LateUpdate(TBody __instance)
         {
-            if (!__instance.isLoadedBody) return;
+            if (!__instance.isLoadedBody)
+                return;
 
-            if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value) return;
+            if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
+                return;
 
-            
-            if (__instance.boMaid){
-
+            if (!__instance.boMAN)
+            {
                 // return if maid shoes are off or they don't have any on
-                if (!__instance.GetSlotVisible(TBody.SlotID.shoes)) return;
+                if (!__instance.GetSlotVisible(TBody.SlotID.shoes))
+                    return;
 
                 // Maid will float and their feet will spin if there is no animation playing
-                if (!Plugin.IsDance && !__instance.GetAnimation().isPlaying) return;
+                if (!Plugin.IsDance && !__instance.GetAnimation().isPlaying)
+                    return;
 
-                if (!MaidTransforms.TryGetValue(__instance, out var transforms)) return;
+                if (!MaidTransforms.TryGetValue(__instance, out var transforms))
+                    return;
 
                 ShoeConfig config;
 
-                if (Plugin.Instance.EditMode) config = Plugin.Instance.EditModeConfig;
+                if (Plugin.Instance.EditMode)
+                    config = Plugin.Instance.EditModeConfig;
                 else
                 {
-                    if (!ShoeConfigs.TryGetValue(__instance, out var configName)) return;
-                    if (!Plugin.Instance.ShoeDatabase.TryGetValue(configName, out config)) return;
+                    if (!ShoeConfigs.TryGetValue(__instance, out var configName))
+                        return;
+                    if (!Plugin.Instance.ShoeDatabase.TryGetValue(configName, out config))
+                        return;
                 }
 
                 //var (body, footL, toesL, footR, toesR) = transforms;
-                var (body, footL, toesL, toeL0, toeL1, toeL2, footR, toesR, toeR0, toeR1, toeR2) = transforms;
+                var (body, footL, toesL, toeL0, toeL1, toeL2, footR, toesR, toeR0, toeR1, toeR2) =
+                    transforms;
                 /*
-                var (offset, 
-                    footLAngle, footLMax, toeLAngle, 
-                    toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle, 
-                    toeL0AngleX, toeL01AngleX, toeL1AngleX, toeL11AngleX, toeL2AngleX, toeL21AngleX, 
-                    toeL0AngleY, toeL01AngleY, toeL1AngleY, toeL11AngleY, toeL2AngleY, toeL21AngleY, 
-                    toeL0AngleZ, toeL01AngleZ, toeL1AngleZ, toeL11AngleZ, toeL2AngleZ, toeL21AngleZ, 
-                    footRAngle, footRMax, toeRAngle, 
+                var (offset,
+                    footLAngle, footLMax, toeLAngle,
+                    toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle,
+                    toeL0AngleX, toeL01AngleX, toeL1AngleX, toeL11AngleX, toeL2AngleX, toeL21AngleX,
+                    toeL0AngleY, toeL01AngleY, toeL1AngleY, toeL11AngleY, toeL2AngleY, toeL21AngleY,
+                    toeL0AngleZ, toeL01AngleZ, toeL1AngleZ, toeL11AngleZ, toeL2AngleZ, toeL21AngleZ,
+                    footRAngle, footRMax, toeRAngle,
                     toeR0Angle, toeR01Angle, toeR1Angle, toeR11Angle, toeR2Angle, toeR21Angle,
                     toeR0AngleX, toeR01AngleX, toeR1AngleX, toeR11AngleX, toeR2AngleX, toeR21AngleX,
                     toeR0AngleY, toeR01AngleY, toeR1AngleY, toeR11AngleY, toeR2AngleY, toeR21AngleY,
                     toeR0AngleZ, toeR01AngleZ, toeR1AngleZ, toeR11AngleZ, toeR2AngleZ, toeR21AngleZ) = config;
                 */
 
-                var (_, 
-                    footLAngle, footLMax, toeLAngle, 
-                    toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle, 
-                    toeL0AngleX, toeL01AngleX, toeL1AngleX, toeL11AngleX, toeL2AngleX, toeL21AngleX, 
-                    toeL0AngleY, toeL01AngleY, toeL1AngleY, toeL11AngleY, toeL2AngleY, toeL21AngleY, 
-                    toeL0AngleZ, toeL01AngleZ, toeL1AngleZ, toeL11AngleZ, toeL2AngleZ, toeL21AngleZ, 
-                    footRAngle, footRMax, toeRAngle, 
-                    toeR0Angle, toeR01Angle, toeR1Angle, toeR11Angle, toeR2Angle, toeR21Angle,
-                    toeR0AngleX, toeR01AngleX, toeR1AngleX, toeR11AngleX, toeR2AngleX, toeR21AngleX,
-                    toeR0AngleY, toeR01AngleY, toeR1AngleY, toeR11AngleY, toeR2AngleY, toeR21AngleY,
-                    toeR0AngleZ, toeR01AngleZ, toeR1AngleZ, toeR11AngleZ, toeR2AngleZ, toeR21AngleZ) = config;
-                
+                var (
+                    _,
+                    footLAngle,
+                    footLMax,
+                    toeLAngle,
+                    toeL0Angle,
+                    toeL01Angle,
+                    toeL1Angle,
+                    toeL11Angle,
+                    toeL2Angle,
+                    toeL21Angle,
+                    toeL0AngleX,
+                    toeL01AngleX,
+                    toeL1AngleX,
+                    toeL11AngleX,
+                    toeL2AngleX,
+                    toeL21AngleX,
+                    toeL0AngleY,
+                    toeL01AngleY,
+                    toeL1AngleY,
+                    toeL11AngleY,
+                    toeL2AngleY,
+                    toeL21AngleY,
+                    toeL0AngleZ,
+                    toeL01AngleZ,
+                    toeL1AngleZ,
+                    toeL11AngleZ,
+                    toeL2AngleZ,
+                    toeL21AngleZ,
+                    footRAngle,
+                    footRMax,
+                    toeRAngle,
+                    toeR0Angle,
+                    toeR01Angle,
+                    toeR1Angle,
+                    toeR11Angle,
+                    toeR2Angle,
+                    toeR21Angle,
+                    toeR0AngleX,
+                    toeR01AngleX,
+                    toeR1AngleX,
+                    toeR11AngleX,
+                    toeR2AngleX,
+                    toeR21AngleX,
+                    toeR0AngleY,
+                    toeR01AngleY,
+                    toeR1AngleY,
+                    toeR11AngleY,
+                    toeR2AngleY,
+                    toeR21AngleY,
+                    toeR0AngleZ,
+                    toeR01AngleZ,
+                    toeR1AngleZ,
+                    toeR11AngleZ,
+                    toeR2AngleZ,
+                    toeR21AngleZ
+                ) = config;
+
                 //overwrite offset
                 int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
                 float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
@@ -122,14 +190,26 @@ namespace COM3D2.HighHeel.Core
                 //RotateToes(toesR, toeRAngle, false);
 
                 var IndividualAnglesToeL = new List<IndividualAngles>();
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL0AngleX, toeL0AngleY, toeL0AngleZ, "toeL0"));
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL01AngleX, toeL01AngleY, toeL01AngleZ, "toeL01"));
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL1AngleX, toeL1AngleY, toeL1AngleZ, "toeL1"));
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL11AngleX, toeL11AngleY, toeL11AngleZ, "toeL11"));
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL2AngleX, toeL2AngleY, toeL2AngleZ, "toeL2"));
-                IndividualAnglesToeL.Add(new IndividualAngles(toeL21AngleX, toeL21AngleY, toeL21AngleZ, "toeL21"));
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL0AngleX, toeL0AngleY, toeL0AngleZ, "toeL0")
+                );
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL01AngleX, toeL01AngleY, toeL01AngleZ, "toeL01")
+                );
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL1AngleX, toeL1AngleY, toeL1AngleZ, "toeL1")
+                );
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL11AngleX, toeL11AngleY, toeL11AngleZ, "toeL11")
+                );
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL2AngleX, toeL2AngleY, toeL2AngleZ, "toeL2")
+                );
+                IndividualAnglesToeL.Add(
+                    new IndividualAngles(toeL21AngleX, toeL21AngleY, toeL21AngleZ, "toeL21")
+                );
                 RotateToesIndividual(toesL, toeLAngle, IndividualAnglesToeL, true);
-                //RotateToesIndividual(toesL, toeLAngle, 
+                //RotateToesIndividual(toesL, toeLAngle,
                 //    new List<IndividualAngles>() {
                 //        new IndividualAngles(toeL0AngleX, toeL0AngleY, toeL0AngleZ, "toeL0") { },
                 //        new IndividualAngles(toeL01AngleX, toeL01AngleY, toeL01AngleZ, "toeL01") { },
@@ -145,12 +225,24 @@ namespace COM3D2.HighHeel.Core
                 //        //new IndividualAngles() { x = toeL21AngleX,  y = toeL21AngleY,   z = toeL21AngleZ }
                 //    }, true);
                 var IndividualAnglesToeR = new List<IndividualAngles>();
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR0AngleX, toeR0AngleY, toeR0AngleZ, "toeR0"));
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR01AngleX, toeR01AngleY, toeR01AngleZ, "toeR01"));
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR1AngleX, toeR1AngleY, toeR1AngleZ, "toeR1"));
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR11AngleX, toeR11AngleY, toeR11AngleZ, "toeR11"));
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR2AngleX, toeR2AngleY, toeR2AngleZ, "toeR2"));
-                IndividualAnglesToeR.Add(new IndividualAngles(toeR21AngleX, toeR21AngleY, toeR21AngleZ, "toeL21"));
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR0AngleX, toeR0AngleY, toeR0AngleZ, "toeR0")
+                );
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR01AngleX, toeR01AngleY, toeR01AngleZ, "toeR01")
+                );
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR1AngleX, toeR1AngleY, toeR1AngleZ, "toeR1")
+                );
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR11AngleX, toeR11AngleY, toeR11AngleZ, "toeR11")
+                );
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR2AngleX, toeR2AngleY, toeR2AngleZ, "toeR2")
+                );
+                IndividualAnglesToeR.Add(
+                    new IndividualAngles(toeR21AngleX, toeR21AngleY, toeR21AngleZ, "toeL21")
+                );
                 RotateToesIndividual(toesR, toeRAngle, IndividualAnglesToeR, false);
                 //RotateToesIndividual(toesR, toeRAngle,
                 //    new List<IndividualAngles>() {
@@ -170,9 +262,12 @@ namespace COM3D2.HighHeel.Core
 
                 __instance.SkinMeshUpdate();
             }
-            if (__instance.boMan){
+            if (__instance.boMAN)
+            {
                 int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
+                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(
+                    currentSceneIndex
+                );
 
                 Transform manBody = __instance.GetBone("ManBip");
                 if (manBody != null)
@@ -181,7 +276,6 @@ namespace COM3D2.HighHeel.Core
                 }
             }
 
-
             static void RotateFoot(Transform foot, float angle, float max)
             {
                 // 270 degrees represents a foot rotation where the toes point upwards
@@ -189,7 +283,8 @@ namespace COM3D2.HighHeel.Core
                 var rotation = foot.localRotation.eulerAngles;
                 var z = rotation.z;
 
-                if (!Utility.BetweenAngles(z, minimumAngle, max)) return;
+                if (!Utility.BetweenAngles(z, minimumAngle, max))
+                    return;
 
                 rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
 
@@ -218,7 +313,12 @@ namespace COM3D2.HighHeel.Core
                 }
             }
 
-            static void RotateToesIndividual(IList<Transform> toes, float correctionAngle, List<IndividualAngles> individualAngles, bool left)
+            static void RotateToesIndividual(
+                IList<Transform> toes,
+                float correctionAngle,
+                List<IndividualAngles> individualAngles,
+                bool left
+            )
             {
                 var inverse = left ? 1f : -1f;
 
@@ -244,12 +344,13 @@ namespace COM3D2.HighHeel.Core
             }
         }
 
-
         [HarmonyPostfix, HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R))]
         public static void OnLoadBody_R(TBody __instance)
         {
-            if (__instance.boMAN) return;
-            if (Plugin.Instance == null) return;
+            if (__instance.boMAN)
+                return;
+            if (Plugin.Instance == null)
+                return;
 
             MaidTransforms[__instance] = new(__instance);
         }
@@ -257,16 +358,20 @@ namespace COM3D2.HighHeel.Core
         [HarmonyPrefix, HarmonyPatch(typeof(TBodySkin), nameof(TBodySkin.DeleteObj))]
         public static void OnTBodySkinDeleteObj(TBodySkin __instance)
         {
-            if (__instance.SlotId != TBody.SlotID.shoes) return;
-            if (Plugin.Instance == null) return;
+            if (__instance.SlotId != TBody.SlotID.shoes)
+                return;
+            if (Plugin.Instance == null)
+                return;
 
-            if (ShoeConfigs.ContainsKey(__instance.body)) ShoeConfigs.Remove(__instance.body);
+            if (ShoeConfigs.ContainsKey(__instance.body))
+                ShoeConfigs.Remove(__instance.body);
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(Maid), nameof(Maid.Uninit))]
         public static void OnMaidUninit(Maid __instance)
         {
-            if (!__instance.body0.isLoadedBody) return;
+            if (!__instance.body0.isLoadedBody)
+                return;
 
             OnMaidBodyDestroy(__instance.body0);
         }
@@ -274,13 +379,15 @@ namespace COM3D2.HighHeel.Core
         [HarmonyPostfix, HarmonyPatch(typeof(TBody), "OnDestroy")]
         public static void OnMaidBodyDestroy(TBody __instance)
         {
-            if (MaidTransforms.ContainsKey(__instance)) MaidTransforms.Remove(__instance);
-            if (ShoeConfigs.ContainsKey(__instance)) ShoeConfigs.Remove(__instance);
+            if (MaidTransforms.ContainsKey(__instance))
+                MaidTransforms.Remove(__instance);
+            if (ShoeConfigs.ContainsKey(__instance))
+                ShoeConfigs.Remove(__instance);
         }
     }
 
     public class IndividualAngles
-    { 
+    {
         public float x { get; set; }
         public float y { get; set; }
         public float z { get; set; }
