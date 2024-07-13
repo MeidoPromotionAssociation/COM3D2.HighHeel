@@ -9,8 +9,8 @@ The configuration file will be generated in `COM3D2\BepInEx\config\COM3D2.HighHe
 This is a sample of the config (You can't really leave comments in config files):
 ```
 {
-  "DefaultBodyOffset": 0.04,   //Default Maid BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
-  "DefaultManBodyOffset": 0.0,  //Default Man BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
+  "DefaultBodyOffset": 0.04,   //Default maid BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
+  "DefaultManBodyOffset": 0.0,  //Default man BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
   "SceneSpecificOffsets": {
     "10": 0.05,    //This means setting the maid BodyOffset of scene index 10 to 0.05.
     "14": 0.05,    //This means setting the maid BodyOffset of scene index 14 to 0.05.
