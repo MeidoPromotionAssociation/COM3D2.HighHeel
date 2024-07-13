@@ -272,10 +272,12 @@ namespace COM3D2.HighHeel.Core
                 Transform manbody = __instance.GetBone("ManBip");
                 if (manbody != null)
                 {
-                    // manbody.Translate(Vector3.up * offset, Space.World);
-                    old_position = manbody.transform.position;
-                    manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
+                    manbody.Translate(Vector3.up * offset, Space.World);
+                    //old_position = manbody.transform.position;
+                    //manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
+                    __instance.SkinMeshUpdate();
                 }
+
             }
 
             static void RotateFoot(Transform foot, float angle, float max)
