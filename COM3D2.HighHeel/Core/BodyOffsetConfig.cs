@@ -8,8 +8,8 @@ namespace COM3D2.HighHeel.Core {
 
         public BodyOffsetConfig() {
             SceneSpecificOffsets = new Dictionary<int, float>();
-            DefaultBodyOffset = 0.04f; // default
-            DefaultManBodyOffset = 0f
+            DefaultBodyOffset = 0.04f;
+            DefaultManBodyOffset = 0f;
         }
 
         public float GetBodyOffsetForScene(int sceneIndex) {
