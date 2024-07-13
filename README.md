@@ -6,7 +6,7 @@ You can also set the BodyOffset for the man so that he is aligned with the maid 
 
 The configuration file will be generated in `COM3D2\BepInEx\config\COM3D2.HighHeel\Bodyoffset.json`
 
-This is a sample of the config:
+This is a sample of the config (You can't really leave comments in config files):
 ```
 {
   "DefaultBodyOffset": 0.04,   //Default Maid BodyOffset, If you do not set an BodyOffset for the scene individually, this value is applied.
