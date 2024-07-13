@@ -273,7 +273,7 @@ namespace COM3D2.HighHeel.Core
                 if (manbody != null)
                 {
                     // manbody.Translate(Vector3.up * offset, Space.World);
-                    old_position = manbody.transform.position
+                    old_position = manbody.transform.position;
                     manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
                 }
             }
