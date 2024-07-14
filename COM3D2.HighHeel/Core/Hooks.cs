@@ -12,6 +12,19 @@ namespace COM3D2.HighHeel.Core
         private static readonly float[] ToeX = { 0f, 0f, 0f, 0f, 0f, 0f };
         private static readonly Dictionary<TBody, MaidTransforms> MaidTransforms = new();
         private static readonly Dictionary<TBody, string> ShoeConfigs = new();
+        private static int currentSceneIndex;
+
+        // Subscribe to scene loaded event to update the cached scene index
+        static Hooks()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private static void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+        {
+            currentSceneIndex = scene.buildIndex;
+        }
+
 
         [HarmonyPostfix]
         [HarmonyPatch(
@@ -178,7 +191,6 @@ namespace COM3D2.HighHeel.Core
                 ) = config;
 
                 //overwrite offset
-                int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
                 float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
 
                 body.Translate(Vector3.up * offset, Space.World);
@@ -264,10 +276,7 @@ namespace COM3D2.HighHeel.Core
             }
             if (__instance.boMAN)
             {
-                int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(
-                    currentSceneIndex
-                );
+                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
 
                 Transform manbody = __instance.GetBone("ManBip");
                 if (manbody != null)
