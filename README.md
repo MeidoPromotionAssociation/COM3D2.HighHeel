@@ -38,6 +38,13 @@ If you want to know the Sence index of the current scene, you can consider insta
 It will tell you the Sence index and Sence name of the current scene in the console.
 
 
+Note: BodyOffst in the original configuration file will be invalid. 
+
+Currently, there is no GUI implemented. 
+
+
+
+After changing it in the configuration file, you can click reload in the plugin settings, which will reload the configuration file.
 
 <br>
 <br>
