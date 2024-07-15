@@ -28,8 +28,8 @@ This is a sample of the config (You can't really leave comments in config files)
 
 | Scene index | Description |
 | ----------- | ----------- |
-| 10      | "night scene"       |
-| 14     | "night scene" in CBL version        |
+| 10      | "night scene" in CBL version       |
+| 14     | "night scene"       |
 | 63     | exchange "night scene"   |
 | 65     | karaoke   |
 
