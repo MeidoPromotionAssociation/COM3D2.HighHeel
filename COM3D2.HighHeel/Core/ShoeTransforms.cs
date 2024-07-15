@@ -4,8 +4,8 @@ namespace COM3D2.HighHeel.Core
 {
     public class ShoeTransforms
     {
-        public readonly Transform? ShoeL;
-        public readonly Transform? ShoeR;
+        public readonly Transform ShoeL;
+        public readonly Transform ShoeR;
         public readonly Vector3 OriginalScale;
 
         public Vector3 Position = Vector3.zero;

@@ -30,12 +30,12 @@ namespace COM3D2.HighHeel.UI
 
         private string configName = string.Empty;
 
-        private GUIStyle? windowStyle;
+        private GUIStyle windowStyle;
         private GUIStyle WindowStyle => windowStyle ??= new(GUI.skin.box);
 
-        public event EventHandler? ReloadEvent;
-        public event EventHandler<TextInputEventArgs>? ImportEvent;
-        public event EventHandler<TextInputEventArgs>? ExportEvent;
+        public event EventHandler ReloadEvent;
+        public event EventHandler<TextInputEventArgs> ImportEvent;
+        public event EventHandler<TextInputEventArgs> ExportEvent;
 
         public MainWindow()
         {

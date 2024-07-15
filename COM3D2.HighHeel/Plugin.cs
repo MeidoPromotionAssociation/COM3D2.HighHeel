@@ -14,7 +14,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.4";
+        public const string PluginVersion = "1.0.5";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -32,7 +32,7 @@ namespace COM3D2.HighHeel
 
         public bool EditMode { get; set; }
 
-        public static Plugin? Instance { get; private set; }
+        public static Plugin Instance { get; private set; }
 
         private static readonly string BodyOffsetConfigPath = Path.Combine(
             ConfigPath,

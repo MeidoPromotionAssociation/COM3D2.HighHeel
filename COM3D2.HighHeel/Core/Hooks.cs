@@ -4,6 +4,7 @@ using COM3D2.HighHeel.UI;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Reflection.Emit;
 
 namespace COM3D2.HighHeel.Core
 {
@@ -58,6 +59,8 @@ namespace COM3D2.HighHeel.Core
 
                 ShoeConfigs.Remove(__instance.body);
             }
+            
+            HighHeelBodyOffset.Clean();
 
             var name = __instance.obj.name;
             int configNameIndex;
@@ -90,6 +93,8 @@ namespace COM3D2.HighHeel.Core
             if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
                 return;
 
+            HighHeelBodyOffset.SetBodyOffset(__instance, 0);
+            
             if (!__instance.boMAN)
             {
                 // return if maid shoes are off or they don't have any on
@@ -188,12 +193,13 @@ namespace COM3D2.HighHeel.Core
                     toeR11AngleZ,
                     toeR2AngleZ,
                     toeR21AngleZ
-                ) = config;
+                    ) = config;
 
                 //overwrite offset
                 float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
 
-                body.Translate(Vector3.up * offset, Space.World);
+                //body.Translate(Vector3.up * offset, Space.World);
+                HighHeelBodyOffset.SetBodyOffset(__instance, offset);
 
                 RotateFoot(footL, footLAngle, footLMax);
                 RotateFoot(footR, footRAngle, footRMax);
@@ -274,19 +280,19 @@ namespace COM3D2.HighHeel.Core
 
                 __instance.SkinMeshUpdate();
             }
-            if (__instance.boMAN)
-            {
-                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
-
-                Transform manbody = __instance.GetBone("ManBip");
-                if (manbody != null)
-                {
-                    manbody.Translate(Vector3.up * offset, Space.World);
-                    //old_position = manbody.transform.position;
-                    //manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
-                    __instance.SkinMeshUpdate();
-                }
-            }
+            // if (__instance.boMAN)
+            // {
+            //     float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
+            //
+            //     Transform manbody = __instance.GetBone("ManBip");
+            //     if (manbody != null)
+            //     {
+            //         manbody.Translate(Vector3.up * offset, Space.World);
+            //         //old_position = manbody.transform.position;
+            //         //manbody.transform.position = new Vector3(old_position.x * offset, old_position.y, old_position.z);
+            //         __instance.SkinMeshUpdate();
+            //     }
+            // }
 
             static void RotateFoot(Transform foot, float angle, float max)
             {
@@ -396,8 +402,28 @@ namespace COM3D2.HighHeel.Core
             if (ShoeConfigs.ContainsKey(__instance))
                 ShoeConfigs.Remove(__instance);
         }
-    }
+        
+        
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(Maid), "Update")]
+        public static IEnumerable<CodeInstruction> MaidUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            CodeMatcher codeMatcher = new CodeMatcher(instructions);
+            codeMatcher.MatchForward(false, new CodeMatch(OpCodes.Sub))
+                .Advance(1)
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldarg_0))
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Maid), "body0")))
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(HighHeelBodyOffset), nameof(HighHeelBodyOffset.GetBodyOffset))))
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Add));
+            codeMatcher.MatchForward(false, new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Maid), "body0")))
+                .Advance(1)
+                .RemoveInstructionsWithOffsets(0, 1)
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(HighHeelBodyOffset), nameof(HighHeelBodyOffset.GetSnityouOutScale))));
+            return codeMatcher.InstructionEnumeration();
+        }
 
+        
+    }
     public class IndividualAngles
     {
         public float x { get; set; }
@@ -472,4 +498,5 @@ namespace COM3D2.HighHeel.Core
             }
         }
     }
+    
 }

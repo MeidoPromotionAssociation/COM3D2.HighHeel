@@ -22,7 +22,7 @@ namespace COM3D2.HighHeel.UI
             }
         }
 
-        public event EventHandler<NumberInputEventArgs>? InputChangeEvent;
+        public event EventHandler<NumberInputEventArgs> InputChangeEvent;
 
         public NumberInput(string label, float value = 0f)
         {

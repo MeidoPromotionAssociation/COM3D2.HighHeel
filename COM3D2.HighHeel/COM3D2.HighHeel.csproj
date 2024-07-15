@@ -1,18 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{9AAA1180-E788-460C-B767-5D663FD5D815}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
+		<TargetFramework>net35</TargetFramework>
 		<AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>latest</LangVersion>
 		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-		<FileAlignment>512</FileAlignment>
-		<Deterministic>true</Deterministic>
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.samboy.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
+		<RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
 	</PropertyGroup>
+
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>full</DebugType>
@@ -31,54 +32,18 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net35</TargetFramework>
-		<LangVersion>9</LangVersion>
-		<Nullable>enable</Nullable>
-		<OutputType>Library</OutputType>
-	</PropertyGroup>
-
-    <ItemGroup>
-      <Reference Include="0Harmony, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\0Harmony.dll</HintPath>
-      </Reference>
-      <Reference Include="Assembly-CSharp, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
-      </Reference>
-      <Reference Include="BepInEx, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\BepInEx.dll</HintPath>
-      </Reference>
-      <Reference Include="Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-        <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\UnityEngine.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-		<PackageReference Include="IsExternalInit" Version="1.0.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
-	</ItemGroup>
-
 	<ItemGroup>
-		<Compile Include="Plugin.cs" />
-		<Compile Include="PluginConfig.cs" />
-		<Compile Include="Core\Hooks.cs" />
-		<Compile Include="Core\MaidTransforms.cs" />
-		<Compile Include="Core\ShoeConfig.cs" />
-		<Compile Include="Core\ShoeTransforms.cs" />
-		<Compile Include="Core\Utility.cs" />
-		<Compile Include="Core\BodyOffsetConfig.cs" />
-		<Compile Include="UI\MainWindow.cs" />
-		<Compile Include="UI\NumberInput.cs" />
-		<Compile Include="UI\NumberInputEventArgs.cs" />
-		<Compile Include="UI\TextInputEventArgs.cs" />
-    </ItemGroup>
+		<PackageReference Include="BepInEx.Core" Version="5.4.21" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+		<PackageReference Include="COM3D2.GameLibs" Version="2.36.2-r.0" />
+		<PackageReference Include="HarmonyX" Version="2.13.0" />
+		<PackageReference Include="IsExternalInit" Version="1.0.3">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="UnityEngine.Modules" Version="5.6.0" IncludeAssets="compile" />
+	</ItemGroup>
 	
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 	
