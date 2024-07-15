@@ -5,6 +5,7 @@
 		<AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>latest</LangVersion>
+		<Version>1.0.6.4</Version>
 		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 		<RestoreAdditionalProjectSources>
 			https://api.nuget.org/v3/index.json;
@@ -36,7 +37,6 @@
 		<PackageReference Include="BepInEx.Core" Version="5.4.21" />
 		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
 		<PackageReference Include="COM3D2.GameLibs" Version="2.36.2-r.0" />
-		<PackageReference Include="HarmonyX" Version="2.13.0" />
 		<PackageReference Include="IsExternalInit" Version="1.0.3">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>

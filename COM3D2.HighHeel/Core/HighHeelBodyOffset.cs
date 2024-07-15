@@ -3,7 +3,6 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-
 namespace COM3D2.HighHeel.Core
 {
     public static class HighHeelBodyOffset
@@ -12,23 +11,22 @@ namespace COM3D2.HighHeel.Core
 
         public static float GetBodyOffset(TBody body)
         {
-            if (BodyOffsets.TryGetValue(body, out float offset))
-            {
-                return offset;
-            }
+            if (body == null) return 0f;
 
-            return 0f;
+            return BodyOffsets.TryGetValue(body, out float offset) ? offset : 0f;
         }
 
         public static float GetSnityouOutScale(TBody body)
         {
+            if (body == null) return 1f;
+
             if (BodyOffsets.TryGetValue(body, out float offset) && offset != 0)
             {
                 // SnityouOutScale = Thigh_SCL_.Scale ** 0.9
-                float scale =
-                    (float)Math.Pow(
-                        Math.Pow(body.bonemorph.SnityouOutScale, 1 / 0.9) *
-                        (1 + offset / 2 / Vector3.Distance(body.Thigh_L.position, body.Calf_L.position)), 0.9);
+                float thighDistance = Vector3.Distance(body.Thigh_L.position, body.Calf_L.position);
+                float scale = (float)Math.Pow(
+                    Math.Pow(body.bonemorph.SnityouOutScale, 1 / 0.9) *
+                    (1 + offset / 2 / thighDistance), 0.9);
                 return scale;
             }
 
@@ -43,17 +41,13 @@ namespace COM3D2.HighHeel.Core
             }
         }
 
-#pragma warning disable CS8604
         public static void Clean()
         {
-            foreach (var key in BodyOffsets.Keys.ToArray())
+            var keysToRemove = BodyOffsets.Keys.Where(key => key == null).ToList();
+            foreach (var key in keysToRemove)
             {
-                if (key == null)
-                {
-                    BodyOffsets.Remove(key);
-                }
+                BodyOffsets.Remove(key);
             }
         }
-#pragma warning restore CS8604
     }
 }
