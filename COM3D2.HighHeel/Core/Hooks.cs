@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management;
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
@@ -89,276 +90,215 @@ namespace COM3D2.HighHeel.Core
         [HarmonyPostfix, HarmonyPatch(typeof(TBody), "LateUpdate")]
         public static void LateUpdate(TBody __instance)
         {
-            if (!__instance.isLoadedBody)
+            if (!__instance.isLoadedBody || Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
                 return;
 
-            if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
-                return;
-
-            HighHeelBodyOffset.SetBodyOffset(__instance, 0);
-
+            // why
+            //HighHeelBodyOffset.SetBodyOffset(__instance, 0);
+            
             if (!__instance.boMAN)
             {
-                // return if maid shoes are off or they don't have any on
-                if (!__instance.GetSlotVisible(TBody.SlotID.shoes))
-                    return;
+                ProcessMaid(__instance);
+            }
+            else
+            {
+                ProcessMan(__instance);
+            }
+        }
 
-                // Maid will float and their feet will spin if there is no animation playing
-                if (!Plugin.IsDance && !__instance.GetAnimation().isPlaying)
-                    return;
+        private static void ProcessMan(TBody __instance)
+        {
+            float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
 
-                if (!MaidTransforms.TryGetValue(__instance, out var transforms))
-                    return;
+            if (float.IsNaN(offset) || float.IsInfinity(offset))
+            {
+                Plugin.Instance.Logger.LogWarning("Offset contains NaN or Infinity in ProcessMan.");
+                return;
+            }
 
-                ShoeConfig config;
-
-                if (Plugin.Instance.EditMode)
-                    config = Plugin.Instance.EditModeConfig;
-                else
-                {
-                    if (!ShoeConfigs.TryGetValue(__instance, out var configName))
-                        return;
-                    if (!Plugin.Instance.ShoeDatabase.TryGetValue(configName, out config))
-                        return;
-                }
-
-                //var (body, footL, toesL, footR, toesR) = transforms;
-                var (_, footL, toesL, toeL0, toeL1, toeL2, footR, toesR, toeR0, toeR1, toeR2) =
-                    transforms;
-                /*
-                var (offset,
-                    footLAngle, footLMax, toeLAngle,
-                    toeL0Angle, toeL01Angle, toeL1Angle, toeL11Angle, toeL2Angle, toeL21Angle,
-                    toeL0AngleX, toeL01AngleX, toeL1AngleX, toeL11AngleX, toeL2AngleX, toeL21AngleX,
-                    toeL0AngleY, toeL01AngleY, toeL1AngleY, toeL11AngleY, toeL2AngleY, toeL21AngleY,
-                    toeL0AngleZ, toeL01AngleZ, toeL1AngleZ, toeL11AngleZ, toeL2AngleZ, toeL21AngleZ,
-                    footRAngle, footRMax, toeRAngle,
-                    toeR0Angle, toeR01Angle, toeR1Angle, toeR11Angle, toeR2Angle, toeR21Angle,
-                    toeR0AngleX, toeR01AngleX, toeR1AngleX, toeR11AngleX, toeR2AngleX, toeR21AngleX,
-                    toeR0AngleY, toeR01AngleY, toeR1AngleY, toeR11AngleY, toeR2AngleY, toeR21AngleY,
-                    toeR0AngleZ, toeR01AngleZ, toeR1AngleZ, toeR11AngleZ, toeR2AngleZ, toeR21AngleZ) = config;
-                */
-
-                var (
-                    _,
-                    footLAngle,
-                    footLMax,
-                    toeLAngle,
-                    toeL0Angle,
-                    toeL01Angle,
-                    toeL1Angle,
-                    toeL11Angle,
-                    toeL2Angle,
-                    toeL21Angle,
-                    toeL0AngleX,
-                    toeL01AngleX,
-                    toeL1AngleX,
-                    toeL11AngleX,
-                    toeL2AngleX,
-                    toeL21AngleX,
-                    toeL0AngleY,
-                    toeL01AngleY,
-                    toeL1AngleY,
-                    toeL11AngleY,
-                    toeL2AngleY,
-                    toeL21AngleY,
-                    toeL0AngleZ,
-                    toeL01AngleZ,
-                    toeL1AngleZ,
-                    toeL11AngleZ,
-                    toeL2AngleZ,
-                    toeL21AngleZ,
-                    footRAngle,
-                    footRMax,
-                    toeRAngle,
-                    toeR0Angle,
-                    toeR01Angle,
-                    toeR1Angle,
-                    toeR11Angle,
-                    toeR2Angle,
-                    toeR21Angle,
-                    toeR0AngleX,
-                    toeR01AngleX,
-                    toeR1AngleX,
-                    toeR11AngleX,
-                    toeR2AngleX,
-                    toeR21AngleX,
-                    toeR0AngleY,
-                    toeR01AngleY,
-                    toeR1AngleY,
-                    toeR11AngleY,
-                    toeR2AngleY,
-                    toeR21AngleY,
-                    toeR0AngleZ,
-                    toeR01AngleZ,
-                    toeR1AngleZ,
-                    toeR11AngleZ,
-                    toeR2AngleZ,
-                    toeR21AngleZ
-                    ) = config;
-
-                //overwrite offset
-                float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
-
-                //body.Translate(Vector3.up * offset, Space.World);
-                HighHeelBodyOffset.SetBodyOffset(__instance, offset);
-
-                RotateFoot(footL, footLAngle, footLMax);
-                RotateFoot(footR, footRAngle, footRMax);
-
-                //RotateToes(toesL, toeLAngle, true);
-                //RotateToes(toesR, toeRAngle, false);
-
-                var IndividualAnglesToeL = new List<IndividualAngles>();
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL0AngleX, toeL0AngleY, toeL0AngleZ, "toeL0")
-                );
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL01AngleX, toeL01AngleY, toeL01AngleZ, "toeL01")
-                );
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL1AngleX, toeL1AngleY, toeL1AngleZ, "toeL1")
-                );
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL11AngleX, toeL11AngleY, toeL11AngleZ, "toeL11")
-                );
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL2AngleX, toeL2AngleY, toeL2AngleZ, "toeL2")
-                );
-                IndividualAnglesToeL.Add(
-                    new IndividualAngles(toeL21AngleX, toeL21AngleY, toeL21AngleZ, "toeL21")
-                );
-                RotateToesIndividual(toesL, toeLAngle, IndividualAnglesToeL, true);
-                //RotateToesIndividual(toesL, toeLAngle,
-                //    new List<IndividualAngles>() {
-                //        new IndividualAngles(toeL0AngleX, toeL0AngleY, toeL0AngleZ, "toeL0") { },
-                //        new IndividualAngles(toeL01AngleX, toeL01AngleY, toeL01AngleZ, "toeL01") { },
-                //        new IndividualAngles(toeL1AngleX, toeL1AngleY, toeL1AngleZ, "toeL1") { },
-                //        new IndividualAngles(toeL11AngleX, toeL11AngleY, toeL11AngleZ, "toeL11") { },
-                //        new IndividualAngles(toeL2AngleX, toeL2AngleY, toeL2AngleZ, "toeL2") { },
-                //        new IndividualAngles(toeL21AngleX, toeL21AngleY, toeL21AngleZ, "toeL21") { }
-                //        //new IndividualAngles() { x = toeL0AngleX,   y = toeL0AngleY,    z = toeL0AngleZ },
-                //        //new IndividualAngles() { x = toeL01AngleX,  y = toeL01AngleY,   z = toeL01AngleZ },
-                //        //new IndividualAngles() { x = toeL1AngleX,   y = toeL1AngleY,    z = toeL1AngleZ },
-                //        //new IndividualAngles() { x = toeL11AngleX,  y = toeL11AngleY,   z = toeL11AngleZ },
-                //        //new IndividualAngles() { x = toeL2AngleX,   y = toeL2AngleY,    z = toeL2AngleZ },
-                //        //new IndividualAngles() { x = toeL21AngleX,  y = toeL21AngleY,   z = toeL21AngleZ }
-                //    }, true);
-                var IndividualAnglesToeR = new List<IndividualAngles>();
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR0AngleX, toeR0AngleY, toeR0AngleZ, "toeR0")
-                );
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR01AngleX, toeR01AngleY, toeR01AngleZ, "toeR01")
-                );
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR1AngleX, toeR1AngleY, toeR1AngleZ, "toeR1")
-                );
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR11AngleX, toeR11AngleY, toeR11AngleZ, "toeR11")
-                );
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR2AngleX, toeR2AngleY, toeR2AngleZ, "toeR2")
-                );
-                IndividualAnglesToeR.Add(
-                    new IndividualAngles(toeR21AngleX, toeR21AngleY, toeR21AngleZ, "toeL21")
-                );
-                RotateToesIndividual(toesR, toeRAngle, IndividualAnglesToeR, false);
-                //RotateToesIndividual(toesR, toeRAngle,
-                //    new List<IndividualAngles>() {
-                //        new IndividualAngles(toeR0AngleX, toeR0AngleY, toeR0AngleZ, "toeR0") { },
-                //        new IndividualAngles(toeR01AngleX, toeR01AngleY, toeR01AngleZ, "toeR01") { },
-                //        new IndividualAngles(toeR1AngleX, toeR1AngleY, toeR1AngleZ, "toeR1") { },
-                //        new IndividualAngles(toeR11AngleX, toeR11AngleY, toeR11AngleZ, "toeR11") { },
-                //        new IndividualAngles(toeR2AngleX, toeR2AngleY, toeR2AngleZ, "toeR2") { },
-                //        new IndividualAngles(toeR21AngleX, toeR21AngleY, toeR21AngleZ, "toeR21") { }
-                //        //new IndividualAngles() { x = toeR0AngleX,   y = toeR0AngleY,    z = toeR0AngleZ, },
-                //        //new IndividualAngles() { x = toeR01AngleX,  y = toeR01AngleY,   z = toeR01AngleZ },
-                //        //new IndividualAngles() { x = toeR1AngleX,   y = toeR1AngleY,    z = toeR1AngleZ },
-                //        //new IndividualAngles() { x = toeR11AngleX,  y = toeR11AngleY,   z = toeR11AngleZ },
-                //        //new IndividualAngles() { x = toeR2AngleX,   y = toeR2AngleY,    z = toeR2AngleZ },
-                //        //new IndividualAngles() { x = toeR21AngleX,  y = toeR21AngleY,   z = toeR21AngleZ }
-                //    }, false);
-
+            Transform manbody = __instance.GetBone("ManBip");
+            if (manbody != null)
+            {
+                manbody.Translate(Vector3.up * offset, Space.World);
                 __instance.SkinMeshUpdate();
             }
-            if (__instance.boMAN)
+        }
+
+
+        private static void ProcessMaid(TBody __instance)
+        {
+            if (!__instance.GetSlotVisible(TBody.SlotID.shoes) ||
+                (!Plugin.IsDance && !__instance.GetAnimation().isPlaying))
+                return;
+
+            if (!MaidTransforms.TryGetValue(__instance, out var transforms))
+                return;
+
+            var config = Plugin.Instance.EditMode ? Plugin.Instance.EditModeConfig : GetConfig(__instance);
+            if (config == null)
+                return;
+
+            ApplyTransformations(__instance, config, transforms);
+        }
+
+        private static ShoeConfig GetConfig(TBody __instance)
+        {
+            if (ShoeConfigs.TryGetValue(__instance, out var configName) &&
+                Plugin.Instance.ShoeDatabase.TryGetValue(configName, out var config))
+                return config;
+            return null;
+        }
+
+        private static void ApplyTransformations(TBody __instance, ShoeConfig config, MaidTransforms transforms)
+        {
+            if (transforms == null || config == null)
             {
-                float offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
-            
-                Transform manbody = __instance.GetBone("ManBip");
-                if (manbody != null)
-                {
-                    manbody.Translate(Vector3.up * offset, Space.World);
-                    __instance.SkinMeshUpdate();
-                }
+                Plugin.Instance.Logger.LogWarning("Transforms or config is null in ApplyTransformations.");
+                return;
             }
 
-            static void RotateFoot(Transform foot, float angle, float max)
+            if (IsInvalidTransform(transforms.FootL) || IsInvalidTransform(transforms.FootR))
             {
-                // 270 degrees represents a foot rotation where the toes point upwards
-                const float minimumAngle = 270f;
-                var rotation = foot.localRotation.eulerAngles;
-                var z = rotation.z;
-
-                if (!Utility.BetweenAngles(z, minimumAngle, max))
-                    return;
-
-                rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
-
-                foot.localRotation = Quaternion.Euler(rotation);
+                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
+                return;
             }
 
-            static void RotateToes(IList<Transform> toes, float angle, bool left)
+            float offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
+
+            if (float.IsNaN(offset) || float.IsInfinity(offset))
             {
-                var inverse = left ? 1f : -1f;
+                Plugin.Instance.Logger.LogWarning("Offset contains NaN or Infinity in ApplyTransformations.");
+                return;
+            }
 
-                for (var i = 0; i < 3; i++)
+            if (offset != 0)
+            {
+                HighHeelBodyOffset.SetBodyOffset(__instance, offset);
+            }
+
+            RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
+            RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
+
+            RotateToesIndividual(transforms.ToesL, config.ToeLAngle, GetIndividualAngles(config, "L"), true);
+            RotateToesIndividual(transforms.ToesR, config.ToeRAngle, GetIndividualAngles(config, "R"), false);
+
+            __instance.SkinMeshUpdate();
+        }
+
+        public static bool IsInvalidTransform(Transform transform)
+        {
+            if (transform == null)
+                return true;
+
+            Vector3 position = transform.localPosition;
+            Vector3 rotation = transform.localEulerAngles;
+            Vector3 scale = transform.localScale;
+
+            return float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z) ||
+                   float.IsNaN(rotation.x) || float.IsNaN(rotation.y) || float.IsNaN(rotation.z) ||
+                   float.IsNaN(scale.x) || float.IsNaN(scale.y) || float.IsNaN(scale.z) ||
+                   float.IsInfinity(position.x) || float.IsInfinity(position.y) || float.IsInfinity(position.z) ||
+                   float.IsInfinity(rotation.x) || float.IsInfinity(rotation.y) || float.IsInfinity(rotation.z) ||
+                   float.IsInfinity(scale.x) || float.IsInfinity(scale.y) || float.IsInfinity(scale.z);
+        }
+
+
+
+        private static List<IndividualAngles> GetIndividualAngles(ShoeConfig config, string side)
+        {
+            if (side == "L")
+            {
+                return new List<IndividualAngles>
                 {
-                    var offset = 0f;
+                    new IndividualAngles(config.ToeL0AngleX, config.ToeL0AngleY, config.ToeL0AngleZ, "toeL0"),
+                    new IndividualAngles(config.ToeL01AngleX, config.ToeL01AngleY, config.ToeL01AngleZ, "toeL01"),
+                    new IndividualAngles(config.ToeL1AngleX, config.ToeL1AngleY, config.ToeL1AngleZ, "toeL1"),
+                    new IndividualAngles(config.ToeL11AngleX, config.ToeL11AngleY, config.ToeL11AngleZ, "toeL11"),
+                    new IndividualAngles(config.ToeL2AngleX, config.ToeL2AngleY, config.ToeL2AngleZ, "toeL2"),
+                    new IndividualAngles(config.ToeL21AngleX, config.ToeL21AngleY, config.ToeL21AngleZ, "toeL21")
+                };
+            }
+            else if (side == "R")
+            {
+                return new List<IndividualAngles>
+                {
+                    new IndividualAngles(config.ToeR0AngleX, config.ToeR0AngleY, config.ToeR0AngleZ, "toeR0"),
+                    new IndividualAngles(config.ToeR01AngleX, config.ToeR01AngleY, config.ToeR01AngleZ, "toeR01"),
+                    new IndividualAngles(config.ToeR1AngleX, config.ToeR1AngleY, config.ToeR1AngleZ, "toeR1"),
+                    new IndividualAngles(config.ToeR11AngleX, config.ToeR11AngleY, config.ToeR11AngleZ, "toeR11"),
+                    new IndividualAngles(config.ToeR2AngleX, config.ToeR2AngleY, config.ToeR2AngleZ, "toeR2"),
+                    new IndividualAngles(config.ToeR21AngleX, config.ToeR21AngleY, config.ToeR21AngleZ, "toeR21")
+                };
+            }
 
-                    if (i != 1)
+            return new List<IndividualAngles>(); // return an empty list if the side is neither L nor R
+        }
+
+
+        static void RotateFoot(Transform foot, float angle, float max)
+        {
+            // 270 degrees represents a foot rotation where the toes point upwards
+            const float minimumAngle = 270f;
+            var rotation = foot.localRotation.eulerAngles;
+            var z = rotation.z;
+
+            if (!Utility.BetweenAngles(z, minimumAngle, max))
+                return;
+
+            rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
+
+            foot.localRotation = Quaternion.Euler(rotation);
+        }
+
+        static void RotateToes(IList<Transform> toes, float angle, bool left)
+        {
+            var inverse = left ? 1f : -1f;
+
+            for (var i = 0; i < 3; i++)
+            {
+                var offset = 0f;
+
+                if (i != 1)
+                {
+                    offset = angle switch
                     {
-                        offset = angle switch
-                        {
-                            > 260f => 0f,
-                            < 240f => 15f,
-                            _ => 5f,
-                        };
-                    }
-
-                    toes[i].localRotation = Quaternion.Euler(ToeX[i] * inverse, 0f, angle + offset);
+                        > 260f => 0f,
+                        < 240f => 15f,
+                        _ => 5f,
+                    };
                 }
+
+                toes[i].localRotation = Quaternion.Euler(ToeX[i] * inverse, 0f, angle + offset);
             }
+        }
 
-            static void RotateToesIndividual(
-                IList<Transform> toes,
-                float correctionAngle,
-                List<IndividualAngles> individualAngles,
-                bool left
-            )
+        static void RotateToesIndividual(
+            IList<Transform> toes,
+            float correctionAngle,
+            List<IndividualAngles> individualAngles,
+            bool left
+        )
+        {
+            var inverse = left ? 1f : -1f;
+
+            for (var i = 0; i < 6; i++)
             {
-                var inverse = left ? 1f : -1f;
+                //var thisToeAngles = individualAngles[i];
+                //var rotation = toes[i].localRotation.eulerAngles;
+                //var x = rotation.x;
+                //var y = rotation.y;
+                //var z = rotation.z;
+                //rotation.x = x + thisToeAngles.x;
+                //rotation.y  = y + thisToeAngles.y;
+                //rotation.z  = z + thisToeAngles.z;
+                //toes[i].localRotation = Quaternion.Euler(rotation);
 
-                for (var i = 0; i < 6; i++)
-                {
-                    //var thisToeAngles = individualAngles[i];
-                    //var rotation = toes[i].localRotation.eulerAngles;
-                    //var x = rotation.x;
-                    //var y = rotation.y;
-                    //var z = rotation.z;
-                    //rotation.x = x + thisToeAngles.x;
-                    //rotation.y  = y + thisToeAngles.y;
-                    //rotation.z  = z + thisToeAngles.z;
-                    //toes[i].localRotation = Quaternion.Euler(rotation);
-
-                    var thisToeAngles = individualAngles[i];
-                    var rotation = toes[i].localRotation.eulerAngles;
-                    rotation.x = thisToeAngles.x;
-                    rotation.y = thisToeAngles.y;
-                    rotation.z = thisToeAngles.z;
-                    toes[i].localRotation = Quaternion.Euler(rotation);
-                }
+                var thisToeAngles = individualAngles[i];
+                var rotation = toes[i].localRotation.eulerAngles;
+                rotation.x = thisToeAngles.x;
+                rotation.y = thisToeAngles.y;
+                rotation.z = thisToeAngles.z;
+                toes[i].localRotation = Quaternion.Euler(rotation);
             }
         }
 
