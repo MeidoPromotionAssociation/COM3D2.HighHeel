@@ -18,7 +18,6 @@ namespace COM3D2.HighHeel.Core
             ShoeR = CMT.SearchObjName(skin.obj_tr, "Bip01RFoot", false);
             OriginalScale = skin.body.GetBone("Bip01LFoot").localScale;
 
-            // 检查 Transform 是否包含非法值
             if (Hooks.IsInvalidTransform(ShoeL) || Hooks.IsInvalidTransform(ShoeR))
             {
                 Plugin.Instance.Logger.LogWarning(
