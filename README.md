@@ -66,19 +66,19 @@ After changing it in the configuration file, you can click reload in the plugin 
 这是配置的示例（您实际上不能在配置文件中留下注释）：
 ```
 {
-“DefaultBodyOffset”：0.04，//默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
-“DefaultManBodyOffset”：0.0，//默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
-"SceneSpecificOffsets": {
-"10": 0.05, //表示将场景索引 10 的女仆 BodyOffset 设置为 0.05。
-"14": 0.05, //表示将场景索引 14 的女仆 BodyOffset 设置为 0.05。
-"63": 0.05,
-"65": 0.06
-},
-"SceneSpecificManOffsets":{
-"10": 0.05, //表示将场景索引 10 的男人 BodyOffset 设置为 0.05。
-"14": 0.05 //表示将场景索引 14 的男人 BodyOffset 设置为 0.05。
-"63": 0.05,
-}
+ “DefaultBodyOffset”：0.04，//默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
+ “DefaultManBodyOffset”：0.0，//默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
+ "SceneSpecificOffsets": {
+ "10": 0.05, //表示将场景索引 10 的女仆 BodyOffset 设置为 0.05。
+ "14": 0.05, //表示将场景索引 14 的女仆 BodyOffset 设置为 0.05。
+ "63": 0.05,
+ "65": 0.06
+ },
+ "SceneSpecificManOffsets":{
+  "10": 0.05, //表示将场景索引 10 的男人 BodyOffset 设置为 0.05。
+  "14": 0.05 //表示将场景索引 14 的男人 BodyOffset 设置为 0.05。
+  "63": 0.05,
+  }
 }
 ```
 
