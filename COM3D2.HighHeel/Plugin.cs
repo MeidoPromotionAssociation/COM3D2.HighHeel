@@ -8,7 +8,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
-[assembly: AssemblyVersion("1.0.8.1")]
+[assembly: AssemblyVersion("1.0.8.2")]
 
 namespace COM3D2.HighHeel
 {
@@ -17,7 +17,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.8.1-InoryS";
+        public const string PluginVersion = "1.0.8.2";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
