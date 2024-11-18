@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
+
+[assembly: AssemblyVersion("1.0.8.1")]
 
 namespace COM3D2.HighHeel
 {
@@ -14,7 +17,7 @@ namespace COM3D2.HighHeel
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.8.0";
+        public const string PluginVersion = "1.0.8.1-InoryS";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -38,6 +41,7 @@ namespace COM3D2.HighHeel
             ConfigPath,
             "Bodyoffset.json"
         );
+
         public Core.BodyOffsetConfig BodyOffsets { get; private set; }
 
         public Plugin()
@@ -147,27 +151,58 @@ namespace COM3D2.HighHeel
 
         private static void ExportConfiguration(Core.ShoeConfig config, string filename)
         {
-            if (!Directory.Exists(ShoeConfigPath))
-                Directory.CreateDirectory(ShoeConfigPath);
+            try
+            {
+                if (!Directory.Exists(ShoeConfigPath))
+                {
+                    Directory.CreateDirectory(ShoeConfigPath);
+                }
 
-            var fullPath = CreateConfigFullPath(filename);
+                var fullPath = CreateConfigFullPath(filename);
 
-            var jsonText = JsonConvert.SerializeObject(config, Formatting.Indented);
+                var jsonText = JsonConvert.SerializeObject(config, Formatting.Indented);
 
-            File.WriteAllText(fullPath, jsonText);
+                File.WriteAllText(fullPath, jsonText);
+                Instance!.Logger.LogInfo($"Configuration exported successfully to {fullPath}");
+            }
+            catch (Exception e)
+            {
+                Instance!.Logger.LogError($"Failed to export configuration to {filename}. Reason: {e.Message}");
+            }
         }
 
         private static void ImportConfiguration(ref Core.ShoeConfig config, string filename)
         {
-            var fullPath = CreateConfigFullPath(filename);
+            try
+            {
+                var fullPath = CreateConfigFullPath(filename);
 
-            if (!File.Exists(fullPath))
-                return;
+                if (!File.Exists(fullPath))
+                {
+                    Instance!.Logger.LogWarning($"Configuration file {fullPath} not found. Using default configuration.");
+                    return;
+                }
 
-            string jsonText = File.ReadAllText(fullPath);
+                string jsonText = File.ReadAllText(fullPath);
 
-            config = JsonConvert.DeserializeObject<Core.ShoeConfig>(jsonText);
+                var importedConfig = JsonConvert.DeserializeObject<Core.ShoeConfig>(jsonText);
+
+                if (importedConfig == null)
+                {
+                    throw new JsonSerializationException("Deserialized configuration object is null.");
+                }
+
+                config = importedConfig;
+                Instance!.Logger.LogInfo($"Configuration imported successfully from {fullPath}");
+            }
+            catch (Exception e)
+            {
+                Instance!.Logger.LogError($"Failed to import configuration from {filename}. Reason: {e.Message}");
+                Instance!.Logger.LogWarning("Using default configuration due to import failure.");
+                config = new Core.ShoeConfig();
+            }
         }
+
 
         private static string CreateConfigFullPath(string filename)
         {
@@ -192,21 +227,46 @@ namespace COM3D2.HighHeel
 
         public void LoadBodyOffsetConfig()
         {
-            if (File.Exists(BodyOffsetConfigPath))
+            try
             {
-                string jsonText = File.ReadAllText(BodyOffsetConfigPath);
-                BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
+                if (File.Exists(BodyOffsetConfigPath))
+                {
+                    string jsonText = File.ReadAllText(BodyOffsetConfigPath);
+
+                    BodyOffsets = JsonConvert.DeserializeObject<Core.BodyOffsetConfig>(jsonText);
+
+                    if (BodyOffsets == null)
+                    {
+                        throw new JsonSerializationException("Deserialized object is null.");
+                    }
+                }
+                else
+                {
+                    Logger.LogWarning("BodyOffsetConfig file not found. Creating a new one.");
+                    BodyOffsets = new Core.BodyOffsetConfig();
+                    SaveBodyOffsetConfig();
+                }
             }
-            else
+            catch (Exception e)
             {
+                Logger.LogError($"Failed to load BodyOffsetConfig. Reason: {e.Message}");
+                Logger.LogWarning("Creating a new BodyOffsetConfig file.");
                 BodyOffsets = new Core.BodyOffsetConfig();
+                SaveBodyOffsetConfig();
             }
         }
 
         public void SaveBodyOffsetConfig()
         {
-            string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
-            File.WriteAllText(BodyOffsetConfigPath, jsonText);
+            try
+            {
+                string jsonText = JsonConvert.SerializeObject(BodyOffsets, Formatting.Indented);
+                File.WriteAllText(BodyOffsetConfigPath, jsonText);
+            }
+            catch (Exception e)
+            {
+                Instance!.Logger.LogError($"Failed to SaveBodyOffsetConfig to {BodyOffsetConfigPath}. Reason: {e.Message}");
+            }
         }
     }
 }
