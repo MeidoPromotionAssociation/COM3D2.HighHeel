@@ -179,7 +179,8 @@ namespace COM3D2.HighHeel
 
                 if (!File.Exists(fullPath))
                 {
-                    Instance!.Logger.LogWarning($"Configuration file {fullPath} not found. Using default configuration.");
+                    Instance!.Logger.LogWarning(
+                        $"Configuration file {fullPath} not found. Using default configuration.");
                     return;
                 }
 
@@ -265,7 +266,8 @@ namespace COM3D2.HighHeel
             }
             catch (Exception e)
             {
-                Instance!.Logger.LogError($"Failed to SaveBodyOffsetConfig to {BodyOffsetConfigPath}. Reason: {e.Message}");
+                Instance!.Logger.LogError(
+                    $"Failed to SaveBodyOffsetConfig to {BodyOffsetConfigPath}. Reason: {e.Message}");
             }
         }
     }

@@ -56,8 +56,8 @@ namespace COM3D2.HighHeel.Core
         }
 
         public void Deconstruct(
-            out Transform body, 
-            out Transform footL, out Transform[] toesL, 
+            out Transform body,
+            out Transform footL, out Transform[] toesL,
             out Transform toeL0, out Transform toeL1, out Transform toeL2,
             out Transform footR, out Transform[] toesR,
             out Transform toeR0, out Transform toeR1, out Transform toeR2

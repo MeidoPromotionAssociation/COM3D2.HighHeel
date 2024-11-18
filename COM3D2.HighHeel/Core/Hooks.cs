@@ -94,7 +94,7 @@ namespace COM3D2.HighHeel.Core
 
             // why
             //HighHeelBodyOffset.SetBodyOffset(__instance, 0);
-            
+
             if (!__instance.boMAN)
             {
                 ProcessMaid(__instance);
@@ -158,7 +158,8 @@ namespace COM3D2.HighHeel.Core
 
             if (IsInvalidTransform(transforms.FootL) || IsInvalidTransform(transforms.FootR))
             {
-                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
+                Plugin.Instance.Logger.LogWarning(
+                    "One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
                 return;
             }
 
@@ -200,7 +201,6 @@ namespace COM3D2.HighHeel.Core
                    float.IsInfinity(rotation.x) || float.IsInfinity(rotation.y) || float.IsInfinity(rotation.z) ||
                    float.IsInfinity(scale.x) || float.IsInfinity(scale.y) || float.IsInfinity(scale.z);
         }
-
 
 
         private static List<IndividualAngles> GetIndividualAngles(ShoeConfig config, string side)

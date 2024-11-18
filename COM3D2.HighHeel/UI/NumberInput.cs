@@ -12,6 +12,7 @@ namespace COM3D2.HighHeel.UI
         private string textFieldValue = string.Empty;
 
         private float value;
+
         public float Value
         {
             get => value;

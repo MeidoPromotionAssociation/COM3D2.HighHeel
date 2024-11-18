@@ -19,8 +19,10 @@ namespace COM3D2.HighHeel.Core
                     Plugin.Instance.Logger.LogWarning("Detected NaN or Infinity in BodyOffset. Set to 0.");
                     return 0f;
                 }
+
                 return offset;
             }
+
             return 0f;
         }
 
@@ -34,24 +36,27 @@ namespace COM3D2.HighHeel.Core
 
                 if (thighDistance == 0)
                 {
-                    Plugin.Instance.Logger.LogWarning("thighDistance is zero in GetSnityouOutScale, returning default scale of 1.");
+                    Plugin.Instance.Logger.LogWarning(
+                        "thighDistance is zero in GetSnityouOutScale, returning default scale of 1.");
                     return 1f;
                 }
 
-                float scale = (float)Math.Pow(Math.Pow(body.bonemorph.SnityouOutScale, 1 / 0.9) * (1 + offset / 2 / thighDistance), 0.9);
+                float scale =
+                    (float)Math.Pow(
+                        Math.Pow(body.bonemorph.SnityouOutScale, 1 / 0.9) * (1 + offset / 2 / thighDistance), 0.9);
 
                 if (float.IsNaN(scale) || float.IsInfinity(scale))
                 {
-                    Plugin.Instance.Logger.LogWarning("Scale resulted in NaN or Infinity in GetSnityouOutScale, returning default scale of 1.");
+                    Plugin.Instance.Logger.LogWarning(
+                        "Scale resulted in NaN or Infinity in GetSnityouOutScale, returning default scale of 1.");
                     return 1f;
                 }
 
                 return scale;
             }
+
             return body.bonemorph.SnityouOutScale;
         }
-
-
 
 
         public static void SetBodyOffset(TBody body, float offset)

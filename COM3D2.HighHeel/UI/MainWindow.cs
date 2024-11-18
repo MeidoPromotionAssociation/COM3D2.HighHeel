@@ -44,7 +44,6 @@ namespace COM3D2.HighHeel.UI
             inputs[ShoeConfigParameter.BodyOffset].InputChangeEvent += (_, a) => editModeConfig.BodyOffset = a.Value;
 
 
-
             inputs[ShoeConfigParameter.FootLAngle] = new("Foot L Angle", editModeConfig.FootLAngle);
             inputs[ShoeConfigParameter.FootLAngle].InputChangeEvent += (_, a) => editModeConfig.FootLAngle = a.Value;
             inputs[ShoeConfigParameter.FootLMax] = new("Foot L Max", editModeConfig.FootLMax);
@@ -125,7 +124,7 @@ namespace COM3D2.HighHeel.UI
             inputs[ShoeConfigParameter.FootRMax].Value = editModeConfig.FootRMax;
             inputs[ShoeConfigParameter.ToeRAngle].Value = editModeConfig.ToeRAngle;
 
-            inputs[ShoeConfigParameter.ToeR0Angle].Value = editModeConfig.ToeR0Angle; 
+            inputs[ShoeConfigParameter.ToeR0Angle].Value = editModeConfig.ToeR0Angle;
             inputs[ShoeConfigParameter.ToeR01Angle].Value = editModeConfig.ToeR01Angle;
             inputs[ShoeConfigParameter.ToeR1Angle].Value = editModeConfig.ToeR1Angle;
             inputs[ShoeConfigParameter.ToeR11Angle].Value = editModeConfig.ToeR11Angle;
