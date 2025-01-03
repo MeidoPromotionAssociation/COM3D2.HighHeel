@@ -26,7 +26,7 @@ namespace COM3D2.Highheel.Plugin
 
         private static readonly string ConfigPath = Path.Combine(Paths.ConfigPath, PluginName);
         private static readonly string ShoeConfigPath = Path.Combine(ConfigPath, "Configurations");
-        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "GolbalBodyOffset.json");
+        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "GlobalBodyOffset.json");
 
         public readonly PluginConfig Configuration;
         public new readonly ManualLogSource Logger;
@@ -135,6 +135,8 @@ namespace COM3D2.Highheel.Plugin
                         continue;
                     }
 
+                    Instance!.Logger.LogDebug($"loading configuration, filename: {configPath}");
+                    Instance!.Logger.LogDebug($"loading configuration, key: {key}");
                     var configJson = File.ReadAllText(configPath);
                     database[key] = JsonConvert.DeserializeObject<ShoeConfig>(configJson);
                 }

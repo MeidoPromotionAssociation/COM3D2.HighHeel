@@ -34,77 +34,118 @@ namespace COM3D2.Highheel.Plugin.UI
         public MainWindow()
         {
             editModeConfig = Plugin.Instance!.EditModeConfig;
+
             inputs[ShoeConfig.ShoeConfigParameter.BodyOffset] = new NumberInput("Body Offset", editModeConfig.BodyOffset);
             inputs[ShoeConfig.ShoeConfigParameter.BodyOffset].InputChangeEvent += (_, a) => editModeConfig.BodyOffset = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.BodyOffset] = new NumberInput("Man Body Offset", editModeConfig.ManBodyOffset);
-            inputs[ShoeConfig.ShoeConfigParameter.BodyOffset].InputChangeEvent += (_, a) => editModeConfig.BodyOffset = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset] = new NumberInput("Man Body Offset", editModeConfig.ManBodyOffset);
+            inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset].InputChangeEvent += (_, a) => editModeConfig.ManBodyOffset = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.FootLAngle] =
-                new NumberInput("Foot L Angle", editModeConfig.FootLAngle);
-            inputs[ShoeConfig.ShoeConfigParameter.FootLAngle].InputChangeEvent +=
-                (_, a) => editModeConfig.FootLAngle = a.Value;
+
+
+            inputs[ShoeConfig.ShoeConfigParameter.FootLAngle] = new NumberInput("Foot L Angle", editModeConfig.FootLAngle);
+            inputs[ShoeConfig.ShoeConfigParameter.FootLAngle].InputChangeEvent += (_, a) => editModeConfig.FootLAngle = a.Value;
+
             inputs[ShoeConfig.ShoeConfigParameter.FootLMax] = new NumberInput("Foot L Max", editModeConfig.FootLMax);
-            inputs[ShoeConfig.ShoeConfigParameter.FootLMax].InputChangeEvent +=
-                (_, a) => editModeConfig.FootLMax = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.FootLMax].InputChangeEvent += (_, a) => editModeConfig.FootLMax = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle] =
-                new NumberInput("Toe L 0 Angle", editModeConfig.ToeL0Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL0Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL01Angle] =
-                new NumberInput("Toe L 01 Angle", editModeConfig.ToeL01Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL01Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL01Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL1Angle] =
-                new NumberInput("Toe L 1 Angle", editModeConfig.ToeL1Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL1Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL1Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL11Angle] =
-                new NumberInput("Toe L 11 Angle", editModeConfig.ToeL11Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL11Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL11Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2Angle] =
-                new NumberInput("Toe L 2 Angle", editModeConfig.ToeL2Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL2Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL21Angle] =
-                new NumberInput("Toe L 21 Angle", editModeConfig.ToeL21Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL21Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeL21Angle = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.FootRAngle] =
-                new NumberInput("Foot R Angle", editModeConfig.FootRAngle);
-            inputs[ShoeConfig.ShoeConfigParameter.FootRAngle].InputChangeEvent +=
-                (_, a) => editModeConfig.FootRAngle = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX] = new NumberInput("Toe L 0 Angle X", editModeConfig.ToeL0AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY] = new NumberInput("Toe L 0 Angle Y", editModeConfig.ToeL0AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ] = new NumberInput("Toe L 0 Angle Z", editModeConfig.ToeL0AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleZ = a.Value;
+
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleX] = new NumberInput("Toe L 01 Angle X", editModeConfig.ToeL01AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL01AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleY] = new NumberInput("Toe L 01 Angle Y", editModeConfig.ToeL01AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL01AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleZ] = new NumberInput("Toe L 01 Angle Z", editModeConfig.ToeL01AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL01AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleX] = new NumberInput("Toe L 1 Angle X", editModeConfig.ToeL1AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL1AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleY] = new NumberInput("Toe L 1 Angle Y", editModeConfig.ToeL1AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL1AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleZ] = new NumberInput("Toe L 1 Angle Z", editModeConfig.ToeL1AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL1AngleZ = a.Value;
+
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleX] = new NumberInput("Toe L 11 Angle X", editModeConfig.ToeL11AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL11AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleY] = new NumberInput("Toe L 11 Angle Y", editModeConfig.ToeL11AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL11AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleZ] = new NumberInput("Toe L 11 Angle Z", editModeConfig.ToeL11AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL11AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX] = new NumberInput("Toe L 2 Angle X", editModeConfig.ToeL2AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY] = new NumberInput("Toe L 2 Angle Y", editModeConfig.ToeL2AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ] = new NumberInput("Toe L 2 Angle Z", editModeConfig.ToeL2AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleX] = new NumberInput("Toe L 21 Angle X", editModeConfig.ToeL21AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL21AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleY] = new NumberInput("Toe L 21 Angle Y", editModeConfig.ToeL21AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL21AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleZ] = new NumberInput("Toe L 21 Angle Z", editModeConfig.ToeL21AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL21AngleZ = a.Value;
+
+
+
+
+            inputs[ShoeConfig.ShoeConfigParameter.FootRAngle] = new NumberInput("Foot R Angle", editModeConfig.FootRAngle);
+            inputs[ShoeConfig.ShoeConfigParameter.FootRAngle].InputChangeEvent += (_, a) => editModeConfig.FootRAngle = a.Value;
+
             inputs[ShoeConfig.ShoeConfigParameter.FootRMax] = new NumberInput("Foot R Max", editModeConfig.FootRMax);
-            inputs[ShoeConfig.ShoeConfigParameter.FootRMax].InputChangeEvent +=
-                (_, a) => editModeConfig.FootRMax = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.FootRMax].InputChangeEvent += (_, a) => editModeConfig.FootRMax = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle] =
-                new NumberInput("Toe R 0 Angle", editModeConfig.ToeR0Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR0Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR01Angle] =
-                new NumberInput("Toe R 01 Angle", editModeConfig.ToeR01Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR01Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR01Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR1Angle] =
-                new NumberInput("Toe R 1 Angle", editModeConfig.ToeR1Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR1Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR1Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR11Angle] =
-                new NumberInput("Toe R 11 Angle", editModeConfig.ToeR11Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR11Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR11Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2Angle] =
-                new NumberInput("Toe R 2 Angle", editModeConfig.ToeR2Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR2Angle = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR21Angle] =
-                new NumberInput("Toe R 21 Angle", editModeConfig.ToeR21Angle);
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR21Angle].InputChangeEvent +=
-                (_, a) => editModeConfig.ToeR21Angle = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX] = new NumberInput("Toe R 0 Angle X", editModeConfig.ToeR0AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY] = new NumberInput("Toe R 0 Angle Y", editModeConfig.ToeR0AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ] = new NumberInput("Toe R 0 Angle Z", editModeConfig.ToeR0AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleX] = new NumberInput("Toe R 01 Angle X", editModeConfig.ToeR01AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR01AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleY] = new NumberInput("Toe R 01 Angle Y", editModeConfig.ToeR01AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR01AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleZ] = new NumberInput("Toe R 01 Angle Z", editModeConfig.ToeR01AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR01AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleX] = new NumberInput("Toe R 1 Angle X", editModeConfig.ToeR1AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR1AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleY] = new NumberInput("Toe R 1 Angle Y", editModeConfig.ToeR1AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR1AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleZ] = new NumberInput("Toe R 1 Angle Z", editModeConfig.ToeR1AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR1AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleX] = new NumberInput("Toe R 11 Angle X", editModeConfig.ToeR11AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR11AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleY] = new NumberInput("Toe R 11 Angle Y", editModeConfig.ToeR11AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR11AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleZ] = new NumberInput("Toe R 11 Angle Z", editModeConfig.ToeR11AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR11AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX] = new NumberInput("Toe R 2 Angle X", editModeConfig.ToeR2AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY] = new NumberInput("Toe R 2 Angle Y", editModeConfig.ToeR2AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ] = new NumberInput("Toe R 2 Angle Z", editModeConfig.ToeR2AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleZ = a.Value;
+
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleX] = new NumberInput("Toe R 21 Angle X", editModeConfig.ToeR21AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR21AngleX = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleY] = new NumberInput("Toe R 21 Angle Y", editModeConfig.ToeR21AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR21AngleY = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleZ] = new NumberInput("Toe R 21 Angle Z", editModeConfig.ToeR21AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR21AngleZ = a.Value;
+
         }
 
         private GUIStyle WindowStyle => windowStyle ??= new GUIStyle(GUI.skin.box);
@@ -122,57 +163,56 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.FootLAngle].Value = editModeConfig.FootLAngle;
             inputs[ShoeConfig.ShoeConfigParameter.FootLMax].Value = editModeConfig.FootLMax;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle].Value = editModeConfig.ToeL0Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL01Angle].Value = editModeConfig.ToeL01Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL1Angle].Value = editModeConfig.ToeL1Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL11Angle].Value = editModeConfig.ToeL11Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2Angle].Value = editModeConfig.ToeL2Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL21Angle].Value = editModeConfig.ToeL21Angle;
-
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX].Value = editModeConfig.ToeL0AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY].Value = editModeConfig.ToeL0AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ].Value = editModeConfig.ToeL0AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleX].Value = editModeConfig.ToeL01AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleY].Value = editModeConfig.ToeL01AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleZ].Value = editModeConfig.ToeL01AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleX].Value = editModeConfig.ToeL1AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleY].Value = editModeConfig.ToeL1AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL1AngleZ].Value = editModeConfig.ToeL1AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleX].Value = editModeConfig.ToeL11AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleY].Value = editModeConfig.ToeL11AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleZ].Value = editModeConfig.ToeL11AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX].Value = editModeConfig.ToeL2AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY].Value = editModeConfig.ToeL2AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ].Value = editModeConfig.ToeL2AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleX].Value = editModeConfig.ToeL21AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleY].Value = editModeConfig.ToeL21AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleZ].Value = editModeConfig.ToeL21AngleZ;
 
+
+
             inputs[ShoeConfig.ShoeConfigParameter.FootRAngle].Value = editModeConfig.FootRAngle;
             inputs[ShoeConfig.ShoeConfigParameter.FootRMax].Value = editModeConfig.FootRMax;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle].Value = editModeConfig.ToeR0Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR01Angle].Value = editModeConfig.ToeR01Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR1Angle].Value = editModeConfig.ToeR1Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR11Angle].Value = editModeConfig.ToeR11Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2Angle].Value = editModeConfig.ToeR2Angle;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR21Angle].Value = editModeConfig.ToeR21Angle;
 
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX].Value = editModeConfig.ToeR0AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY].Value = editModeConfig.ToeR0AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ].Value = editModeConfig.ToeR0AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleX].Value = editModeConfig.ToeR01AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleY].Value = editModeConfig.ToeR01AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleZ].Value = editModeConfig.ToeR01AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleX].Value = editModeConfig.ToeR1AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleY].Value = editModeConfig.ToeR1AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR1AngleZ].Value = editModeConfig.ToeR1AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleX].Value = editModeConfig.ToeR11AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleY].Value = editModeConfig.ToeR11AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleZ].Value = editModeConfig.ToeR11AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX].Value = editModeConfig.ToeR2AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY].Value = editModeConfig.ToeR2AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ].Value = editModeConfig.ToeR2AngleZ;
+
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleX].Value = editModeConfig.ToeR21AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleY].Value = editModeConfig.ToeR21AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleZ].Value = editModeConfig.ToeR21AngleZ;

@@ -9,15 +9,9 @@ namespace COM3D2.Highheel.Plugin.Core
             BodyOffset,
             ManBodyOffset,
             PerSceneBodyOffset,
-            PerSceneManBodyOffset,
+            perSceneManBodyOffset,
             FootLAngle,
             FootLMax,
-            ToeL0Angle,
-            ToeL01Angle,
-            ToeL1Angle,
-            ToeL11Angle,
-            ToeL2Angle,
-            ToeL21Angle,
             ToeL0AngleX,
             ToeL01AngleX,
             ToeL1AngleX,
@@ -38,12 +32,6 @@ namespace COM3D2.Highheel.Plugin.Core
             ToeL21AngleZ,
             FootRAngle,
             FootRMax,
-            ToeR0Angle,
-            ToeR01Angle,
-            ToeR1Angle,
-            ToeR11Angle,
-            ToeR2Angle,
-            ToeR21Angle,
             ToeR0AngleX,
             ToeR01AngleX,
             ToeR1AngleX,
@@ -66,19 +54,10 @@ namespace COM3D2.Highheel.Plugin.Core
 
         public float BodyOffset { get; set; } = 0.04f; // Experience-based values
         public float ManBodyOffset { get; set; } = 0f;
-        public Dictionary<object , float> PerSceneBodyOffset { get; set; } = new();
-        public Dictionary<object , float> PerSceneManBodyOffset { get; set; } = new();
+        public Dictionary<string , float> PerSceneBodyOffset { get; set; } = new();
+        public Dictionary<string , float> PerSceneManBodyOffset { get; set; } = new();
         public float FootLAngle { get; set; }
         public float FootLMax { get; set; } = 55f;
-
-        //Individual Toes L - Start
-        public float ToeL0Angle { get; set; }
-        public float ToeL01Angle { get; set; }
-        public float ToeL1Angle { get; set; }
-        public float ToeL11Angle { get; set; }
-        public float ToeL2Angle { get; set; }
-        public float ToeL21Angle { get; set; }
-        //Individual Toes L - End
 
         //Individual Toes L XYZ - Start
         public float ToeL0AngleX { get; set; }
@@ -103,17 +82,10 @@ namespace COM3D2.Highheel.Plugin.Core
         //Individual Toes L XYZ - End
 
 
+
+
         public float FootRAngle { get; set; }
         public float FootRMax { get; set; } = 55f;
-
-        //Individual Toes R - Start
-        public float ToeR0Angle { get; set; }
-        public float ToeR01Angle { get; set; }
-        public float ToeR1Angle { get; set; }
-        public float ToeR11Angle { get; set; }
-        public float ToeR2Angle { get; set; }
-        public float ToeR21Angle { get; set; }
-        //Individual Toes R - End
 
         //Individual Toes R XYZ - Start
         public float ToeR0AngleX { get; set; }
@@ -140,11 +112,9 @@ namespace COM3D2.Highheel.Plugin.Core
         public void Deconstruct(
             out float bodyOffset,
             out float manBodyOffset,
-            out Dictionary<object, float> perSenceBodyOffset,
-            out Dictionary<object, float> perSenceManBodyOffset,
+            out Dictionary<string, float> perSceneBodyOffset,
+            out Dictionary<string, float> perSceneManBodyOffset,
             out float footLAngle, out float footLMax,
-            out float toeL0Angle, out float toeL01Angle, out float toeL1Angle, out float toeL11Angle,
-            out float toeL2Angle, out float toeL21Angle,
             out float toeL0AngleX, out float toeL01AngleX, out float toeL1AngleX, out float toeL11AngleX,
             out float toeL2AngleX, out float toeL21AngleX,
             out float toeL0AngleY, out float toeL01AngleY, out float toeL1AngleY, out float toeL11AngleY,
@@ -152,8 +122,6 @@ namespace COM3D2.Highheel.Plugin.Core
             out float toeL0AngleZ, out float toeL01AngleZ, out float toeL1AngleZ, out float toeL11AngleZ,
             out float toeL2AngleZ, out float toeL21AngleZ,
             out float footRAngle, out float footRMax,
-            out float toeR0Angle, out float toeR01Angle, out float toeR1Angle, out float toeR11Angle,
-            out float toeR2Angle, out float toeR21Angle,
             out float toeR0AngleX, out float toeR01AngleX, out float toeR1AngleX, out float toeR11AngleX,
             out float toeR2AngleX, out float toeR21AngleX,
             out float toeR0AngleY, out float toeR01AngleY, out float toeR1AngleY, out float toeR11AngleY,
@@ -164,62 +132,61 @@ namespace COM3D2.Highheel.Plugin.Core
         {
             bodyOffset = BodyOffset;
             manBodyOffset = ManBodyOffset;
-            perSenceBodyOffset = PerSceneBodyOffset;
-            perSenceManBodyOffset = PerSceneManBodyOffset;
+            perSceneBodyOffset = PerSceneBodyOffset;
+            perSceneManBodyOffset = PerSceneManBodyOffset;
             footLAngle = FootLAngle;
             footLMax = FootLMax;
-
-            toeL0Angle = ToeL0Angle;
-            toeL01Angle = ToeL01Angle;
-            toeL1Angle = ToeL1Angle;
-            toeL11Angle = ToeL11Angle;
-            toeL2Angle = ToeL2Angle;
-            toeL21Angle = ToeL21Angle;
 
             toeL0AngleX = ToeL0AngleX;
             toeL0AngleY = ToeL0AngleY;
             toeL0AngleZ = ToeL0AngleZ;
+
             toeL01AngleX = ToeL01AngleX;
             toeL01AngleY = ToeL01AngleY;
             toeL01AngleZ = ToeL01AngleZ;
+
             toeL1AngleX = ToeL1AngleX;
             toeL1AngleY = ToeL1AngleY;
             toeL1AngleZ = ToeL1AngleZ;
+
             toeL11AngleX = ToeL11AngleX;
             toeL11AngleY = ToeL11AngleY;
             toeL11AngleZ = ToeL11AngleZ;
+
             toeL2AngleX = ToeL2AngleX;
             toeL2AngleY = ToeL2AngleY;
             toeL2AngleZ = ToeL2AngleZ;
+
             toeL21AngleX = ToeL21AngleX;
             toeL21AngleY = ToeL21AngleY;
             toeL21AngleZ = ToeL21AngleZ;
 
+
+
+
             footRAngle = FootRAngle;
             footRMax = FootRMax;
-
-            toeR0Angle = ToeR0Angle;
-            toeR01Angle = ToeR01Angle;
-            toeR1Angle = ToeR1Angle;
-            toeR11Angle = ToeR11Angle;
-            toeR2Angle = ToeR2Angle;
-            toeR21Angle = ToeR21Angle;
 
             toeR0AngleX = ToeR0AngleX;
             toeR0AngleY = ToeR0AngleY;
             toeR0AngleZ = ToeR0AngleZ;
+
             toeR01AngleX = ToeR01AngleX;
             toeR01AngleY = ToeR01AngleY;
             toeR01AngleZ = ToeR01AngleZ;
+
             toeR1AngleX = ToeR1AngleX;
             toeR1AngleY = ToeR1AngleY;
             toeR1AngleZ = ToeR1AngleZ;
+
             toeR11AngleX = ToeR11AngleX;
             toeR11AngleY = ToeR11AngleY;
             toeR11AngleZ = ToeR11AngleZ;
+
             toeR2AngleX = ToeR2AngleX;
             toeR2AngleY = ToeR2AngleY;
             toeR2AngleZ = ToeR2AngleZ;
+
             toeR21AngleX = ToeR21AngleX;
             toeR21AngleY = ToeR21AngleY;
             toeR21AngleZ = ToeR21AngleZ;
