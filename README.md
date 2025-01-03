@@ -34,8 +34,7 @@ This is a sample of the config (You can't really leave comments in config files)
 | 65     | karaoke   |
 
 <details>
-
-<summaryCOM3D2 2.40.0 中的场景列表summary>
+<summary>List of scenes in COM3D2 2.40.0</summary>
 ```
 | SceneIndex|   SceneName                 |
 |-----|-----------------------------------|
@@ -258,8 +257,7 @@ After changing it in the configuration file, you can click reload in the plugin 
 
 
 <details>
-
-<summaryCOM3D2 2.40.0 中的场景列表summary>
+<summary>COM3D2 2.40.0 中的场景列表</summary>
 ```
 | 场景索引|   场景名称                     |
 |-----|-----------------------------------|
