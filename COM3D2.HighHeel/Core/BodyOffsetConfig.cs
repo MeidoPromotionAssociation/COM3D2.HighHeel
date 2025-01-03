@@ -24,6 +24,12 @@ namespace COM3D2.Highheel.Plugin.Core
         {
             try
             {
+                // If in edit mode, use this value directly, since there is a GUI
+                if (Plugin.Instance.EditMode)
+                {
+                    return config.BodyOffset;
+                }
+
                 if (isGlobal)
                 {
                     lock (_lock)
@@ -64,6 +70,16 @@ namespace COM3D2.Highheel.Plugin.Core
         {
             try
             {
+                // If in edit mode, use this value directly, since there is a GUI
+                if (Plugin.Instance.EditMode)
+                {
+                    var maid0 = GameMain.Instance.CharacterMgr.GetMaid(0);
+                    var config = Hooks.GetConfig(maid0.body0);
+                    if (config != null)
+                    {
+                        return config.ManBodyOffset;
+                    }
+                }
                 if (isGlobal)
                 {
                     lock (_lock)
