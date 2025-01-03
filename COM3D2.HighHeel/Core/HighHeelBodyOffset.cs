@@ -28,7 +28,8 @@ namespace COM3D2.Highheel.Plugin.Core
 
         /// <summary>
         /// Get the SnityouOutScale value of the specified body, which is calculated based on the thigh distance and body offset
-        /// Snityou is an official typo in BoneMorph_
+        /// Snityou is an official typo in BoneMorph_, I guess it is "身長" (height)
+        /// This is by https://github.com/silver1145/
         /// </summary>
         /// <param name="body">Body object to get the SnityouOutScale value</param>
         /// <returns>The calculated SnityouOutScale value. If an exception occurs during the calculation, the default value 1 is returned</returns>

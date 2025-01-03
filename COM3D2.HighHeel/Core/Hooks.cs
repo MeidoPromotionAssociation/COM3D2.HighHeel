@@ -98,9 +98,13 @@ namespace COM3D2.Highheel.Plugin.Core
                 return;
 
             if (!__instance.boMAN)
+            {
                 ProcessMaid(__instance);
-            else
+            }
+            else if (PluginConfig.UseManOffset.Value)
+            {
                 ProcessMan(__instance);
+            }
         }
 
         private static void ProcessMan(TBody __instance)
