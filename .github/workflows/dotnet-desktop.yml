@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: COM3D2.HighHeel.Plugin
-          path: /home/runner/work/COM3D2.HighHeel/COM3D2.HighHeel/COM3D2.HighHeel/bin/Release/COM3D2.Highheel.Plugin.dll
+          path: /home/runner/work/COM3D2.HighHeel/COM3D2.HighHeel/COM3D2.HighHeel/bin/Release/net35/COM3D2.Highheel.Plugin.dll
