@@ -44,7 +44,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
         //<summary>
         // Extract the configName part starting with "hhmod_" from the input string.
-        // example "foo_hhmod_shoeA_bar" -> "shoeA"
+        // example "foo_hhmod_shoeA_bar" -> "hhmod_shoeA"
         // </summary>
         public static string ExtractShoeConfigName(string input)
         {
@@ -69,8 +69,8 @@ namespace COM3D2.Highheel.Plugin.Core
             else
             {
                 // If found, stop at the delimiter.
-                // example "hhmod_shoeA_xyz" -> "hhmod_shoeA" -> "shoeA"
-                return rawName.Substring(0, nextSeparator).Substring("hhmod_".Length);
+                // example "hhmod_shoeA_xyz" -> "hhmod_shoeA"
+                return rawName.Substring(0, nextSeparator);
             }
         }
     }

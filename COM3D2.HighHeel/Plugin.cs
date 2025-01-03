@@ -123,6 +123,7 @@ namespace COM3D2.Highheel.Plugin
 
                     // Extract the configuration name from the shoe name
                     var key = Core.Utility.ExtractShoeConfigName(fileNameWithoutExt);
+
                     if (string.IsNullOrEmpty(key))
                     {
                         Instance!.Logger.LogWarning($"No 'hhmod_' found in filename: {configPath}");

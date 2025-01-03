@@ -50,11 +50,11 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.FootLMax].InputChangeEvent += (_, a) => editModeConfig.FootLMax = a.Value;
 
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX] = new NumberInput("Toe L 0 Angle X", editModeConfig.ToeL0AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX] = new NumberInput("Toe L 0 Angle X (Pinky)", editModeConfig.ToeL0AngleX);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleX = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY] = new NumberInput("Toe L 0 Angle Y", editModeConfig.ToeL0AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY] = new NumberInput("Toe L 0 Angle Y (Pinky)", editModeConfig.ToeL0AngleY);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleY = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ] = new NumberInput("Toe L 0 Angle Z", editModeConfig.ToeL0AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ] = new NumberInput("Toe L 0 Angle Z (Pinky)", editModeConfig.ToeL0AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL0AngleZ = a.Value;
 
 
@@ -80,11 +80,11 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleZ] = new NumberInput("Toe L 11 Angle Z", editModeConfig.ToeL11AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL11AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL11AngleZ = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX] = new NumberInput("Toe L 2 Angle X", editModeConfig.ToeL2AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX] = new NumberInput("Toe L 2 Angle X (Big)", editModeConfig.ToeL2AngleX);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleX = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY] = new NumberInput("Toe L 2 Angle Y", editModeConfig.ToeL2AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY] = new NumberInput("Toe L 2 Angle Y (Big)", editModeConfig.ToeL2AngleY);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleY = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ] = new NumberInput("Toe L 2 Angle Z", editModeConfig.ToeL2AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ] = new NumberInput("Toe L 2 Angle Z (Big)", editModeConfig.ToeL2AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeL2AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeL2AngleZ = a.Value;
 
             inputs[ShoeConfig.ShoeConfigParameter.ToeL21AngleX] = new NumberInput("Toe L 21 Angle X", editModeConfig.ToeL21AngleX);
@@ -104,11 +104,11 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.FootRMax].InputChangeEvent += (_, a) => editModeConfig.FootRMax = a.Value;
 
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX] = new NumberInput("Toe R 0 Angle X", editModeConfig.ToeR0AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX] = new NumberInput("Toe R 0 Angle X (Pinky)", editModeConfig.ToeR0AngleX);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleX = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY] = new NumberInput("Toe R 0 Angle Y", editModeConfig.ToeR0AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY] = new NumberInput("Toe R 0 Angle Y (Pinky)", editModeConfig.ToeR0AngleY);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleY = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ] = new NumberInput("Toe R 0 Angle Z", editModeConfig.ToeR0AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ] = new NumberInput("Toe R 0 Angle Z (Pinky)", editModeConfig.ToeR0AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR0AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR0AngleZ = a.Value;
 
             inputs[ShoeConfig.ShoeConfigParameter.ToeR01AngleX] = new NumberInput("Toe R 01 Angle X", editModeConfig.ToeR01AngleX);
@@ -132,11 +132,11 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleZ] = new NumberInput("Toe R 11 Angle Z", editModeConfig.ToeR11AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR11AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR11AngleZ = a.Value;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX] = new NumberInput("Toe R 2 Angle X", editModeConfig.ToeR2AngleX);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX] = new NumberInput("Toe R 2 Angle X (Big)", editModeConfig.ToeR2AngleX);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleX].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleX = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY] = new NumberInput("Toe R 2 Angle Y", editModeConfig.ToeR2AngleY);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY] = new NumberInput("Toe R 2 Angle Y (Big)", editModeConfig.ToeR2AngleY);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleY].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleY = a.Value;
-            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ] = new NumberInput("Toe R 2 Angle Z", editModeConfig.ToeR2AngleZ);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ] = new NumberInput("Toe R 2 Angle Z (Big)", editModeConfig.ToeR2AngleZ);
             inputs[ShoeConfig.ShoeConfigParameter.ToeR2AngleZ].InputChangeEvent += (_, a) => editModeConfig.ToeR2AngleZ = a.Value;
 
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleX] = new NumberInput("Toe R 21 Angle X", editModeConfig.ToeR21AngleX);
