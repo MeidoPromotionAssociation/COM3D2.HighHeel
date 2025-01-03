@@ -10,7 +10,7 @@ namespace COM3D2.Highheel.Plugin.UI
         private const int WindowId = 523961;
 
         private static readonly GUILayoutOption NoExpand = GUILayout.ExpandWidth(false);
-        private static readonly GUILayoutOption ConfigNameLayout = GUILayout.Width(140f);
+        private static readonly GUILayoutOption ConfigNameLayout = GUILayout.Width(160f);
 
         private static readonly GUIContent EnabledLabel = new(Plugin.PluginString);
         private static readonly GUIContent CloseLabel = new("x");
@@ -27,7 +27,7 @@ namespace COM3D2.Highheel.Plugin.UI
 
         private Vector2 scrollPos = Vector2.zero;
         public bool Visible;
-        private Rect windowRect = new(20f, 20f, 260f, 265f);
+        private Rect windowRect = new(20f, 20f, 260f, 530f);
 
         private GUIStyle windowStyle;
 
@@ -235,7 +235,7 @@ namespace COM3D2.Highheel.Plugin.UI
 
             var pluginEnabled = Plugin.Instance!.Configuration.Enabled.Value;
             var editModeEnabled = Plugin.Instance!.EditMode;
-            windowRect.height = pluginEnabled && editModeEnabled ? 280f : 55f;
+            windowRect.height = pluginEnabled && editModeEnabled ? 560f : 55f;
 
             windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, WindowStyle);
         }

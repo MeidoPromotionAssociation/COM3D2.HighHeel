@@ -89,7 +89,9 @@ namespace COM3D2.Highheel.Plugin
         private void Update()
         {
             if (Configuration.UIShortcut.Value.IsUp())
-                mainWindow.Visible = !mainWindow.Visible;
+            {
+                ToggleGUI();
+            }
 
             mainWindow.Update();
         }
@@ -97,6 +99,26 @@ namespace COM3D2.Highheel.Plugin
         private void OnGUI()
         {
             mainWindow.Draw();
+        }
+
+        void Start()
+        {
+            if (PluginConfig.AddGearMenuButton.Value)
+            {
+                // add button to GearMenu
+                GearMenu.Buttons.Add(
+                    "HighHeel",
+                    "Toggle COM3D2.HighHeel.Plugin GUI",
+                    Convert.FromBase64String(
+                        "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAANtQTFRF////+fn57u7u3d3dzc3NxsbGxcXFzMzMpqamo6Ojn5+f2dnZqKioxMTEtbW1vLy8ubm5ycnJgYGBlpaWtLS0SkpKp6enT09PiIiIs7OzmJiYgICAy8vLtra2VlZWcnJym5ubDg4OUFBQ0dHRdHR0VVVVt7e3FRUVPz8/HBwcX19fra2tf39/7+/vmpqaHR0durq6eXl53NzcNzc33t7e5+fnKCgoJycnISEhQUFBUVFRioqKyMjI1NTUd3d3DQ0NYmJiqqqqSEhIBQUFY2NjKioqREREEhIShoaGWqf6EwAAARBJREFUeJxjZCAAGIlQwAgCGCr/M/wHAZA4EytIASYASv/+B1LAzfj9L1bTmTn/fwUp4P3/BYf9PIyfQQpYOT/hUMD3/TdIAT/jBxwKBP5/BCkQYMCpAChDrAJBxnfCjG8YRF8zMIgxMr5gkGR8Js34BEmBLOMjecYHDIr3GXjE7infZZDiuqP6+gOSAjVgWH0HK9BifCrDeFmP8ed/zgtYTTD8zMfIeAbDBIQCU6BZp/5hKKCaNy3fCx1jsH7LIHLElvEQigKoG+wPAvU5MO4HxqDpPhQFUG86PxU+yuDC+OU4hgKCJkAVOD+V2wU04THHBVanhwo7qOZNggmGYJIjmGgJJnuCGYdg1sMPCCoAALwpliGQW5iZAAAAAElFTkSuQmCC"),
+                    (go) => ToggleGUI()
+                );
+            }
+        }
+
+        public void ToggleGUI()
+        {
+            mainWindow.Visible = !mainWindow.Visible;
         }
 
         public void ImportConfigsAndUpdate(string ConfigName)
