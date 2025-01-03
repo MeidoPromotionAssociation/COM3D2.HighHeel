@@ -126,13 +126,19 @@ public class Plugin : BaseUnityPlugin
         foreach (var configPath in shoeConfigs)
             try
             {
-                var key = Path.GetFileNameWithoutExtension(configPath);
+                var fileNameWithoutExt = Path.GetFileNameWithoutExtension(configPath);
+
+                // Extract the configuration name from the shoe name
+                var key = Core.Utility.ExtractShoeConfigName(fileNameWithoutExt);
+                if (string.IsNullOrEmpty(key))
+                {
+                    Instance!.Logger.LogWarning($"No 'hhmod_' found in filename: {configPath}");
+                    continue;
+                }
 
                 if (database.ContainsKey(key))
                 {
-                    Instance!.Logger.LogWarning(
-                        $"Duplicate configuration filename found: {configPath}. Skipping"
-                    );
+                    Instance!.Logger.LogWarning($"Duplicate configuration filename found: {configPath}. Skipping");
                     continue;
                 }
 

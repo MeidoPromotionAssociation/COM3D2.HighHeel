@@ -25,10 +25,11 @@ public static class Hooks
         currentSceneIndex = scene.buildIndex;
     }
 
-
+    //<summary>
+    // This method is called when the item is put on.
+    //</summary>
     [HarmonyPostfix]
-    [HarmonyPatch(
-        typeof(TBodySkin),
+    [HarmonyPatch(typeof(TBodySkin),
         nameof(TBodySkin.Load),
         typeof(MPN),
         typeof(Transform),
@@ -44,6 +45,7 @@ public static class Hooks
     )]
     public static void OnTBodySkinLoad(TBodySkin __instance)
     {
+        // If the loaded skin slot not a shoe, return directly
         if (__instance.SlotId != TBody.SlotID.shoes)
             return;
 
@@ -55,36 +57,30 @@ public static class Hooks
 
         if (ShoeConfigs.ContainsKey(__instance.body))
         {
-            Plugin.Instance.Logger.LogDebug(
-                $"{nameof(OnTBodySkinLoad)}: ShoeConfigs already contains {__instance.obj.name}. How?"
-            );
+            Plugin.Instance.Logger.LogDebug($"{nameof(OnTBodySkinLoad)}: ShoeConfigs already contains {__instance.obj.name}. How?");
 
             ShoeConfigs.Remove(__instance.body);
         }
 
         HighHeelBodyOffset.Clean();
 
-        var name = __instance.obj.name;
-        int configNameIndex;
+        //// Get the name of the shoe object
+        var shoeName = __instance.obj.name;
 
-
-        if ((configNameIndex = name.IndexOf("hhmod_", StringComparison.Ordinal)) < 0)
+        // Extract the configuration name from the shoe name
+        var configName = Utility.ExtractShoeConfigName(shoeName);
+        if (string.IsNullOrEmpty(configName))
+        {
+            #if DEBUG
+            Plugin.Instance.Logger.LogWarning($"'{shoeName}' seems not hhmod shoe.");
+            #endif
             return;
-
-        // extra the configuration name
-        // Name should be hhmod_<configName>.json or hhmod_<configName>_<anystring>.json or <anystring>_hhmod_<configName>_<anystring>.json ……
-        var endIndex = name.IndexOfAny(new[] { '_', '.' }, configNameIndex + 6); // 6 is length of hhmod_
-        if (endIndex < 0)
-            endIndex = 9; // 9 is 3 characters after "hhmod_"
-
-        var configName = name.Substring(configNameIndex, endIndex - configNameIndex);
+        }
 
 
         if (!Plugin.Instance.ShoeDatabase.ContainsKey(configName))
         {
-            Plugin.Instance.Logger.LogWarning(
-                $"Configuration '{configName}' could not be found!"
-            );
+            Plugin.Instance.Logger.LogWarning($"Configuration '{configName}' could not be found!");
             return;
         }
 
@@ -141,9 +137,16 @@ public static class Hooks
         ApplyTransformations(__instance, config, transforms);
     }
 
+    /// <summary>
+    /// Get the corresponding ShoeConfig configuration from the TBody instance
+    /// </summary>
+    /// <param name="__instance">TBody instance to get the configuration</param>
+    /// <returns>Return the obtained ShoeConfig configuration, or null if not found</returns>
     private static ShoeConfig GetConfig(TBody __instance)
     {
+        // Try to get the configuration name from the ShoeConfigs dictionary
         if (ShoeConfigs.TryGetValue(__instance, out var configName) &&
+            // Try to get the config from the ShoeDatabase dictionary
             Plugin.Instance.ShoeDatabase.TryGetValue(configName, out var config))
             return config;
         return null;
