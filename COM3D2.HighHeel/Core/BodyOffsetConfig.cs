@@ -1,119 +1,105 @@
 using System;
 using System.Collections.Generic;
 
+namespace COM3D2.Highheel.Plugin.Core;
 
-namespace COM3D2.Highheel.Plugin.Core
+public class BodyOffsetConfig
 {
-    public class BodyOffsetConfig
+    private readonly object _lock = new();
+
+    public BodyOffsetConfig()
     {
-        public float DefaultBodyOffset { get; set; }
-        public float DefaultManBodyOffset { get; set; }
-        public Dictionary<int, float> SceneSpecificOffsets { get; private set; }
-        public Dictionary<int, float> SceneSpecificManOffsets { get; private set; }
+        SceneSpecificOffsets = new Dictionary<int, float>();
+        SceneSpecificManOffsets = new Dictionary<int, float>();
+        DefaultBodyOffset = 0.04f;
+        DefaultManBodyOffset = 0f;
+    }
 
-        private readonly object _lock = new object();
+    public float DefaultBodyOffset { get; set; }
+    public float DefaultManBodyOffset { get; set; }
+    public Dictionary<int, float> SceneSpecificOffsets { get; private set; }
+    public Dictionary<int, float> SceneSpecificManOffsets { get; private set; }
 
-        public BodyOffsetConfig()
+    public float GetBodyOffsetForScene(int sceneIndex)
+    {
+        try
         {
-            SceneSpecificOffsets = new Dictionary<int, float>();
-            SceneSpecificManOffsets = new Dictionary<int, float>();
-            DefaultBodyOffset = 0.04f;
-            DefaultManBodyOffset = 0f;
+            if (sceneIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
+
+            lock (_lock)
+            {
+                if (SceneSpecificOffsets != null && SceneSpecificOffsets.TryGetValue(sceneIndex, out var offset))
+                    return offset;
+            }
+
+            return DefaultBodyOffset;
         }
-
-        public float GetBodyOffsetForScene(int sceneIndex)
+        catch (Exception ex)
         {
-            try
-            {
-                if (sceneIndex < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-                }
-
-                lock (_lock)
-                {
-                    if (SceneSpecificOffsets != null && SceneSpecificOffsets.TryGetValue(sceneIndex, out float offset))
-                    {
-                        return offset;
-                    }
-                }
-
-                return DefaultBodyOffset;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error in GetBodyOffsetForScene: {ex.Message}");
-                return DefaultBodyOffset; // Return a safe default value
-            }
+            Console.Error.WriteLine($"Error in GetBodyOffsetForScene: {ex.Message}");
+            return DefaultBodyOffset; // Return a safe default value
         }
+    }
 
-        public float GetManBodyOffsetForScene(int sceneIndex)
+    public float GetManBodyOffsetForScene(int sceneIndex)
+    {
+        try
         {
-            try
-            {
-                if (sceneIndex < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-                }
+            if (sceneIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
 
-                lock (_lock)
-                {
-                    if (SceneSpecificManOffsets != null &&
-                        SceneSpecificManOffsets.TryGetValue(sceneIndex, out float offset))
-                    {
-                        return offset;
-                    }
-                }
-
-                return DefaultManBodyOffset;
-            }
-            catch (Exception ex)
+            lock (_lock)
             {
-                Console.Error.WriteLine($"Error in GetManBodyOffsetForScene: {ex.Message}");
-                return DefaultManBodyOffset; // Return a safe default value
+                if (SceneSpecificManOffsets != null &&
+                    SceneSpecificManOffsets.TryGetValue(sceneIndex, out var offset))
+                    return offset;
             }
+
+            return DefaultManBodyOffset;
         }
-
-        public void SetBodyOffsetForScene(int sceneIndex, float offset)
+        catch (Exception ex)
         {
-            try
-            {
-                if (sceneIndex < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-                }
+            Console.Error.WriteLine($"Error in GetManBodyOffsetForScene: {ex.Message}");
+            return DefaultManBodyOffset; // Return a safe default value
+        }
+    }
 
-                lock (_lock)
-                {
-                    SceneSpecificOffsets ??= new Dictionary<int, float>();
-                    SceneSpecificOffsets[sceneIndex] = offset;
-                }
-            }
-            catch (Exception ex)
+    public void SetBodyOffsetForScene(int sceneIndex, float offset)
+    {
+        try
+        {
+            if (sceneIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
+
+            lock (_lock)
             {
-                Console.Error.WriteLine($"Error in SetBodyOffsetForScene: {ex.Message}");
+                SceneSpecificOffsets ??= new Dictionary<int, float>();
+                SceneSpecificOffsets[sceneIndex] = offset;
             }
         }
-
-        public void SetManBodyOffsetForScene(int sceneIndex, float offset)
+        catch (Exception ex)
         {
-            try
-            {
-                if (sceneIndex < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-                }
+            Console.Error.WriteLine($"Error in SetBodyOffsetForScene: {ex.Message}");
+        }
+    }
 
-                lock (_lock)
-                {
-                    SceneSpecificManOffsets ??= new Dictionary<int, float>();
-                    SceneSpecificManOffsets[sceneIndex] = offset;
-                }
-            }
-            catch (Exception ex)
+    public void SetManBodyOffsetForScene(int sceneIndex, float offset)
+    {
+        try
+        {
+            if (sceneIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
+
+            lock (_lock)
             {
-                Console.Error.WriteLine($"Error in SetManBodyOffsetForScene: {ex.Message}");
+                SceneSpecificManOffsets ??= new Dictionary<int, float>();
+                SceneSpecificManOffsets[sceneIndex] = offset;
             }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error in SetManBodyOffsetForScene: {ex.Message}");
         }
     }
 }
