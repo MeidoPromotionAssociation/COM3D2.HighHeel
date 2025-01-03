@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace COM3D2.HighHeel.Core
+namespace COM3D2.Highheel.Plugin.Core
 {
     public class MaidTransforms
     {

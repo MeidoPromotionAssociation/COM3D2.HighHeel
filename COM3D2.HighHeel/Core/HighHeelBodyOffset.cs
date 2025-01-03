@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-namespace COM3D2.HighHeel.Core
+namespace COM3D2.Highheel.Plugin.Core
 {
     public static class HighHeelBodyOffset
     {

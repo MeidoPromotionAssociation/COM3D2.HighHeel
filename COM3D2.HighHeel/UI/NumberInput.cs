@@ -2,7 +2,7 @@
 using System.Globalization;
 using UnityEngine;
 
-namespace COM3D2.HighHeel.UI
+namespace COM3D2.Highheel.Plugin.UI
 {
     public class NumberInput
     {

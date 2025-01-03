@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Reflection.Emit;
 
-namespace COM3D2.HighHeel.Core
+namespace COM3D2.Highheel.Plugin.Core
 {
     public static class Hooks
     {
@@ -91,9 +91,6 @@ namespace COM3D2.HighHeel.Core
         {
             if (!__instance.isLoadedBody || Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
                 return;
-
-            // why
-            //HighHeelBodyOffset.SetBodyOffset(__instance, 0);
 
             if (!__instance.boMAN)
             {
@@ -217,7 +214,7 @@ namespace COM3D2.HighHeel.Core
                     new IndividualAngles(config.ToeL21AngleX, config.ToeL21AngleY, config.ToeL21AngleZ, "toeL21")
                 };
             }
-            else if (side == "R")
+            if (side == "R")
             {
                 return new List<IndividualAngles>
                 {
@@ -249,6 +246,7 @@ namespace COM3D2.HighHeel.Core
             foot.localRotation = Quaternion.Euler(rotation);
         }
 
+        // Use RotateToesIndividual instead
         static void RotateToes(IList<Transform> toes, float angle, bool left)
         {
             var inverse = left ? 1f : -1f;
@@ -271,27 +269,11 @@ namespace COM3D2.HighHeel.Core
             }
         }
 
-        static void RotateToesIndividual(
-            IList<Transform> toes,
-            float correctionAngle,
-            List<IndividualAngles> individualAngles,
-            bool left
-        )
+        static void RotateToesIndividual(IList<Transform> toes, float correctionAngle, List<IndividualAngles> individualAngles, bool left)
         {
             var inverse = left ? 1f : -1f;
-
             for (var i = 0; i < 6; i++)
             {
-                //var thisToeAngles = individualAngles[i];
-                //var rotation = toes[i].localRotation.eulerAngles;
-                //var x = rotation.x;
-                //var y = rotation.y;
-                //var z = rotation.z;
-                //rotation.x = x + thisToeAngles.x;
-                //rotation.y  = y + thisToeAngles.y;
-                //rotation.z  = z + thisToeAngles.z;
-                //toes[i].localRotation = Quaternion.Euler(rotation);
-
                 var thisToeAngles = individualAngles[i];
                 var rotation = toes[i].localRotation.eulerAngles;
                 rotation.x = thisToeAngles.x;
@@ -301,7 +283,8 @@ namespace COM3D2.HighHeel.Core
             }
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R))]
+
+        [HarmonyPostfix, HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R), typeof(string), typeof(Maid))]
         public static void OnLoadBody_R(TBody __instance)
         {
             if (__instance.boMAN)

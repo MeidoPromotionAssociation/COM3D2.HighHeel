@@ -1,8 +1,9 @@
-namespace COM3D2.HighHeel.Core
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+
+namespace COM3D2.Highheel.Plugin.Core
+{
     public class BodyOffsetConfig
     {
         public float DefaultBodyOffset { get; set; }

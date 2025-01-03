@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 [assembly: AssemblyVersion("1.0.8.2")]
 
-namespace COM3D2.HighHeel
+namespace COM3D2.Highheel.Plugin
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin

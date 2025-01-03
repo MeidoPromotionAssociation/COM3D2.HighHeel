@@ -1,7 +1,7 @@
 ﻿using BepInEx.Configuration;
 using UnityEngine;
 
-namespace COM3D2.HighHeel
+namespace COM3D2.Highheel.Plugin
 {
     public class PluginConfig
     {

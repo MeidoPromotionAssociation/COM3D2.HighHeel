@@ -1,4 +1,4 @@
-﻿namespace COM3D2.HighHeel.UI
+﻿namespace COM3D2.Highheel.Plugin.UI
 {
     public class TextInputEventArgs : System.EventArgs
     {
