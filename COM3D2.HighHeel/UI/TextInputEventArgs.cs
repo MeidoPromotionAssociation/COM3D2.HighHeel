@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace COM3D2.Highheel.Plugin.UI;
-
-public class TextInputEventArgs : EventArgs
+namespace COM3D2.Highheel.Plugin.UI
 {
-    public readonly string Text;
-
-    public TextInputEventArgs(string text)
+    public class TextInputEventArgs : EventArgs
     {
-        Text = text;
+        public readonly string Text;
+
+        public TextInputEventArgs(string text)
+        {
+            Text = text;
+        }
     }
 }
