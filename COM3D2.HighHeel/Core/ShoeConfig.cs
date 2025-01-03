@@ -7,6 +7,7 @@ namespace COM3D2.Highheel.Plugin.Core
         public enum ShoeConfigParameter
         {
             BodyOffset,
+            ManBodyOffset,
             PerSceneBodyOffset,
             PerSceneManBodyOffset,
             FootLAngle,
@@ -63,8 +64,8 @@ namespace COM3D2.Highheel.Plugin.Core
             ToeR21AngleZ
         }
 
-        public float BodyOffset { get; set; }
-
+        public float BodyOffset { get; set; } = 0.04f; // Experience-based values
+        public float ManBodyOffset { get; set; } = 0f;
         public Dictionary<object , float> PerSceneBodyOffset { get; set; } = new();
         public Dictionary<object , float> PerSceneManBodyOffset { get; set; } = new();
         public float FootLAngle { get; set; }
@@ -76,7 +77,6 @@ namespace COM3D2.Highheel.Plugin.Core
         public float ToeL1Angle { get; set; }
         public float ToeL11Angle { get; set; }
         public float ToeL2Angle { get; set; }
-
         public float ToeL21Angle { get; set; }
         //Individual Toes L - End
 
@@ -102,6 +102,7 @@ namespace COM3D2.Highheel.Plugin.Core
         public float ToeL21AngleZ { get; set; }
         //Individual Toes L XYZ - End
 
+
         public float FootRAngle { get; set; }
         public float FootRMax { get; set; } = 55f;
 
@@ -111,7 +112,6 @@ namespace COM3D2.Highheel.Plugin.Core
         public float ToeR1Angle { get; set; }
         public float ToeR11Angle { get; set; }
         public float ToeR2Angle { get; set; }
-
         public float ToeR21Angle { get; set; }
         //Individual Toes R - End
 
@@ -133,13 +133,13 @@ namespace COM3D2.Highheel.Plugin.Core
         public float ToeR2AngleZ { get; set; }
         public float ToeR21AngleX { get; set; }
         public float ToeR21AngleY { get; set; }
-
         public float ToeR21AngleZ { get; set; }
         //Individual Toes R XYZ - End
 
 
         public void Deconstruct(
             out float bodyOffset,
+            out float manBodyOffset,
             out Dictionary<object, float> perSenceBodyOffset,
             out Dictionary<object, float> perSenceManBodyOffset,
             out float footLAngle, out float footLMax,
@@ -163,6 +163,7 @@ namespace COM3D2.Highheel.Plugin.Core
         )
         {
             bodyOffset = BodyOffset;
+            manBodyOffset = ManBodyOffset;
             perSenceBodyOffset = PerSceneBodyOffset;
             perSenceManBodyOffset = PerSceneManBodyOffset;
             footLAngle = FootLAngle;

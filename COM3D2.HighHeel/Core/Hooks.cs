@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
@@ -94,7 +93,8 @@ namespace COM3D2.Highheel.Plugin.Core
         [HarmonyPatch(typeof(TBody), "LateUpdate")]
         public static void LateUpdate(TBody __instance)
         {
-            if (!__instance.isLoadedBody || Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
+            // no need to check !__instance.isLoadedBody because original method will check it
+            if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
                 return;
 
             if (!__instance.boMAN)
@@ -105,10 +105,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
         private static void ProcessMan(TBody __instance)
         {
-            // man offset is only global
-            // beacuse man don't wear high heels and I don't know if he's doing something to the maid, if I know I can use that maid's config
-            // TODO: maybe find a way to let man can use shoe config for offset
-            var offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneName);
+            var offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneName, PluginConfig.EnableGlobalPreSceneOffsetSettings.Value);
 
             if (float.IsNaN(offset) || float.IsInfinity(offset))
             {
@@ -116,10 +113,10 @@ namespace COM3D2.Highheel.Plugin.Core
                 return;
             }
 
-            var manbody = __instance.GetBone("ManBip");
-            if (manbody != null)
+            var manBody = __instance.GetBone("ManBip");
+            if (manBody != null)
             {
-                manbody.Translate(Vector3.up * offset, Space.World);
+                manBody.Translate(Vector3.up * offset, Space.World);
                 __instance.SkinMeshUpdate();
             }
         }
@@ -146,7 +143,7 @@ namespace COM3D2.Highheel.Plugin.Core
         /// </summary>
         /// <param name="__instance">TBody instance to get the configuration</param>
         /// <returns>Return the obtained ShoeConfig configuration, or null if not found</returns>
-        private static ShoeConfig GetConfig(TBody __instance)
+        public static ShoeConfig GetConfig(TBody __instance)
         {
             // Try to get the configuration name from the ShoeConfigs dictionary
             if (ShoeConfigs.TryGetValue(__instance, out var configName) &&
@@ -178,7 +175,10 @@ namespace COM3D2.Highheel.Plugin.Core
                 return;
             }
 
-            if (offset != 0) HighHeelBodyOffset.SetBodyOffset(__instance, offset);
+            if (offset != 0)
+            {
+                HighHeelBodyOffset.SetBodyOffset(__instance, offset);
+            }
 
             RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
             RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);

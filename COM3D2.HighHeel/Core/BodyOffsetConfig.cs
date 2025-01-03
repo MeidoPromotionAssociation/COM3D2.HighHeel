@@ -37,14 +37,13 @@ namespace COM3D2.Highheel.Plugin.Core
                 }
                 else
                 {
+                    if (config == null)
+                    {
+                        Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
+                        return DefaultBodyOffset;
+                    }
                     lock (_lock)
                     {
-                        if (config == null)
-                        {
-                            Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
-                            return DefaultBodyOffset;
-                        }
-
                         if (config.PerSceneBodyOffset != null && config.PerSceneBodyOffset.TryGetValue(currentSceneName, out var offset))
                         {
                             return offset;
@@ -61,17 +60,41 @@ namespace COM3D2.Highheel.Plugin.Core
             }
         }
 
-        public float GetManBodyOffsetForScene(string currentSceneName)
+        public float GetManBodyOffsetForScene(string currentSceneName, bool isGlobal)
         {
             try
             {
-                lock (_lock)
+                if (isGlobal)
                 {
-                    if (SceneSpecificManOffsets != null &&
-                        SceneSpecificManOffsets.TryGetValue(currentSceneName, out var offset))
-                        return offset;
+                    lock (_lock)
+                    {
+                        if (SceneSpecificManOffsets != null &&
+                            SceneSpecificManOffsets.TryGetValue(currentSceneName, out var offset))
+                            return offset;
+                    }
+
+                    return DefaultManBodyOffset;
                 }
-                return DefaultManBodyOffset;
+                else
+                {
+                    // I don't know if it's possible to know man is doing something to a maid, so instead we use the value from maid0's shoe configuration
+                    var maid0 = GameMain.Instance.CharacterMgr.GetMaid(0);
+                    var config = Hooks.GetConfig(maid0.body0);
+                    if (config == null)
+                    {
+                        Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
+                        return DefaultManBodyOffset;
+                    }
+                    lock (_lock)
+                    {
+                        if (config.PerSceneManBodyOffset != null && config.PerSceneManBodyOffset.TryGetValue(currentSceneName, out var offset))
+                        {
+                            return offset;
+                        }
+
+                        return config.ManBodyOffset;
+                    }
+                }
             }
             catch (Exception ex)
             {
