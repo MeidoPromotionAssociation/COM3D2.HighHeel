@@ -7,7 +7,6 @@ public class ShoeConfig
         BodyOffset,
         FootLAngle,
         FootLMax,
-        ToeLAngle,
         ToeL0Angle,
         ToeL01Angle,
         ToeL1Angle,
@@ -34,7 +33,6 @@ public class ShoeConfig
         ToeL21AngleZ,
         FootRAngle,
         FootRMax,
-        ToeRAngle,
         ToeR0Angle,
         ToeR01Angle,
         ToeR1Angle,
@@ -64,8 +62,6 @@ public class ShoeConfig
     public float BodyOffset { get; set; }
     public float FootLAngle { get; set; }
     public float FootLMax { get; set; } = 55f;
-
-    public float ToeLAngle { get; set; } = 280f;
 
     //Individual Toes L - Start
     public float ToeL0Angle { get; set; }
@@ -102,8 +98,6 @@ public class ShoeConfig
     public float FootRAngle { get; set; }
     public float FootRMax { get; set; } = 55f;
 
-    public float ToeRAngle { get; set; } = 280f;
-
     //Individual Toes R - Start
     public float ToeR0Angle { get; set; }
     public float ToeR01Angle { get; set; }
@@ -139,7 +133,7 @@ public class ShoeConfig
 
     public void Deconstruct(
         out float bodyOffset,
-        out float footLAngle, out float footLMax, out float toeLAngle,
+        out float footLAngle, out float footLMax,
         out float toeL0Angle, out float toeL01Angle, out float toeL1Angle, out float toeL11Angle,
         out float toeL2Angle, out float toeL21Angle,
         out float toeL0AngleX, out float toeL01AngleX, out float toeL1AngleX, out float toeL11AngleX,
@@ -148,7 +142,7 @@ public class ShoeConfig
         out float toeL2AngleY, out float toeL21AngleY,
         out float toeL0AngleZ, out float toeL01AngleZ, out float toeL1AngleZ, out float toeL11AngleZ,
         out float toeL2AngleZ, out float toeL21AngleZ,
-        out float footRAngle, out float footRMax, out float toeRAngle,
+        out float footRAngle, out float footRMax,
         out float toeR0Angle, out float toeR01Angle, out float toeR1Angle, out float toeR11Angle,
         out float toeR2Angle, out float toeR21Angle,
         out float toeR0AngleX, out float toeR01AngleX, out float toeR1AngleX, out float toeR11AngleX,
@@ -162,7 +156,6 @@ public class ShoeConfig
         bodyOffset = BodyOffset;
         footLAngle = FootLAngle;
         footLMax = FootLMax;
-        toeLAngle = ToeLAngle;
 
         toeL0Angle = ToeL0Angle;
         toeL01Angle = ToeL01Angle;
@@ -192,7 +185,6 @@ public class ShoeConfig
 
         footRAngle = FootRAngle;
         footRMax = FootRMax;
-        toeRAngle = ToeRAngle;
 
         toeR0Angle = ToeR0Angle;
         toeR01Angle = ToeR01Angle;

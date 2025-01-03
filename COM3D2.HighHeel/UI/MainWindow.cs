@@ -44,9 +44,6 @@ public class MainWindow
             (_, a) => editModeConfig.FootLAngle = a.Value;
         inputs[ShoeConfig.ShoeConfigParameter.FootLMax] = new NumberInput("Foot L Max", editModeConfig.FootLMax);
         inputs[ShoeConfig.ShoeConfigParameter.FootLMax].InputChangeEvent += (_, a) => editModeConfig.FootLMax = a.Value;
-        inputs[ShoeConfig.ShoeConfigParameter.ToeLAngle] = new NumberInput("Toe L Angle", editModeConfig.ToeLAngle);
-        inputs[ShoeConfig.ShoeConfigParameter.ToeLAngle].InputChangeEvent +=
-            (_, a) => editModeConfig.ToeLAngle = a.Value;
 
         inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle] = new NumberInput("Toe L 0 Angle", editModeConfig.ToeL0Angle);
         inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle].InputChangeEvent +=
@@ -75,9 +72,6 @@ public class MainWindow
             (_, a) => editModeConfig.FootRAngle = a.Value;
         inputs[ShoeConfig.ShoeConfigParameter.FootRMax] = new NumberInput("Foot R Max", editModeConfig.FootRMax);
         inputs[ShoeConfig.ShoeConfigParameter.FootRMax].InputChangeEvent += (_, a) => editModeConfig.FootRMax = a.Value;
-        inputs[ShoeConfig.ShoeConfigParameter.ToeRAngle] = new NumberInput("Toe R Angle", editModeConfig.ToeRAngle);
-        inputs[ShoeConfig.ShoeConfigParameter.ToeRAngle].InputChangeEvent +=
-            (_, a) => editModeConfig.ToeRAngle = a.Value;
 
         inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle] = new NumberInput("Toe R 0 Angle", editModeConfig.ToeR0Angle);
         inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle].InputChangeEvent +=
@@ -115,7 +109,6 @@ public class MainWindow
 
         inputs[ShoeConfig.ShoeConfigParameter.FootLAngle].Value = editModeConfig.FootLAngle;
         inputs[ShoeConfig.ShoeConfigParameter.FootLMax].Value = editModeConfig.FootLMax;
-        inputs[ShoeConfig.ShoeConfigParameter.ToeLAngle].Value = editModeConfig.ToeLAngle;
 
         inputs[ShoeConfig.ShoeConfigParameter.ToeL0Angle].Value = editModeConfig.ToeL0Angle;
         inputs[ShoeConfig.ShoeConfigParameter.ToeL01Angle].Value = editModeConfig.ToeL01Angle;
@@ -145,7 +138,6 @@ public class MainWindow
 
         inputs[ShoeConfig.ShoeConfigParameter.FootRAngle].Value = editModeConfig.FootRAngle;
         inputs[ShoeConfig.ShoeConfigParameter.FootRMax].Value = editModeConfig.FootRMax;
-        inputs[ShoeConfig.ShoeConfigParameter.ToeRAngle].Value = editModeConfig.ToeRAngle;
 
         inputs[ShoeConfig.ShoeConfigParameter.ToeR0Angle].Value = editModeConfig.ToeR0Angle;
         inputs[ShoeConfig.ShoeConfigParameter.ToeR01Angle].Value = editModeConfig.ToeR01Angle;

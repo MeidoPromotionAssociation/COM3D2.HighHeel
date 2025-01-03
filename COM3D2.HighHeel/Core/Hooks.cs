@@ -180,8 +180,8 @@ public static class Hooks
         RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
         RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
 
-        RotateToesIndividual(transforms.ToesL, config.ToeLAngle, GetIndividualAngles(config, "L"), true);
-        RotateToesIndividual(transforms.ToesR, config.ToeRAngle, GetIndividualAngles(config, "R"), false);
+        RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
+        RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
 
         __instance.SkinMeshUpdate();
     }
@@ -267,7 +267,7 @@ public static class Hooks
         }
     }
 
-    private static void RotateToesIndividual(IList<Transform> toes, float correctionAngle,  List<IndividualAngles> individualAngles, bool left)
+    private static void RotateToesIndividual(IList<Transform> toes,  List<IndividualAngles> individualAngles, bool left)
     {
         var inverse = left ? 1f : -1f;
         for (var i = 0; i < 6; i++)
