@@ -67,11 +67,18 @@ public static class Hooks
         var name = __instance.obj.name;
         int configNameIndex;
 
+
         if ((configNameIndex = name.IndexOf("hhmod_", StringComparison.Ordinal)) < 0)
             return;
 
-        //var configName = name.Substring(configNameIndex);
-        var configName = name.Substring(configNameIndex, 9);
+        // extra the configuration name
+        // Name should be hhmod_<configName>.json or hhmod_<configName>_<anystring>.json or <anystring>_hhmod_<configName>_<anystring>.json ……
+        var endIndex = name.IndexOfAny(new[] { '_', '.' }, configNameIndex + 6); // 6 is length of hhmod_
+        if (endIndex < 0)
+            endIndex = 9; // 9 is 3 characters after "hhmod_"
+
+        var configName = name.Substring(configNameIndex, endIndex - configNameIndex);
+
 
         if (!Plugin.Instance.ShoeDatabase.ContainsKey(configName))
         {
@@ -257,8 +264,7 @@ public static class Hooks
         }
     }
 
-    private static void RotateToesIndividual(IList<Transform> toes, float correctionAngle,
-        List<IndividualAngles> individualAngles, bool left)
+    private static void RotateToesIndividual(IList<Transform> toes, float correctionAngle,  List<IndividualAngles> individualAngles, bool left)
     {
         var inverse = left ? 1f : -1f;
         for (var i = 0; i < 6; i++)

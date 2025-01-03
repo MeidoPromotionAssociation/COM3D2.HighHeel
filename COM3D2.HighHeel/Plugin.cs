@@ -121,11 +121,7 @@ public class Plugin : BaseUnityPlugin
         if (!Directory.Exists(ShoeConfigPath))
             Directory.CreateDirectory(ShoeConfigPath);
 
-        var shoeConfigs = Directory.GetFiles(
-            ShoeConfigPath,
-            "hhmod_*.json",
-            SearchOption.AllDirectories
-        );
+        var shoeConfigs = Directory.GetFiles(ShoeConfigPath, "*hhmod_*.json", SearchOption.AllDirectories);
 
         foreach (var configPath in shoeConfigs)
             try
@@ -146,9 +142,7 @@ public class Plugin : BaseUnityPlugin
             catch (Exception e)
             {
                 var errorVerb = e is IOException ? "load" : "parse";
-                Instance!.Logger.LogWarning(
-                    $"Could not {errorVerb} '{configPath}' because: {e.Message}"
-                );
+                Instance!.Logger.LogWarning($"Could not {errorVerb} '{configPath}' because: {e.Message}");
             }
 
         return database;

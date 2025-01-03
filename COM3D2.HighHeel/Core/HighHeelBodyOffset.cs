@@ -26,11 +26,18 @@ public static class HighHeelBodyOffset
         return 0f;
     }
 
+    /// <summary>
+    /// Get the SnityouOutScale value of the specified body, which is calculated based on the thigh distance and body offset
+    /// Snityou is an official typo in BoneMorph_
+    /// </summary>
+    /// <param name="body">Body object to get the SnityouOutScale value</param>
+    /// <returns>The calculated SnityouOutScale value. If an exception occurs during the calculation, the default value 1 is returned</returns>
     public static float GetSnityouOutScale(TBody body)
     {
         if (body == null) return 1f;
         if (BodyOffsets.TryGetValue(body, out var offset) && offset != 0)
         {
+            // Calculate thigh distance
             // SnityouOutScale = Thigh_SCL_.Scale ** 0.9
             var thighDistance = Vector3.Distance(body.Thigh_L.position, body.Calf_L.position);
 
@@ -41,6 +48,7 @@ public static class HighHeelBodyOffset
                 return 1f;
             }
 
+            // Calculate the SnityouOutScale value according to the formula
             var scale =
                 (float)Math.Pow(
                     Math.Pow(body.bonemorph.SnityouOutScale, 1 / 0.9) * (1 + offset / 2 / thighDistance), 0.9);
@@ -55,6 +63,7 @@ public static class HighHeelBodyOffset
             return scale;
         }
 
+        // If the offset of the specified body is not found, or the offset is 0, the original SnityouOutScale value of the body object is returned directly
         return body.bonemorph.SnityouOutScale;
     }
 
