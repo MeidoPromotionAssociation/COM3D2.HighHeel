@@ -1,8 +1,8 @@
 # COM3D2.HighHeel-InoryS
 
-Here is the version that allows you to set the BodyOffset for each scene, as I at least observed that different BodyOffsets were needed for the karaoke and "night scenes" to keep the maid from sinking into the ground.
+Here is the version that allows you to set the BodyOffset for each scene, as I at least observed that different BodyOffsets were needed for the karaoke and "yotogis" to keep the maid from sinking into the ground.
 
-You can also set the BodyOffset for the man so that he is aligned with the maid in the "night scene".
+You can also set the BodyOffset for the man so that he is aligned with the maid in the "yotogi".
 
 The configuration file will be generated in `COM3D2\BepInEx\config\COM3D2.HighHeel\Bodyoffset.json`
 
@@ -28,14 +28,13 @@ This is a sample of the config (You can't really leave comments in config files)
 
 | Scene index | Description |
 | ----------- | ----------- |
-| 10      | "night scene" in CBL version       |
-| 14     | "night scene"       |
-| 63     | exchange "night scene"   |
-| 65     | karaoke   |
+| 10      | "yotogi" in CBL version       |
+| 14     | "yotogi"            |
+| 63     | exchange "yotogi"   |
 
 <details>
 <summary>List of scenes in COM3D2 2.40.0</summary>
-```
+
 | SceneIndex|   SceneName                 |
 |-----|-----------------------------------|
 | 0   | _cm3d21                           |
@@ -193,7 +192,7 @@ This is a sample of the config (You can't really leave comments in config files)
 | 152 | SceneAssSumoSecond                |
 | 153 | SceneTeikokusouRevivalMode        |
 | 154 | SceneTeikokusouPlayMode           |
-```
+</details>
 
 
 If you want to know the Sence index of the current scene, you can consider installing [COM3D2.DebugLilly.BepInExPlugin.dll](https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin/releases)
@@ -258,7 +257,7 @@ After changing it in the configuration file, you can click reload in the plugin 
 
 <details>
 <summary>COM3D2 2.40.0 中的场景列表</summary>
-```
+
 | 场景索引|   场景名称                     |
 |-----|-----------------------------------|
 | 0   | _cm3d21                           |
@@ -416,8 +415,8 @@ After changing it in the configuration file, you can click reload in the plugin 
 | 152 | SceneAssSumoSecond                |
 | 153 | SceneTeikokusouRevivalMode        |
 | 154 | SceneTeikokusouPlayMode           |
-```
 
+</details>
 
 
 
