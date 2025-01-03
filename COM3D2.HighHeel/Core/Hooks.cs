@@ -12,7 +12,7 @@ namespace COM3D2.Highheel.Plugin.Core
         private static readonly float[] ToeX = { 0f, 0f, 0f, 0f, 0f, 0f };
         private static readonly Dictionary<TBody, MaidTransforms> MaidTransforms = new();
         private static readonly Dictionary<TBody, string> ShoeConfigs = new();
-        private static int currentSceneIndex;
+        private static string currentSceneName;
 
         // Subscribe to scene loaded event to update the cached scene index
         static Hooks()
@@ -22,7 +22,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
         private static void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
-            currentSceneIndex = scene.buildIndex;
+            currentSceneName = scene.name;
         }
 
         //<summary>
@@ -105,7 +105,10 @@ namespace COM3D2.Highheel.Plugin.Core
 
         private static void ProcessMan(TBody __instance)
         {
-            var offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneIndex);
+            // man offset is only global
+            // beacuse man don't wear high heels and I don't know if he's doing something to the maid, if I know I can use that maid's config
+            // TODO: maybe find a way to let man can use shoe config for offset
+            var offset = Plugin.Instance.BodyOffsets.GetManBodyOffsetForScene(currentSceneName);
 
             if (float.IsNaN(offset) || float.IsInfinity(offset))
             {
@@ -163,12 +166,11 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (IsInvalidTransform(transforms.FootL) || IsInvalidTransform(transforms.FootR))
             {
-                Plugin.Instance.Logger.LogWarning(
-                    "One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
+                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
                 return;
             }
 
-            var offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneIndex);
+            var offset = Plugin.Instance.BodyOffsets.GetBodyOffsetForScene(currentSceneName, PluginConfig.EnableGlobalPreSceneOffsetSettings.Value, config);
 
             if (float.IsNaN(offset) || float.IsInfinity(offset))
             {

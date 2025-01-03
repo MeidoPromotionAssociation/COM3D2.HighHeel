@@ -9,97 +9,106 @@ namespace COM3D2.Highheel.Plugin.Core
 
         public BodyOffsetConfig()
         {
-            SceneSpecificOffsets = new Dictionary<int, float>();
-            SceneSpecificManOffsets = new Dictionary<int, float>();
-            DefaultBodyOffset = 0.04f;
+            SceneSpecificOffsets = new Dictionary<string, float>();
+            SceneSpecificManOffsets = new Dictionary<string, float>();
+            DefaultBodyOffset = 0.04f;  // Experience-based values
             DefaultManBodyOffset = 0f;
         }
 
         public float DefaultBodyOffset { get; set; }
         public float DefaultManBodyOffset { get; set; }
-        public Dictionary<int, float> SceneSpecificOffsets { get; private set; }
-        public Dictionary<int, float> SceneSpecificManOffsets { get; private set; }
+        public Dictionary<string, float> SceneSpecificOffsets { get; private set; }
+        public Dictionary<string, float> SceneSpecificManOffsets { get; private set; }
 
-        public float GetBodyOffsetForScene(int sceneIndex)
+        public float GetBodyOffsetForScene(string currentSceneName, bool isGlobal, ShoeConfig config)
         {
             try
             {
-                if (sceneIndex < 0)
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-
-                lock (_lock)
+                if (isGlobal)
                 {
-                    if (SceneSpecificOffsets != null && SceneSpecificOffsets.TryGetValue(sceneIndex, out var offset))
-                        return offset;
+                    lock (_lock)
+                    {
+                        if (SceneSpecificOffsets != null && SceneSpecificOffsets.TryGetValue(currentSceneName, out var offset))
+                        {
+                            return offset;
+                        }
+                        return DefaultBodyOffset;
+                    }
                 }
+                else
+                {
+                    lock (_lock)
+                    {
+                        if (config == null)
+                        {
+                            Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
+                            return DefaultBodyOffset;
+                        }
 
-                return DefaultBodyOffset;
+                        if (config.PerSceneBodyOffset != null && config.PerSceneBodyOffset.TryGetValue(currentSceneName, out var offset))
+                        {
+                            return offset;
+                        }
+
+                        return config.BodyOffset;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error in GetBodyOffsetForScene: {ex.Message}");
+                Plugin.Instance.Logger.LogError($"Error in GetBodyOffsetForScene: {ex.Message}");
                 return DefaultBodyOffset; // Return a safe default value
             }
         }
 
-        public float GetManBodyOffsetForScene(int sceneIndex)
+        public float GetManBodyOffsetForScene(string currentSceneName)
         {
             try
             {
-                if (sceneIndex < 0)
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-
                 lock (_lock)
                 {
                     if (SceneSpecificManOffsets != null &&
-                        SceneSpecificManOffsets.TryGetValue(sceneIndex, out var offset))
+                        SceneSpecificManOffsets.TryGetValue(currentSceneName, out var offset))
                         return offset;
                 }
-
                 return DefaultManBodyOffset;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error in GetManBodyOffsetForScene: {ex.Message}");
+               Plugin.Instance.Logger.LogError($"Error in GetManBodyOffsetForScene: {ex.Message}");
                 return DefaultManBodyOffset; // Return a safe default value
             }
         }
 
-        public void SetBodyOffsetForScene(int sceneIndex, float offset)
+        public void SetBodyOffsetForScene(string currentSceneName, float offset)
         {
             try
             {
-                if (sceneIndex < 0)
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-
                 lock (_lock)
                 {
-                    SceneSpecificOffsets ??= new Dictionary<int, float>();
-                    SceneSpecificOffsets[sceneIndex] = offset;
+                    SceneSpecificOffsets ??= new Dictionary<string, float>();
+                    SceneSpecificOffsets[currentSceneName] = offset;
                 }
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error in SetBodyOffsetForScene: {ex.Message}");
+               Plugin.Instance.Logger.LogError($"Error in SetBodyOffsetForScene: {ex.Message}");
             }
         }
 
-        public void SetManBodyOffsetForScene(int sceneIndex, float offset)
+        public void SetManBodyOffsetForScene(string currentSceneName, float offset)
         {
             try
             {
-                if (sceneIndex < 0)
-                    throw new ArgumentOutOfRangeException(nameof(sceneIndex), "Scene index cannot be negative.");
-
                 lock (_lock)
                 {
-                    SceneSpecificManOffsets ??= new Dictionary<int, float>();
-                    SceneSpecificManOffsets[sceneIndex] = offset;
+                    SceneSpecificManOffsets ??= new Dictionary<string, float>();
+                    SceneSpecificManOffsets[currentSceneName] = offset;
                 }
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error in SetManBodyOffsetForScene: {ex.Message}");
+               Plugin.Instance.Logger.LogError($"Error in SetManBodyOffsetForScene: {ex.Message}");
             }
         }
     }

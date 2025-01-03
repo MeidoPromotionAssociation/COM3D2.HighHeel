@@ -1,10 +1,14 @@
-﻿namespace COM3D2.Highheel.Plugin.Core
+﻿using System.Collections.Generic;
+
+namespace COM3D2.Highheel.Plugin.Core
 {
     public class ShoeConfig
     {
         public enum ShoeConfigParameter
         {
             BodyOffset,
+            PerSceneBodyOffset,
+            PerSceneManBodyOffset,
             FootLAngle,
             FootLMax,
             ToeL0Angle,
@@ -60,6 +64,9 @@
         }
 
         public float BodyOffset { get; set; }
+
+        public Dictionary<object , float> PerSceneBodyOffset { get; set; } = new();
+        public Dictionary<object , float> PerSceneManBodyOffset { get; set; } = new();
         public float FootLAngle { get; set; }
         public float FootLMax { get; set; } = 55f;
 
@@ -133,6 +140,8 @@
 
         public void Deconstruct(
             out float bodyOffset,
+            out Dictionary<object, float> perSenceBodyOffset,
+            out Dictionary<object, float> perSenceManBodyOffset,
             out float footLAngle, out float footLMax,
             out float toeL0Angle, out float toeL01Angle, out float toeL1Angle, out float toeL11Angle,
             out float toeL2Angle, out float toeL21Angle,
@@ -154,6 +163,8 @@
         )
         {
             bodyOffset = BodyOffset;
+            perSenceBodyOffset = PerSceneBodyOffset;
+            perSenceManBodyOffset = PerSceneManBodyOffset;
             footLAngle = FootLAngle;
             footLMax = FootLMax;
 

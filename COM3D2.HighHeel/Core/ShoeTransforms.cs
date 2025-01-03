@@ -20,8 +20,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (Hooks.IsInvalidTransform(ShoeL) || Hooks.IsInvalidTransform(ShoeR))
             {
-                Plugin.Instance.Logger.LogWarning(
-                    "One of the shoe transforms contains NaN or Infinity in ShoeTransforms constructor.");
+                Plugin.Instance.Logger.LogWarning("One of the shoe transforms contains NaN or Infinity in ShoeTransforms constructor.");
 
                 ShoeL.localPosition = Vector3.zero;
                 ShoeL.localRotation = Quaternion.identity;

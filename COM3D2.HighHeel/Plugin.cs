@@ -11,7 +11,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
-[assembly: AssemblyVersion("1.0.8.2")]
+[assembly: AssemblyVersion("1.0.9.0")]
 namespace COM3D2.Highheel.Plugin
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
@@ -19,18 +19,14 @@ namespace COM3D2.Highheel.Plugin
     {
         public const string PluginGuid = "com.ongame.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.8.2";
+        public const string PluginVersion = "1.0.9.0";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
 
         private static readonly string ConfigPath = Path.Combine(Paths.ConfigPath, PluginName);
         private static readonly string ShoeConfigPath = Path.Combine(ConfigPath, "Configurations");
-
-        private static readonly string BodyOffsetConfigPath = Path.Combine(
-            ConfigPath,
-            "Bodyoffset.json"
-        );
+        private static readonly string BodyOffsetConfigPath = Path.Combine(ConfigPath, "GolbalBodyOffset.json");
 
         public readonly PluginConfig Configuration;
         public new readonly ManualLogSource Logger;
@@ -59,6 +55,7 @@ namespace COM3D2.Highheel.Plugin
             LoadBodyOffsetConfig();
 
             mainWindow = new MainWindow();
+
             mainWindow.ReloadEvent += (_, _) =>
             {
                 ShoeDatabase = LoadShoeDatabase();
@@ -70,8 +67,6 @@ namespace COM3D2.Highheel.Plugin
             mainWindow.ImportEvent += (_, args) =>
             {
                 ImportConfigsAndUpdate(args.Text);
-                //ImportConfiguration(ref EditModeConfig, args.Text);
-                //mainWindow.UpdateEditModeValues();
             };
 
             SceneManager.sceneLoaded += (_, _) => IsDance = FindObjectOfType<DanceMain>() != null;
@@ -79,8 +74,6 @@ namespace COM3D2.Highheel.Plugin
             ShoeDatabase = LoadShoeDatabase();
 
             ImportConfigsAndUpdate("");
-            //ImportConfiguration(ref EditModeConfig, "");
-            //mainWindow.UpdateEditModeValues();
         }
 
         public static bool IsDance { get; private set; }
