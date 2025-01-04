@@ -367,6 +367,23 @@ An example configuration for `hhmod_27d.json`:
 	"ToeR21AngleY": 0.0, // Y rotation axis offset of the big toe of the left foot
 	"ToeR21AngleZ": -14.0 // Z rotation axis offset of the big toe of the left foot
 }
+
+```
+If you have other entries in your configuration file, it is most likely migrated from an older version, and the latest version has removed some unused values ​​from the previous version to avoid confusion.
+
+If your configuration file does not have an XYZ entry like this, it is the original version of the configuration file, which is not compatible, so you may see that the toe position is incorrect. You need to modify it to the new version configuration file.
+```
+"ToeL0AngleX": 6.0,
+"ToeL0AngleY": -1.0,
+"ToeL0AngleZ": -11.0,
+```
+You need to modify the value without the left mark in the previous version of the configuration file to the Z axis.
+```
+"ToeL0Angle": 7.0,
+```
+To
+```
+"ToeL0AngleZ": 7.0,
 ```
 
 
@@ -390,7 +407,11 @@ When creating shoes, you only need to match the shoes to the character's foot so
 If you are stuck in the ground, use offset. An integer offset will move you toward the positive Z axis (increasing your height above the ground).
 
 
+### About GUI
 
+Some options are not displayed on the GUI, please refer to the configuration file.
+
+After modifying the configuration file, click reload in the GUI to take effect.
 
 
 
@@ -797,6 +818,24 @@ offset 用于调整离地高度，值约大，角色离地面越远
 }
 ```
 
+如果您的配置文件中有其他条目，那么它很可能是从低版本迁移而来的，最新版本已经删除了之前版本的一些未使用的值，以避免混乱。
+
+如果您的配置文件没有类似这样的 XYZ 条目，那么它是最初版本的配置文件，这并不兼容，因此您可能会看到脚趾位置不正确。您需要将其修改为新版本配置文件。
+```
+  "ToeL0AngleX": 6.0,
+  "ToeL0AngleY": -1.0,
+  "ToeL0AngleZ": -11.0,
+```
+您需要将之前版本的配置文件中的不带左边标记的值修改为 Z 轴。
+```
+  "ToeL0Angle": 7.0,
+```
+到
+```
+  "ToeL0AngleZ": 7.0,
+```
+
+
 
 ## 工作原理和如何做高跟鞋
 
@@ -827,7 +866,11 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 如果出现陷入地下的情况，请使用 offset，整数的 offset 将使向正 Z 轴移动（增加离地高度）。
 
+### 关于 GUI
 
+部分选项未显示在 GUI 上，请以配置文件为准。
+
+修改配置文件后点击 GUI 的 reload，就可以生效。
 
 <br>
 <br>
