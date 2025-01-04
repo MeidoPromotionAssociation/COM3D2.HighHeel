@@ -25,23 +25,10 @@ namespace COM3D2.Highheel.Plugin.Core
         }
 
         //<summary>
-        // This method is called when the item is put on.
+        // This method will be called when any item is equipped.
         //</summary>
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(TBodySkin),
-            nameof(TBodySkin.Load),
-            typeof(MPN),
-            typeof(Transform),
-            typeof(Transform),
-            typeof(Dictionary<string, Transform>),
-            typeof(string),
-            typeof(string),
-            typeof(string),
-            typeof(string),
-            typeof(int),
-            typeof(bool),
-            typeof(int)
-        )]
+        [HarmonyPatch(typeof(TBodySkin), nameof(TBodySkin.Load), typeof(MPN), typeof(Transform), typeof(Transform), typeof(Dictionary<string, Transform>), typeof(string), typeof(string), typeof(string), typeof(string), typeof(int), typeof(bool), typeof(int))]
         public static void OnTBodySkinLoad(TBodySkin __instance)
         {
             // If the loaded skin slot not a shoe, return directly
@@ -56,8 +43,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (ShoeConfigs.ContainsKey(__instance.body))
             {
-                Plugin.Instance.Logger.LogDebug(
-                    $"{nameof(OnTBodySkinLoad)}: ShoeConfigs already contains {__instance.obj.name}. How?");
+                Plugin.Instance.Logger.LogDebug($"{nameof(OnTBodySkinLoad)}: ShoeConfigs already contains {__instance.obj.name}. How?");
 
                 ShoeConfigs.Remove(__instance.body);
             }
@@ -184,8 +170,15 @@ namespace COM3D2.Highheel.Plugin.Core
                 HighHeelBodyOffset.SetBodyOffset(__instance, offset);
             }
 
-            RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
-            RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
+            if (config.RotateShoes)
+            {
+                RotateShoe(__instance, config);
+            }
+            else
+            {
+                RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
+                RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
+            }
 
             RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
             RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
@@ -237,6 +230,36 @@ namespace COM3D2.Highheel.Plugin.Core
             return new List<IndividualAngles>(); // return an empty list if the side is neither L nor R
         }
 
+        private static void RotateShoe(TBody tBody, ShoeConfig config)
+        {
+            var shoeSlot = tBody.GetSlot("shoes");
+            if (shoeSlot == null || shoeSlot.obj == null)
+            {
+#if DEBUG
+                Plugin.Instance.Logger.LogWarning("shoeSlot or shoeSlot.obj is null in RotateShoe.");
+#endif
+                return;
+            }
+            var shoeTransforms = new ShoeTransforms(shoeSlot);
+
+            RotateShoeInternal(shoeTransforms.ShoeL, config.FootLAngle, config.FootLMax);
+            RotateShoeInternal(shoeTransforms.ShoeR, config.FootRAngle, config.FootRMax);
+        }
+
+        private static void RotateShoeInternal(Transform shoe, float angle, float max)
+        {
+            // 270 degrees represents a shoe rotation where the toes point upwards
+            const float minimumAngle = 270f;
+            var rotation = shoe.localRotation.eulerAngles;
+            var z = rotation.z;
+
+            if (!Utility.BetweenAngles(z, minimumAngle, max))
+                return;
+
+            rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
+
+            shoe.localRotation = Quaternion.Euler(rotation);
+        }
 
         private static void RotateFoot(Transform foot, float angle, float max)
         {
@@ -251,6 +274,21 @@ namespace COM3D2.Highheel.Plugin.Core
             rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
 
             foot.localRotation = Quaternion.Euler(rotation);
+        }
+
+        private static void RotateToesIndividual(IList<Transform> toes, List<IndividualAngles> individualAngles,
+            bool left)
+        {
+            var inverse = left ? 1f : -1f;
+            for (var i = 0; i < 6; i++)
+            {
+                var thisToeAngles = individualAngles[i];
+                var rotation = toes[i].localRotation.eulerAngles;
+                rotation.x = thisToeAngles.x;
+                rotation.y = thisToeAngles.y;
+                rotation.z = thisToeAngles.z;
+                toes[i].localRotation = Quaternion.Euler(rotation);
+            }
         }
 
         // Use RotateToesIndividual instead
@@ -273,22 +311,6 @@ namespace COM3D2.Highheel.Plugin.Core
                 toes[i].localRotation = Quaternion.Euler(ToeX[i] * inverse, 0f, angle + offset);
             }
         }
-
-        private static void RotateToesIndividual(IList<Transform> toes, List<IndividualAngles> individualAngles,
-            bool left)
-        {
-            var inverse = left ? 1f : -1f;
-            for (var i = 0; i < 6; i++)
-            {
-                var thisToeAngles = individualAngles[i];
-                var rotation = toes[i].localRotation.eulerAngles;
-                rotation.x = thisToeAngles.x;
-                rotation.y = thisToeAngles.y;
-                rotation.z = thisToeAngles.z;
-                toes[i].localRotation = Quaternion.Euler(rotation);
-            }
-        }
-
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R), typeof(string), typeof(Maid))]

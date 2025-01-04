@@ -9,16 +9,16 @@ namespace COM3D2.Highheel.Plugin.Core
 
         public BodyOffsetConfig()
         {
-            SceneSpecificOffsets = new Dictionary<string, float>();
-            SceneSpecificManOffsets = new Dictionary<string, float>();
+            PerSceneBodyOffsets = new Dictionary<string, float>();
+            PerSceneManBodyOffsets = new Dictionary<string, float>();
             DefaultBodyOffset = 0.04f;  // Experience-based values
             DefaultManBodyOffset = 0f;
         }
 
         public float DefaultBodyOffset { get; set; }
         public float DefaultManBodyOffset { get; set; }
-        public Dictionary<string, float> SceneSpecificOffsets { get; private set; }
-        public Dictionary<string, float> SceneSpecificManOffsets { get; private set; }
+        public Dictionary<string, float> PerSceneBodyOffsets { get; private set; }
+        public Dictionary<string, float> PerSceneManBodyOffsets { get; private set; }
 
         public float GetBodyOffsetForScene(string currentSceneName, bool isGlobal, ShoeConfig config)
         {
@@ -34,7 +34,7 @@ namespace COM3D2.Highheel.Plugin.Core
                 {
                     lock (_lock)
                     {
-                        if (SceneSpecificOffsets != null && SceneSpecificOffsets.TryGetValue(currentSceneName, out var offset))
+                        if (PerSceneBodyOffsets != null && PerSceneBodyOffsets.TryGetValue(currentSceneName, out var offset))
                         {
                             return offset;
                         }
@@ -84,8 +84,8 @@ namespace COM3D2.Highheel.Plugin.Core
                 {
                     lock (_lock)
                     {
-                        if (SceneSpecificManOffsets != null &&
-                            SceneSpecificManOffsets.TryGetValue(currentSceneName, out var offset))
+                        if (PerSceneManBodyOffsets != null &&
+                            PerSceneManBodyOffsets.TryGetValue(currentSceneName, out var offset))
                             return offset;
                     }
 
@@ -125,8 +125,8 @@ namespace COM3D2.Highheel.Plugin.Core
             {
                 lock (_lock)
                 {
-                    SceneSpecificOffsets ??= new Dictionary<string, float>();
-                    SceneSpecificOffsets[currentSceneName] = offset;
+                    PerSceneBodyOffsets ??= new Dictionary<string, float>();
+                    PerSceneBodyOffsets[currentSceneName] = offset;
                 }
             }
             catch (Exception ex)
@@ -141,8 +141,8 @@ namespace COM3D2.Highheel.Plugin.Core
             {
                 lock (_lock)
                 {
-                    SceneSpecificManOffsets ??= new Dictionary<string, float>();
-                    SceneSpecificManOffsets[currentSceneName] = offset;
+                    PerSceneManBodyOffsets ??= new Dictionary<string, float>();
+                    PerSceneManBodyOffsets[currentSceneName] = offset;
                 }
             }
             catch (Exception ex)

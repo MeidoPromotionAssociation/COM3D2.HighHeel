@@ -6,10 +6,11 @@ namespace COM3D2.Highheel.Plugin.Core
     {
         public enum ShoeConfigParameter
         {
+            RotateShoes,
             BodyOffset,
             ManBodyOffset,
             PerSceneBodyOffset,
-            perSceneManBodyOffset,
+            PerSceneManBodyOffset,
             FootLAngle,
             FootLMax,
             ToeL0AngleX,
@@ -52,6 +53,7 @@ namespace COM3D2.Highheel.Plugin.Core
             ToeR21AngleZ
         }
 
+        public bool RotateShoes { get; set; } = false;
         public float BodyOffset { get; set; } = 0.04f; // Experience-based values
         public float ManBodyOffset { get; set; } = 0f;
         public Dictionary<string , float> PerSceneBodyOffset { get; set; } = new();
@@ -110,6 +112,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
 
         public void Deconstruct(
+            out bool rotateShoes,
             out float bodyOffset,
             out float manBodyOffset,
             out Dictionary<string, float> perSceneBodyOffset,
@@ -130,10 +133,12 @@ namespace COM3D2.Highheel.Plugin.Core
             out float toeR2AngleZ, out float toeR21AngleZ
         )
         {
+            rotateShoes = RotateShoes;
             bodyOffset = BodyOffset;
             manBodyOffset = ManBodyOffset;
             perSceneBodyOffset = PerSceneBodyOffset;
             perSceneManBodyOffset = PerSceneManBodyOffset;
+            
             footLAngle = FootLAngle;
             footLMax = FootLMax;
 
