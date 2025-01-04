@@ -407,6 +407,14 @@ All of these will be identified as `hhmod_foobar`.
 
 When a shoe's object name contains `hhmod_foobar`, the plugin reads the configuration file hhmod_foobar.json and applies its settings.
 
+
+```
+Warning:
+The identification method of versions 1.0.8.0 and earlier is different. 1.0.8.0 and all ongame versions (plugin guid is ongame) will read the 9 characters after hhmod_.
+
+While habeebweeb 1.0.0 will read the complete string after hhmod_ including hhmod_.
+```
+
 The plugin allows you to configure the angle of foot rotation (Z-axis only) and separately control six axes for the toes, enabling adjustments like making them more compact or slightly rotated.
 
 When creating shoes, you only need to match the shoes to the character's foot soles.
@@ -870,6 +878,12 @@ offset 用于调整离地高度，值约大，角色离地面越远
 所有这些都将被识别为 `hhmod_foobar`。
 
 (插件也接受  aaaa_hhmod_foobar_bbbb.json 或 hhmod_foobar_bbbb.json 或 aaaa_hhmod_foobar.json，这三种都会被识别为 hhmod_foobar.json)
+
+```
+警告：
+1.0.8.0 及之前版本识别方法不同，1.0.8.0 及所有 ongame 版本（插件guid为ongame）将读取 hhmod_ 后面的 9 个字符。
+而  habeebweeb 1.0.0 版本将读取包含 hhmod_ 的 hhmod_ 之后的完整字符串。
+```
 
 该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的六个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
 
