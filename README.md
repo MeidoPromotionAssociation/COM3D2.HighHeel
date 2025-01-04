@@ -33,6 +33,9 @@ If you modify the configuration file, you can click "reload" in the plugin setti
 
 
 ## Detailed Explanation of Configuration Files
+
+The configuration file is located in `COM3D2\BepInEx\config\COM3D2.HighHeel\`
+
 ### Configuration.cfg
 This is an example configuration:
 
@@ -451,15 +454,15 @@ After modifying the configuration file, click reload in the GUI to take effect.
 #### 安装插件
 
 1. 下载插件
-2. COM3D2.HighHeel.Plugin 放到 `COM3D2\BepInEx\Plugin`
+2. COM3D2.HighHeel.Plugin 放到 `COM3D2\BepInEx\Plugin\` 或 `COM3D2\BepInEx\plugins\COM3D2.HighHeel`
 
 #### 配置文件
 
-配置文件放到 `COM3D2\BepInEx\config\COM3D2.HighHeel`
+配置文件放到 `COM3D2\BepInEx\config\COM3D2.HighHeel\` 
 
 GlobalBodyOffset.json 是一个全局 offset（调整离地高度） 的配置文件
 
-`COM3D2\BepInEx\config\COM3D2.HighHeel\Configurations` 里面是鞋子配置文件，所有配置文件应该以 `hhmod_` 开头。
+`COM3D2\BepInEx\config\COM3D2.HighHeel\Configurations\` 里面是鞋子配置文件，所有配置文件应该以 `hhmod_` 开头。
 
 如果作者给你了一个 `hhmod_xxxx.json` 那么你应该放到这里。
 
@@ -468,6 +471,8 @@ GlobalBodyOffset.json 是一个全局 offset（调整离地高度） 的配置�
 如果更改了配置文件，你可以在插件设置中单击 reload，这将重新加载配置文件。
 
 ## 配置文件详解
+
+配置文件位于 `COM3D2\BepInEx\config\COM3D2.HighHeel\`
 
 ### Configuration.cfg
 
