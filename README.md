@@ -10,7 +10,9 @@ I guess I am the one maintaining it now.
 If you are using someone else's shoes
 
 ### Install the Plugin
+
 Download the plugin.
+
 Place `COM3D2.HighHeel.Plugin` in the folder `COM3D2\BepInEx\Plugin\` or `COM3D2\BepInEx\plugins\COM3D2.HighHeel\`.
 
 ### Configuration Files
@@ -385,7 +387,7 @@ The plugin allows you to configure the angle of foot rotation (Z-axis only) and 
 
 When creating shoes, you only need to match the shoes to the character's foot soles.
 
-
+If you are stuck in the ground, use offset. An integer offset will move you toward the positive Z axis (increasing your height above the ground).
 
 
 
@@ -421,6 +423,7 @@ When creating shoes, you only need to match the shoes to the character's foot so
 如果您使用别人的鞋子
 
 #### 安装插件
+
 1. 下载插件
 2. COM3D2.HighHeel.Plugin 放到 `COM3D2\BepInEx\Plugin`
 
@@ -441,6 +444,7 @@ GlobalBodyOffset.json 是一个全局 offset（调整离地高度） 的配置�
 ## 配置文件详解
 
 ### Configuration.cfg
+
 这是配置的示例：
 ```
 ## 设置文件由插件 COM3D2.HighHeel v1.0.9.0 创建
@@ -796,15 +800,34 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 ## 工作原理和如何做高跟鞋
 
-插件会读取穿上的鞋子的物体名称（网格名称），您需要在名称中包含  hhmod_foobar 这将用于识别配置文件名
-（插件也接受 aaaa_hhmod_foobar_bbbb 或 hhmod_foobar_bbbb 或 aaaa_hhmod_foobar，这三种都会被识别为 hhmod_foobar）
+插件会读取所穿鞋子的对象名称（网格名称）。您需要在名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
+插件还可以识别以下名称：
 
-当穿上的鞋子中带有 hhmod_foobar 时，会读取 hhmod_foobar.json，并使用其中的配置。
+- aaaa_hhmod_foobar_bbbb
+- hhmod_foobar_bbbb
+- aaaa_hhmod_foobar
+
+所有这些都将被识别为 `hhmod_foobar`。
+
+
+当鞋子的对象名称包含 `hhmod_foobar` 时，插件会读取配置文件 hhmod_foobar.json 并应用其设置。
+插件还可以识别以下名称：
+
+- aaaa_hhmod_foobar_bbbb.json
+- hhmod_foobar_bbbb.json
+- aaaa_hhmod_foobar.json
+
+所有这些都将被识别为 `hhmod_foobar`。
+
 (插件也接受  aaaa_hhmod_foobar_bbbb.json 或 hhmod_foobar_bbbb.json 或 aaaa_hhmod_foobar.json，这三种都会被识别为 hhmod_foobar.json)
 
-在配置文件中您能够设置旋转脚的角度（仅 Z 轴），和单独控制脚趾的六个轴，比如让它们并拢一些，或旋转一些
+该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的六个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
 
-在做鞋时只需对其脚掌即可。
+创建鞋子时，您只需将鞋子与角色的脚底相匹配即可。
+
+如果出现陷入地下的情况，请使用 offset，整数的 offset 将使向正 Z 轴移动（增加离地高度）。
+
+
 
 <br>
 <br>
