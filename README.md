@@ -415,12 +415,15 @@ The identification method of versions 1.0.8.0 and earlier is different. 1.0.8.0 
 While habeebweeb 1.0.0 will read the complete string after hhmod_ including hhmod_.
 ```
 
-The plugin allows you to configure the angle of foot rotation (Z-axis only) and separately control six axes for the toes, enabling adjustments like making them more compact or slightly rotated.
+The plugin allows you to configure the angle of foot rotation (Z-axis only) and separately control three axes for the toes, enabling adjustments like making them more compact or slightly rotated.
 
-When creating shoes, you only need to match the shoes to the character's foot soles.
+When creating shoes, you just need to match the shoe to the bottom of the character's foot.
 
-If you are stuck in the ground, use offset. An integer offset will move you toward the positive Z axis (increasing your height above the ground).
+![shoes_making_example](./img/shoes_making_example.png)
 
+You can import some mods to see how they do it.
+
+If you have a situation where you are sinking into the ground, use offset, a positive offset will move it towards the positive Z axis (increase height off the ground).
 
 ### About GUI
 
@@ -429,7 +432,17 @@ Some options are not displayed on the GUI, please refer to the configuration fil
 After modifying the configuration file, click reload in the GUI to take effect.
 
 
+## Known MODs
 
+@COM3D240959451
+- https://ux.getuploader.com/kotone_com_1/
+
+@WyvernAeon
+- https://ux.getuploader.com/WyvernAEON/download/5
+- https://ux.getuploader.com/WyvernAEON/download/3
+
+@InorySSS
+- https://mega.nz/folder/U6Jy0a6a#Pv5G9G_J5zoYc46TVmz6iA
 
 
 <br>
@@ -885,11 +898,15 @@ offset 用于调整离地高度，值约大，角色离地面越远
 而  habeebweeb 1.0.0 版本将读取包含 hhmod_ 的 hhmod_ 之后的完整字符串。
 ```
 
-该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的六个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
+该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的三个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
 
 创建鞋子时，您只需将鞋子与角色的脚底相匹配即可。
 
-如果出现陷入地下的情况，请使用 offset，整数的 offset 将使向正 Z 轴移动（增加离地高度）。
+![shoes_making_example](./img/shoes_making_example.png)
+
+您看可以导入一些 MOD 看看它们是怎么做的。
+
+如果出现陷入地下的情况，请使用 offset，正数的 offset 将使向正 Z 轴移动（增加离地高度）。
 
 ### 关于 GUI
 
@@ -897,6 +914,9 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 修改配置文件后点击 GUI 的 reload，就可以生效。
 
+
+
+
 <br>
 <br>
 <br>
@@ -904,10 +924,17 @@ offset 用于调整离地高度，值约大，角色离地面越远
 <br>
 <br>
 
+## 已知 MOD
 
+@COM3D240959451
+- https://ux.getuploader.com/kotone_com_1/
 
+@WyvernAeon
+- https://ux.getuploader.com/WyvernAEON/download/5
+- https://ux.getuploader.com/WyvernAEON/download/3
 
-
+@InorySSS
+- https://mega.nz/folder/U6Jy0a6a#Pv5G9G_J5zoYc46TVmz6iA
 
 
 
