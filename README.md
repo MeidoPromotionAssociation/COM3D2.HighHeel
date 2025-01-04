@@ -333,45 +333,46 @@ An example configuration for `hhmod_27d.json`:
 		"SceneYotogiOld": 0.05
 	},
 	"FootLAngle": 27.0, //Z of the left foot Axis rotation angle, because this is a 27d profile, it is set to 27
-	"FootLMax": 88.0, // Maximum Z axis rotation angle of the left foot
-	"ToeL0AngleX": 7.0, // X axis angle of the little toe of the left foot
-	"ToeL0AngleY": -17.0, // Y axis angle of the little toe of the left foot
-	"ToeL0AngleZ": -17.0, // Z axis angle of the little toe of the left foot
-	"ToeL01AngleX": 5.0, // X axis angle of the little toe of the left foot
-	"ToeL01AngleY": 0.0, // Y axis angle of the little toe of the left foot
-	"ToeL01AngleZ": 0.0, // Z axis angle of the little toe of the left foot
-	"ToeL1AngleX": 0.0, // X axis angle of the middle three toes of the left foot (this is because KISS Only one bone is assigned to them)
-	"ToeL1AngleY": 0.0, //Y translation angle of the middle three toes of the left foot
-	"ToeL1AngleZ": -27.0, //Z translation angle of the middle three toes of the left foot
-	"ToeL11AngleX": 0.0, //X rotation angle of the middle three toes of the left foot (this is because KISS only assigns one bone to them)
-	"ToeL11AngleY": 0.0, //Y rotation angle of the middle three toes of the left foot
-	"ToeL11AngleZ": 0.0, //Z rotation angle of the middle three toes of the left foot
-	"ToeL2AngleX": -2.0, //X translation angle of the big toe of the left foot
-	"ToeL2AngleY": 0.0, //Y translation angle of the big toe of the left foot
-	"ToeL2AngleZ": -17.0, //Z rotation angle of the big toe of the left foot
-	"ToeL21AngleX": 0.0, //X rotation angle of the big toe of the left foot
-	"ToeL21AngleY": 0.0, //Y rotation angle of the big toe of the left foot
-	"ToeL21AngleZ": -14.0, //Z rotation angle of the big toe of the left foot
-	"FootRAngle": 27.0, //Z rotation angle of the right foot, because this is a 27d profile, it is set to 27
-	"FootRMax": 88.0, //Z maximum rotation angle of the right foot
-	"ToeR0AngleX": -7.0, //X rotation angle of the little toe of the left foot
-	"ToeR0AngleY": 17.0, //Y rotation angle of the little toe of the left foot
-	"ToeR0AngleZ": -17.0, //Z rotation angle of the little toe of the left foot
-	"ToeR01AngleX": 0.0, // X rotation axis offset of the little toe of the left foot
-	"ToeR01AngleY": 0.0, // Y rotation axis offset of the little toe of the left foot
-	"ToeR01AngleZ": 0.0, // Z rotation axis offset of the little toe of the left foot
-	"ToeR1AngleX": 0.0, // X translation axis angle of the middle three toes of the left foot (this is because KISS only assigns one bone to them)
-	"ToeR1AngleY": 0.0, // Y translation axis angle of the middle three toes of the left foot
-	"ToeR1AngleZ": -27.0, // Z translation axis angle of the middle three toes of the left foot
-	"ToeR11AngleX": 0.0, // X rotation axis offset of the middle three toes of the left foot (this is because KISS only assigns one bone to them)
-	"ToeR11AngleY": 0.0, //Y rotation axis offset of the middle three toes of the left foot
-	"ToeR11AngleZ": 0.0, //Z rotation axis offset of the middle three toes of the left foot
-	"ToeR2AngleX": 2.0, //X translation axis angle of the big toe of the left foot
-	"ToeR2AngleY": 0.0, //Y translation axis angle of the big toe of the left foot
-	"ToeR2AngleZ": -17.0, //Z translation axis angle of the big toe of the left foot
-	"ToeR21AngleX": 0.0, // X rotation axis offset of the big toe of the left foot
-	"ToeR21AngleY": 0.0, // Y rotation axis offset of the big toe of the left foot
-	"ToeR21AngleZ": -14.0 // Z rotation axis offset of the big toe of the left foot
+	"FootLMax": 88.0, // Maximum Z-axis rotation angle of the left foot
+	"ToeL0AngleX": 7.0, // X-axis angle of the little toe of the left foot
+	"ToeL0AngleY": -17.0, // Y-axis angle of the little toe of the left foot
+	"ToeL0AngleZ": -17.0, // Z-axis angle of the little toe of the left foot
+	"ToeL01AngleX": 5.0, // X-axis angle of the front end of the little toe of the left foot
+	"ToeL01AngleY": 0.0, // Y-axis angle of the front end of the little toe of the left foot
+	"ToeL01AngleZ": 0.0, // Z-axis angle of the front end of the little toe of the left foot
+	"ToeL1AngleX": 0.0, // X-axis angle of the middle three toes of the left foot (this is because KISS Only one bone is assigned to them)
+	"ToeL1AngleY": 0.0, //Y-axis angle of the middle three toes of the left foot
+	"ToeL1AngleZ": -27.0, //Z-axis angle of the middle three toes of the left foot
+	"ToeL11AngleX": 0.0, //X-axis angle of the front end of the middle three toes of the left foot (this is because KISS only assigns one bone to them)
+	"ToeL11AngleY": 0.0, //Y-axis angle of the front end of the middle three toes of the left foot
+	"ToeL11AngleZ": 0.0, //Z-axis angle of the front end of the middle three toes of the left foot
+	"ToeL2AngleX": -2.0, //X-axis angle of the big toe of the left foot
+	"ToeL2AngleY": 0.0, //Y-axis angle of the big toe of the left foot
+	"ToeL2AngleZ": -17.0, //Z-axis angle of the big toe of the left foot Axis angle
+	"ToeL21AngleX": 0.0, //The X-axis angle of the front of the big toe of the left foot
+	"ToeL21AngleY": 0.0, //The Y-axis angle of the front of the big toe of the left foot
+	"ToeL21AngleZ": -14.0, //The Z-axis angle of the front of the big toe of the left foot
+	"FootRAngle": 27.0, //The Z-axis rotation angle of the right foot, because this is a 27d profile, it is set to 27
+	"FootRMax": 88.0, //The maximum Z-axis rotation angle of the right foot
+	"ToeR0AngleX": -7.0, //The X-axis angle of the little toe of the left foot
+	"ToeR0AngleY": 17.0, //The Y-axis angle of the little toe of the left foot
+	"ToeR0AngleZ": -17.0, //The Z-axis angle of the little toe of the left foot
+	"ToeR01AngleX": 0.0, //The X-axis angle of the tip of the little toe of the left foot
+	"ToeR01AngleY": 0.0, //The Y-axis angle of the tip of the little toe of the left foot
+	"ToeR01AngleZ": 0.0, //The Z-axis angle of the tip of the little toe of the left foot
+	"ToeR1AngleX": 0.0, //The X-axis angle of the three middle toes of the left foot (this is because KISS only assigns one bone to them)
+	"ToeR1AngleY": 0.0, //The Y-axis angle of the three middle toes of the left foot
+	"ToeR1AngleZ": -27.0, //The Z-axis angle of the three middle toes of the left foot
+	"ToeR11AngleX": 0.0, //The X-axis angle of the tip of the three middle toes of the left foot (this is because KISS only assigns one bone to them)
+	"ToeR11AngleY": 0.0, //The Y-axis angle of the tip of the three middle toes of the left foot
+	"ToeR11AngleZ": 0.0, //Z-axis angle of the front of the middle three toes of the left foot
+	"ToeR2AngleX": 2.0, //X-axis angle of the big toe of the left foot
+	"ToeR2AngleY": 0.0, //Y-axis angle of the big toe of the left foot
+	"ToeR2AngleZ": -17.0, //Z-axis angle of the big toe of the left foot
+	"ToeR21AngleX": 0.0, //X-axis angle of the front of the big toe of the left foot
+	"ToeR21AngleY": 0.0, //Y-axis angle of the front of the big toe of the left foot
+	"ToeR21AngleZ": -14.0 //Z-axis angle of the front of the big toe of the left foot
+}
 }
 
 ```
@@ -787,44 +788,44 @@ offset 用于调整离地高度，值约大，角色离地面越远
   },
   "FootLAngle": 27.0,   //左脚的 Z 轴旋转角度，因为这是 27d 配置文件，所以设置为 27
   "FootLMax": 88.0,     //左脚的 Z 轴最大旋转角度
-  "ToeL0AngleX": 7.0,   //左脚的小脚趾的 X 移动轴角度
-  "ToeL0AngleY": -17.0, //左脚的小脚趾的 Y 移动轴角度
-  "ToeL0AngleZ": -17.0, //左脚的小脚趾的 Z 移动轴角度
-  "ToeL01AngleX": 5.0,  //左脚的小脚趾的 X 旋转轴角度
-  "ToeL01AngleY": 0.0,  //左脚的小脚趾的 Y 旋转轴角度
-  "ToeL01AngleZ": 0.0,  //左脚的小脚趾的 Z 旋转轴角度
-  "ToeL1AngleX": 0.0,    //左脚的中间三脚趾的 X 移动轴角度（这是因为 KISS 只给它们分配了一根骨头）
-  "ToeL1AngleY": 0.0,    //左脚的中间三脚趾的 Y 移动轴角度
-  "ToeL1AngleZ": -27.0,  //左脚的中间三脚趾的 Z 移动轴角度
-  "ToeL11AngleX": 0.0,   //左脚的中间三脚趾的 X 旋转轴角度（这是因为 KISS 只给它们分配了一根骨头）
-  "ToeL11AngleY": 0.0,   //左脚的中间三脚趾的 Y 旋转轴角度
-  "ToeL11AngleZ": 0.0,   //左脚的中间三脚趾的 Z 旋转轴角度
-  "ToeL2AngleX": -2.0,   //左脚的大脚趾的 X 移动轴角度
-  "ToeL2AngleY": 0.0,    //左脚的大脚趾的 Y 移动轴角度
-  "ToeL2AngleZ": -17.0,  //左脚的大脚趾的 Z 移动轴角度
-  "ToeL21AngleX": 0.0,    //左脚的大脚趾的 X 旋转轴角度
-  "ToeL21AngleY": 0.0,    //左脚的大脚趾的 Y 旋转轴角度
-  "ToeL21AngleZ": -14.0,  //左脚的大脚趾的 Z 旋转轴角度
+  "ToeL0AngleX": 7.0,   //左脚的小脚趾的 X 轴角度
+  "ToeL0AngleY": -17.0, //左脚的小脚趾的 Y 轴角度
+  "ToeL0AngleZ": -17.0, //左脚的小脚趾的 Z 轴角度
+  "ToeL01AngleX": 5.0,  //左脚的小脚趾前端的 X 轴角度
+  "ToeL01AngleY": 0.0,  //左脚的小脚趾前端的 Y 轴角度
+  "ToeL01AngleZ": 0.0,  //左脚的小脚趾前端的 Z 轴角度
+  "ToeL1AngleX": 0.0,    //左脚的中间三脚趾的 X 轴角度（这是因为 KISS 只给它们分配了一根骨头）
+  "ToeL1AngleY": 0.0,    //左脚的中间三脚趾的 Y 轴角度
+  "ToeL1AngleZ": -27.0,  //左脚的中间三脚趾的 Z 轴角度
+  "ToeL11AngleX": 0.0,   //左脚的中间三脚趾前端的 X 轴角度（这是因为 KISS 只给它们分配了一根骨头）
+  "ToeL11AngleY": 0.0,   //左脚的中间三脚趾前端的 Y 轴角度
+  "ToeL11AngleZ": 0.0,   //左脚的中间三脚趾前端的 Z 轴角度
+  "ToeL2AngleX": -2.0,   //左脚的大脚趾的 X 轴角度
+  "ToeL2AngleY": 0.0,    //左脚的大脚趾的 Y 轴角度
+  "ToeL2AngleZ": -17.0,  //左脚的大脚趾的 Z 轴角度
+  "ToeL21AngleX": 0.0,    //左脚的大脚趾前端的 X 轴角度
+  "ToeL21AngleY": 0.0,    //左脚的大脚趾前端的 Y 轴角度
+  "ToeL21AngleZ": -14.0,  //左脚的大脚趾前端的 Z 轴角度
   "FootRAngle": 27.0,    //右脚的 Z 轴旋转角度，因为这是 27d 配置文件，所以设置为 27
   "FootRMax": 88.0,      //右脚的 Z 轴最大旋转角度
-  "ToeR0AngleX": -7.0,   //左脚的小脚趾的 X 移动轴角度
-  "ToeR0AngleY": 17.0,   //左脚的小脚趾的 Y 移动轴角度
-  "ToeR0AngleZ": -17.0,  //左脚的小脚趾的 Z 移动轴角度
-  "ToeR01AngleX": 0.0,   //左脚的小脚趾的 X 旋转轴偏移
-  "ToeR01AngleY": 0.0,   //左脚的小脚趾的 Y 旋转轴偏移
-  "ToeR01AngleZ": 0.0,   //左脚的小脚趾的 Z 旋转轴偏移
-  "ToeR1AngleX": 0.0,    //左脚的中间三脚趾的 X 移动轴角度（这是因为 KISS 只给它们分配了一根骨头）
-  "ToeR1AngleY": 0.0,    //左脚的中间三脚趾的 Y 移动轴角度
-  "ToeR1AngleZ": -27.0,  //左脚的中间三脚趾的 Z 移动轴角度
-  "ToeR11AngleX": 0.0,   //左脚的中间三脚趾的 X 旋转轴偏移（这是因为 KISS 只给它们分配了一根骨头）
-  "ToeR11AngleY": 0.0,   //左脚的中间三脚趾的 Y 旋转轴偏移
-  "ToeR11AngleZ": 0.0,   //左脚的中间三脚趾的 Z 旋转轴偏移
-  "ToeR2AngleX": 2.0,    //左脚的大脚趾的 X 移动轴角度
-  "ToeR2AngleY": 0.0,    //左脚的大脚趾的 Y 移动轴角度
-  "ToeR2AngleZ": -17.0,  //左脚的大脚趾的 Z 移动轴角度
-  "ToeR21AngleX": 0.0,   //左脚的大脚趾的 X 旋转轴偏移
-  "ToeR21AngleY": 0.0,   //左脚的大脚趾的 Y 旋转轴偏移
-  "ToeR21AngleZ": -14.0  //左脚的大脚趾的 Z 旋转轴偏移
+  "ToeR0AngleX": -7.0,   //左脚的小脚趾的 X 轴角度
+  "ToeR0AngleY": 17.0,   //左脚的小脚趾的 Y 轴角度
+  "ToeR0AngleZ": -17.0,  //左脚的小脚趾的 Z 轴角度
+  "ToeR01AngleX": 0.0,   //左脚的小脚趾前端的 X 轴角度
+  "ToeR01AngleY": 0.0,   //左脚的小脚趾前端的 Y 轴角度
+  "ToeR01AngleZ": 0.0,   //左脚的小脚趾前端的 Z 轴角度
+  "ToeR1AngleX": 0.0,    //左脚的中间三脚趾的 X 轴角度（这是因为 KISS 只给它们分配了一根骨头）
+  "ToeR1AngleY": 0.0,    //左脚的中间三脚趾的 Y 轴角度
+  "ToeR1AngleZ": -27.0,  //左脚的中间三脚趾的 Z 轴角度
+  "ToeR11AngleX": 0.0,   //左脚的中间三脚趾前端的 X 轴角度（这是因为 KISS 只给它们分配了一根骨头）
+  "ToeR11AngleY": 0.0,   //左脚的中间三脚趾前端的 Y 轴角度
+  "ToeR11AngleZ": 0.0,   //左脚的中间三脚趾前端的 Z 轴角度
+  "ToeR2AngleX": 2.0,    //左脚的大脚趾的 X 轴角度
+  "ToeR2AngleY": 0.0,    //左脚的大脚趾的 Y 轴角度
+  "ToeR2AngleZ": -17.0,  //左脚的大脚趾的 Z 轴角度
+  "ToeR21AngleX": 0.0,   //左脚的大脚趾前端的 X 轴角度
+  "ToeR21AngleY": 0.0,   //左脚的大脚趾前端的 Y 轴角度
+  "ToeR21AngleZ": -14.0  //左脚的大脚趾前端的 Z 轴角度
 }
 ```
 
