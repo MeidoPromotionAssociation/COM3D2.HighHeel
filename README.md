@@ -1,3 +1,6 @@
+[English](#english) | [简体中文](#%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
+# English
 # COM3D2.HighHeel-InoryS
 
 
@@ -433,7 +436,9 @@ After modifying the configuration file, click reload in the GUI to take effect.
 
 
 
+# 简体中文
 
+# COM3D2.HighHeel-InoryS
 
 这是一个通过动态调整脚和脚趾的位置来实现高跟鞋的高跟鞋插件。
 
