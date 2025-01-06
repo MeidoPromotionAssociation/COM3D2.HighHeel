@@ -407,6 +407,7 @@ All of these will be identified as `hhmod_foobar`.
 
 When a shoe's object name contains `hhmod_foobar`, the plugin reads the configuration file hhmod_foobar.json and applies its settings.
 
+![mesh_name](./img/mesh_name.png)
 
 ```
 Warning:
@@ -599,6 +600,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 | SceneDance_CKTCK_Release | CKTCK 卡拉OK |
 
 如果你想知道当前场景的 Sence 索引，你可以考虑安装 [COM3D2.DebugLilly.BepInExPlugin.dll](https://github.com/customordermaid3d2/COM3D2.Lilly.BepInExPlugin/releases)
+
 它会在控制台中告诉你当前场景的 Sence 索引和 Sence 名称，以及存在的全部场景。
 
 <details>
@@ -872,6 +874,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 ## 工作原理和如何做高跟鞋
 
 插件会读取所穿鞋子的对象名称（网格名称）。您需要在名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
+
 插件还可以识别以下名称：
 
 - aaaa_hhmod_foobar_bbbb
@@ -891,6 +894,8 @@ offset 用于调整离地高度，值约大，角色离地面越远
 所有这些都将被识别为 `hhmod_foobar`。
 
 (插件也接受  aaaa_hhmod_foobar_bbbb.json 或 hhmod_foobar_bbbb.json 或 aaaa_hhmod_foobar.json，这三种都会被识别为 hhmod_foobar.json)
+
+![mesh_name](./img/mesh_name.png)
 
 ```
 警告：
