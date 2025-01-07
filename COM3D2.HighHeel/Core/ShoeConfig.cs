@@ -6,11 +6,10 @@ namespace COM3D2.Highheel.Plugin.Core
     {
         public enum ShoeConfigParameter
         {
-            RotateShoes,
             BodyOffset,
             ManBodyOffset,
-            PerSceneBodyOffset,
-            PerSceneManBodyOffset,
+            PerSceneBodyOffsets,
+            PerSceneManBodyOffsets,
             FootLAngle,
             FootLMax,
             ToeL0AngleX,
@@ -52,12 +51,10 @@ namespace COM3D2.Highheel.Plugin.Core
             ToeR2AngleZ,
             ToeR21AngleZ
         }
-
-        public bool RotateShoes { get; set; } = false;
         public float BodyOffset { get; set; } = 0.04f; // Experience-based values
         public float ManBodyOffset { get; set; } = 0f;
-        public Dictionary<string , float> PerSceneBodyOffset { get; set; } = new();
-        public Dictionary<string , float> PerSceneManBodyOffset { get; set; } = new();
+        public Dictionary<string , float> PerSceneBodyOffsets { get; set; } = new();
+        public Dictionary<string , float> PerSceneManBodyOffsets { get; set; } = new();
         public float FootLAngle { get; set; }
         public float FootLMax { get; set; } = 55f;
 
@@ -112,11 +109,10 @@ namespace COM3D2.Highheel.Plugin.Core
 
 
         public void Deconstruct(
-            out bool rotateShoes,
             out float bodyOffset,
             out float manBodyOffset,
-            out Dictionary<string, float> perSceneBodyOffset,
-            out Dictionary<string, float> perSceneManBodyOffset,
+            out Dictionary<string, float> perSceneBodyOffsets,
+            out Dictionary<string, float> perSceneManBodyOffsets,
             out float footLAngle, out float footLMax,
             out float toeL0AngleX, out float toeL01AngleX, out float toeL1AngleX, out float toeL11AngleX,
             out float toeL2AngleX, out float toeL21AngleX,
@@ -133,11 +129,10 @@ namespace COM3D2.Highheel.Plugin.Core
             out float toeR2AngleZ, out float toeR21AngleZ
         )
         {
-            rotateShoes = RotateShoes;
             bodyOffset = BodyOffset;
             manBodyOffset = ManBodyOffset;
-            perSceneBodyOffset = PerSceneBodyOffset;
-            perSceneManBodyOffset = PerSceneManBodyOffset;
+            perSceneBodyOffsets = PerSceneBodyOffsets;
+            perSceneManBodyOffsets = PerSceneManBodyOffsets;
             
             footLAngle = FootLAngle;
             footLMax = FootLMax;

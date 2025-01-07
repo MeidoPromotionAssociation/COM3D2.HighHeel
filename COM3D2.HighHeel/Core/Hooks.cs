@@ -114,18 +114,23 @@ namespace COM3D2.Highheel.Plugin.Core
 
         private static void ProcessMaid(TBody __instance)
         {
-            if (!__instance.GetSlotVisible(TBody.SlotID.shoes) ||
-                (!Plugin.IsDance && !__instance.GetAnimation().isPlaying))
+            if (!__instance.GetSlotVisible(TBody.SlotID.shoes) || (!Plugin.IsDance && !__instance.GetAnimation().isPlaying))
+            {
                 return;
+            }
 
             if (!MaidTransforms.TryGetValue(__instance, out var transforms))
+            {
                 return;
+            }
 
             var config = Plugin.Instance.EditMode ? Plugin.Instance.EditModeConfig : GetConfig(__instance);
             if (config == null)
+            {
                 return;
+            }
 
-            ApplyTransformations(__instance, config, transforms);
+            ApplyMaidTransformations(__instance, config, transforms);
         }
 
         /// <summary>
@@ -143,7 +148,7 @@ namespace COM3D2.Highheel.Plugin.Core
             return null;
         }
 
-        private static void ApplyTransformations(TBody __instance, ShoeConfig config, MaidTransforms transforms)
+        private static void ApplyMaidTransformations(TBody __instance, ShoeConfig config, MaidTransforms transforms)
         {
             if (transforms == null || config == null)
             {
@@ -153,7 +158,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (IsInvalidTransform(transforms.FootL) || IsInvalidTransform(transforms.FootR))
             {
-                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations.");
+                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations, skiping");
                 return;
             }
 
@@ -170,15 +175,8 @@ namespace COM3D2.Highheel.Plugin.Core
                 HighHeelBodyOffset.SetBodyOffset(__instance, offset);
             }
 
-            if (config.RotateShoes)
-            {
-                RotateShoe(__instance, config);
-            }
-            else
-            {
-                RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
-                RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
-            }
+            RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
+            RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
 
             RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
             RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
@@ -228,37 +226,6 @@ namespace COM3D2.Highheel.Plugin.Core
                 };
 
             return new List<IndividualAngles>(); // return an empty list if the side is neither L nor R
-        }
-
-        private static void RotateShoe(TBody tBody, ShoeConfig config)
-        {
-            var shoeSlot = tBody.GetSlot("shoes");
-            if (shoeSlot == null || shoeSlot.obj == null)
-            {
-#if DEBUG
-                Plugin.Instance.Logger.LogWarning("shoeSlot or shoeSlot.obj is null in RotateShoe.");
-#endif
-                return;
-            }
-            var shoeTransforms = new ShoeTransforms(shoeSlot);
-
-            RotateShoeInternal(shoeTransforms.ShoeL, config.FootLAngle, config.FootLMax);
-            RotateShoeInternal(shoeTransforms.ShoeR, config.FootRAngle, config.FootRMax);
-        }
-
-        private static void RotateShoeInternal(Transform shoe, float angle, float max)
-        {
-            // 270 degrees represents a shoe rotation where the toes point upwards
-            const float minimumAngle = 270f;
-            var rotation = shoe.localRotation.eulerAngles;
-            var z = rotation.z;
-
-            if (!Utility.BetweenAngles(z, minimumAngle, max))
-                return;
-
-            rotation.z = Utility.ClampAngle(z + angle, minimumAngle, max);
-
-            shoe.localRotation = Quaternion.Euler(rotation);
         }
 
         private static void RotateFoot(Transform foot, float angle, float max)

@@ -50,7 +50,7 @@ namespace COM3D2.Highheel.Plugin.Core
                     }
                     lock (_lock)
                     {
-                        if (config.PerSceneBodyOffset != null && config.PerSceneBodyOffset.TryGetValue(currentSceneName, out var offset))
+                        if (config.PerSceneBodyOffsets != null && config.PerSceneBodyOffsets.TryGetValue(currentSceneName, out var offset))
                         {
                             return offset;
                         }
@@ -79,6 +79,7 @@ namespace COM3D2.Highheel.Plugin.Core
                     {
                         return config.ManBodyOffset;
                     }
+                    return DefaultManBodyOffset;
                 }
                 if (isGlobal)
                 {
@@ -88,7 +89,6 @@ namespace COM3D2.Highheel.Plugin.Core
                             PerSceneManBodyOffsets.TryGetValue(currentSceneName, out var offset))
                             return offset;
                     }
-
                     return DefaultManBodyOffset;
                 }
                 else
@@ -98,12 +98,12 @@ namespace COM3D2.Highheel.Plugin.Core
                     var config = Hooks.GetConfig(maid0.body0);
                     if (config == null)
                     {
-                        Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
+                        Plugin.Instance.Logger.LogError("maid0 ShoesConfig is null. Returning default man body offset.");
                         return DefaultManBodyOffset;
                     }
                     lock (_lock)
                     {
-                        if (config.PerSceneManBodyOffset != null && config.PerSceneManBodyOffset.TryGetValue(currentSceneName, out var offset))
+                        if (config.PerSceneManBodyOffsets != null && config.PerSceneManBodyOffsets.TryGetValue(currentSceneName, out var offset))
                         {
                             return offset;
                         }

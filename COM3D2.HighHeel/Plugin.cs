@@ -11,7 +11,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
-[assembly: AssemblyVersion("1.0.9.0")]
+[assembly: AssemblyVersion("1.0.9.1")]
 namespace COM3D2.Highheel.Plugin
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
@@ -19,7 +19,7 @@ namespace COM3D2.Highheel.Plugin
     {
         public const string PluginGuid = "com.inorys.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.9.0";
+        public const string PluginVersion = "1.0.9.1";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
@@ -60,6 +60,7 @@ namespace COM3D2.Highheel.Plugin
             {
                 ShoeDatabase = LoadShoeDatabase();
                 LoadBodyOffsetConfig();
+                ImportConfigsAndUpdate("");
             };
 
             mainWindow.ExportEvent += (_, args) => ExportConfiguration(EditModeConfig, args.Text);
@@ -199,8 +200,7 @@ namespace COM3D2.Highheel.Plugin
 
                 if (!File.Exists(fullPath))
                 {
-                    Instance!.Logger.LogWarning(
-                        $"Configuration file {fullPath} not found. Using default configuration.");
+                    Instance!.Logger.LogWarning($"Configuration file {fullPath} not found.");
                     return;
                 }
 
@@ -254,19 +254,26 @@ namespace COM3D2.Highheel.Plugin
 
                     BodyOffsets = JsonConvert.DeserializeObject<BodyOffsetConfig>(jsonText);
 
-                    if (BodyOffsets == null) throw new JsonSerializationException("Deserialized object is null.");
+                    if (BodyOffsets == null)
+                    {
+                        throw new JsonSerializationException("Deserialized object is null.");
+                    }
+                    else
+                    {
+                        Logger.LogDebug($"load GlobalBodyOffsetConfig success");
+                    }
                 }
                 else
                 {
-                    Logger.LogWarning("BodyOffsetConfig file not found. Creating a new one.");
+                    Logger.LogWarning("GlobalBodyOffsetConfig file not found. Creating a new one.");
                     BodyOffsets = new BodyOffsetConfig();
                     SaveBodyOffsetConfig();
                 }
             }
             catch (Exception e)
             {
-                Logger.LogError($"Failed to load BodyOffsetConfig. Reason: {e.Message}");
-                Logger.LogWarning("Creating a new BodyOffsetConfig file.");
+                Logger.LogError($"Failed to load GlobalBodyOffsetConfig. Reason: {e.Message}");
+                Logger.LogWarning("Creating a new GlobalBodyOffsetConfig file.");
                 BodyOffsets = new BodyOffsetConfig();
                 SaveBodyOffsetConfig();
             }
