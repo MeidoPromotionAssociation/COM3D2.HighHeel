@@ -80,7 +80,7 @@ Here is an example configuration (you cannot leave comments in the actual file):
 {
 	"DefaultBodyOffset": 0.04, //Default maid BodyOffset, if you do not set BodyOffset for the scene separately, this value is applied.
 	"DefaultManBodyOffset": 0.0, //Default man BodyOffset, if you do not set BodyOffset for the scene separately, this value is applied.
-	"PerSceneBodyOffset": {
+	"PerSceneBodyOffsets": {
 		"SceneDaily": 0.02, //Maid BodyOffset set separately for each scene, which means that the maid BodyOffset of the scene named SceneDaily is set to 0.02.
 		"SceneTrophy": 0.14, //Maid BodyOffset set separately for each scene, which means that the maid BodyOffset of the scene named SceneTrophy is set to 0.14.
 		"SceneYotogi": 0.04,
@@ -90,7 +90,7 @@ Here is an example configuration (you cannot leave comments in the actual file):
 		"SceneDance_CPM_K_2_Release": 0.06,
 		"SceneDance_1OY_K_Release": 0.06
 	},
-	"PerSceneManBodyOffset": {
+	"PerSceneManBodyOffsets": {
 		"SceneDaily": 0.02, //The man BodyOffset is set separately for each scene, which means that the man BodyOffset of the scene named SceneDaily is set to 0.02.
 		"SceneTrophy": 0.06, //The man BodyOffset is set separately for each scene, which means that the man BodyOffset of the scene named SceneTrophy is set to 0.02.
 		"SceneYotogi": 0.0,
@@ -315,7 +315,7 @@ An example configuration for `hhmod_27d.json`:
 	"RotateShoes": false, //If true, the plugin will rotate the shoes instead of the feet, which can be used to make hook shoes.
 	"BodyOffset": 0.04, //Default maid BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in, this value is used, otherwise this value will not be used
 	"ManBodyOffset": 0.0, //Default man BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
-	"PerSceneBodyOffset": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
+	"PerSceneBodyOffsets": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
 		"SceneDaily": 0.02, //Maid BodyOffset set separately for each scene, which means setting the maid BodyOffset of the scene named SceneDaily to 0.02
 		"SceneTrophy": 0.14, //Maid BodyOffset set separately for each scene, which means setting the maid BodyOffset of the scene named SceneTrophy to 0.14
 		"SceneYotogi": 0.04,
@@ -325,7 +325,7 @@ An example configuration for `hhmod_27d.json`:
 		"SceneDance_CPM_K_2_Release": 0.06,
 		"SceneDance_1OY_K_Release": 0.06
 	},
-	"PerSceneManBodyOffset": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
+	"PerSceneManBodyOffsets": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
 		"SceneDaily": 0.02, //The man BodyOffset set for each scene separately, which means setting the man BodyOffset of the scene named SceneDaily to 0.02
 		"SceneTrophy": 0.06, //The man BodyOffset set for each scene separately, which means setting the man BodyOffset of the scene named SceneTrophy to 0.06
 		"SceneYotogi": 0.0,
@@ -544,7 +544,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 {
   "DefaultBodyOffset": 0.04, //默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
   "DefaultManBodyOffset": 0.0,  //默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。
-  "PerSceneBodyOffset": {
+  "PerSceneBodyOffsets": {
     "SceneDaily":0.02,   //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneDaily 的女仆 BodyOffset 设置为 0.02。
     "SceneTrophy": 0.14, //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneTrophy 的女仆 BodyOffset 设置为 0.14。
     "SceneYotogi": 0.04,
@@ -554,7 +554,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
     "SceneDance_CPM_K_2_Release": 0.06,
     "SceneDance_1OY_K_Release": 0.06
   },
-  "PerSceneManBodyOffset": {
+  "PerSceneManBodyOffsets": {
     "SceneDaily":0.02, //为每个场景单独设置的男人 BodyOffset，这表示将场景名为 SceneDaily 的男人 BodyOffset 设置为 0.02。
     "SceneTrophy": 0.06, //为每个场景单独设置的男人 BodyOffset，这表示将场景名为 SceneTrophy 的男人 BodyOffset 设置为 0.02。
     "SceneYotogi": 0.0,
@@ -792,7 +792,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
   "RotateShoes": false,  //如果为 true 那么插件将旋转鞋子，而不是旋转脚，可以用制作勾鞋。
   "BodyOffset": 0.04,    //默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
   "ManBodyOffset": 0.0,  //默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
-  "PerSceneBodyOffset": {  //如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
+  "PerSceneBodyOffsets": {  //如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
     "SceneDaily":0.02,   //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneDaily 的女仆 BodyOffset 设置为 0.02
     "SceneTrophy": 0.14,  //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneTrophy 的女仆 BodyOffset 设置为 0.14
     "SceneYotogi": 0.04,
@@ -802,7 +802,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
     "SceneDance_CPM_K_2_Release": 0.06,
     "SceneDance_1OY_K_Release": 0.06
   },
-  "PerSceneManBodyOffset": {//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
+  "PerSceneManBodyOffsets": {//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
     "SceneDaily":0.02,  //为每个场景单独设置的男人 BodyOffset，这表示将场景名为 SceneDaily 的男人 BodyOffset 设置为 0.02
     "SceneTrophy": 0.06,  //为每个场景单独设置的男人 BodyOffset，这表示将场景名为 SceneTrophy 的男人 BodyOffset 设置为 0.06
     "SceneYotogi": 0.0,
