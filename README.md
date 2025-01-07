@@ -423,6 +423,8 @@ The plugin allows you to configure the angle of foot rotation (Z-axis only) and 
 
 When creating shoes, you just need to match the shoe to the bottom of the character's foot.
 
+After entering the game, the configuration file determines how much the foot and toes should be rotated so that they are parallel to the ground.
+
 ![shoes_making_example](./img/shoes_making_example.png)
 
 You can import some mods to see how they do it.
@@ -912,6 +914,8 @@ offset 用于调整离地高度，值约大，角色离地面越远
 该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的三个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
 
 创建鞋子时，您只需将鞋子与角色的脚底相匹配即可。
+
+进入游戏后由配置文件来决定应该给脚和脚趾旋转多少度，以便和地面平行。
 
 ![shoes_making_example](./img/shoes_making_example.png)
 
