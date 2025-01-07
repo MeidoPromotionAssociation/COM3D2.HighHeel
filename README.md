@@ -299,15 +299,19 @@ To find the current scene's index or name, you can install [COM3D2.DebugLilly.Be
  - hhmod_20d.json
  - hhmod_27d.json
  - hhmod_34d.json
+ - hhmod_40d.json
+ - hhmod_50d.json
 
 Numbers like `13d`, `20d`, etc., refer to the angle (around the Z-axis) of the character's foot bones, which creates the high-heel effect.
 
 For example:
 
- - 13d ~= 2-inch (50mm) heels
- - 20d ~= 3-inch (75mm) heels
- - 27d ~= 4-inch (100mm) heels
- - 34d ~= 5-inch (125mm) heels
+- 13d ~= 2 inch (50 mm) heels (22.5 * sin(13π/180) ~= 5.061399)
+- 20d ~= 3 inch (75 mm) heels (22.5 * sin(20π/180) ~= 7.695453)
+- 27d ~= 4 inch (100 mm) heels (22.5 * sin(27π/180) ~= 10.214786)
+- 34d ~= 5 inch (125 mm) heels (22.5 * sin(34π/180) ~= 12.58184)
+- 40d ~= 5.7 inch (145 mm) heels (22.5 * sin(40π/180) ~= 14.462721) (Be kind to your Maid!)
+- 50d ~= 6.7 inches (170 mm) high heels (22.5 * sin(50π/180) ~= 17.236) (Be kind to your Maid!)
 
 An example configuration for `hhmod_27d.json`:
 ```
@@ -774,13 +778,17 @@ offset 用于调整离地高度，值约大，角色离地面越远
  - hhmod_20d.json
  - hhmod_27d.json
  - hhmod_34d.json
+ - hhmod_40d.json
+ - hhmod_50d.json
 
 13d、20d、27d、34d 指的是角色的脚骨骼绕 Z 轴旋转（局部旋转）多少以产生高跟鞋效果。
 
- - 13d ~= 2 英寸（50 毫米）高跟鞋
- - 20d ~= 3 英寸（75 毫米）高跟鞋
- - 27d ~= 4 英寸（100 毫米）高跟鞋
- - 34d ~= 5 英寸（125 毫米）高跟鞋
+ - 13d ~= 2 英寸（50 毫米）高跟鞋（22.5 * sin(13π/180) ~= 5.061399）
+ - 20d ~= 3 英寸（75 毫米）高跟鞋（22.5 * sin(20π/180) ~= 7.695453）
+ - 27d ~= 4 英寸（100 毫米）高跟鞋（22.5 * sin(27π/180) ~= 10.214786）
+ - 34d ~= 5 英寸（125 毫米）高跟鞋（22.5 * sin(34π/180) ~= 12.58184）
+ - 40d ~= 5.7 英寸（145 毫米）高跟鞋（22.5 * sin(40π/180) ~= 14.462721）（善待你的妹抖!）
+ - 50d ~= 6.7 英寸（170 毫米）高跟鞋（22.5 * sin(50π/180) ~= 17.236）（善待你的妹抖!）
 
 粗略计算，平均脚长 22.5 厘米，无额外高度增加（即厚底鞋）
 
@@ -917,16 +925,6 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 修改配置文件后点击 GUI 的 reload，就可以生效。
 
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
 ## 已知 MOD
 
 @COM3D240959451
@@ -939,6 +937,12 @@ offset 用于调整离地高度，值约大，角色离地面越远
 @InorySSS
 - https://mega.nz/folder/U6Jy0a6a#Pv5G9G_J5zoYc46TVmz6iA
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 # COM3D2.HighHeel
