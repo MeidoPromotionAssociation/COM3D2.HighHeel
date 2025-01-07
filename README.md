@@ -312,7 +312,6 @@ For example:
 An example configuration for `hhmod_27d.json`:
 ```
 {
-	"RotateShoes": false, //If true, the plugin will rotate the shoes instead of the feet, which can be used to make hook shoes.
 	"BodyOffset": 0.04, //Default maid BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in, this value is used, otherwise this value will not be used
 	"ManBodyOffset": 0.0, //Default man BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
 	"PerSceneBodyOffsets": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
@@ -789,7 +788,6 @@ offset 用于调整离地高度，值约大，角色离地面越远
 这是 hhmod_27d.json 配置的示例（您实际上不能在配置文件中留下注释）：
 ```
 {
-  "RotateShoes": false,  //如果为 true 那么插件将旋转鞋子，而不是旋转脚，可以用制作勾鞋。
   "BodyOffset": 0.04,    //默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
   "ManBodyOffset": 0.0,  //默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
   "PerSceneBodyOffsets": {  //如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
