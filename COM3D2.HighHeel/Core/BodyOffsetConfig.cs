@@ -73,14 +73,9 @@ namespace COM3D2.Highheel.Plugin.Core
                 // If in edit mode, use this value directly, since there is a GUI
                 if (Plugin.Instance.EditMode)
                 {
-                    var maid0 = GameMain.Instance.CharacterMgr.GetMaid(0);
-                    var config = Hooks.GetConfig(maid0.body0);
-                    if (config != null)
-                    {
-                        return config.ManBodyOffset;
-                    }
-                    return DefaultManBodyOffset;
+                    return Plugin.Instance.EditModeConfig.ManBodyOffset;
                 }
+
                 if (isGlobal)
                 {
                     lock (_lock)
@@ -95,6 +90,12 @@ namespace COM3D2.Highheel.Plugin.Core
                 {
                     // I don't know if it's possible to know man is doing something to a maid, so instead we use the value from maid0's shoe configuration
                     var maid0 = GameMain.Instance.CharacterMgr.GetMaid(0);
+                    if (maid0 == null || maid0.body0 == null)
+                    {
+                        Plugin.Instance.Logger.LogError("maid0 or maid0.body0 is null. Returning default offset.");
+                        return DefaultManBodyOffset;
+                    }
+
                     var config = Hooks.GetConfig(maid0.body0);
                     if (config == null)
                     {
