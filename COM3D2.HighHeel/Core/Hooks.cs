@@ -75,13 +75,19 @@ namespace COM3D2.Highheel.Plugin.Core
             Plugin.Instance.ImportConfigsAndUpdate(configName);
         }
 
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         [HarmonyPatch(typeof(TBody), "LateUpdate")]
         public static void LateUpdate(TBody __instance)
         {
-            // no need to check !__instance.isLoadedBody because original method will check it
             if (Plugin.Instance == null || !Plugin.Instance.Configuration.Enabled.Value)
                 return;
+
+            // no need to check !__instance.isLoadedBody because original method will check it
+            // but we are now Prefixing, so we check it
+            if (!__instance.isLoadedBody)
+            {
+                return;
+            }
 
             if (!__instance.boMAN)
             {
@@ -181,7 +187,9 @@ namespace COM3D2.Highheel.Plugin.Core
             RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
             RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
 
-            __instance.SkinMeshUpdate();
+            // not need because we are now Prefix, the original method will call
+            // By avoiding this, we can get a big FPS boost with lots of maids.
+            //__instance.SkinMeshUpdate();
         }
 
         public static bool IsInvalidTransform(Transform transform)
