@@ -16,7 +16,7 @@ namespace COM3D2.Highheel.Plugin.Core
             {
                 if (float.IsNaN(offset) || float.IsInfinity(offset))
                 {
-                    Plugin.Instance.Logger.LogWarning("Detected NaN or Infinity in BodyOffset. Set to 0.");
+                    Utility.LogWaringWithThrottle("Detected NaN or Infinity in BodyOffset. Set to 0.");
                     return 0f;
                 }
 
@@ -44,8 +44,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
                 if (thighDistance == 0)
                 {
-                    Plugin.Instance.Logger.LogWarning(
-                        "thighDistance is zero in GetSnityouOutScale, returning default scale of 1.");
+                    Utility.LogWaringWithThrottle("thighDistance is zero in GetSnityouOutScale, returning default scale of 1.");
                     return 1f;
                 }
 
@@ -56,8 +55,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
                 if (float.IsNaN(scale) || float.IsInfinity(scale))
                 {
-                    Plugin.Instance.Logger.LogWarning(
-                        "Scale resulted in NaN or Infinity in GetSnityouOutScale, returning default scale of 1.");
+                    Utility.LogWaringWithThrottle("Scale resulted in NaN or Infinity in GetSnityouOutScale, returning default scale of 1.");
                     return 1f;
                 }
 

@@ -45,7 +45,7 @@ namespace COM3D2.Highheel.Plugin.Core
                 {
                     if (config == null)
                     {
-                        Plugin.Instance.Logger.LogError("ShoesConfig is null. Returning default body offset.");
+                        Utility.LogWaringWithThrottle("ShoesConfig is null. Returning default body offset.");
                         return DefaultBodyOffset;
                     }
                     lock (_lock)
@@ -92,14 +92,14 @@ namespace COM3D2.Highheel.Plugin.Core
                     var maid0 = GameMain.Instance.CharacterMgr.GetMaid(0);
                     if (maid0 == null || maid0.body0 == null)
                     {
-                        Plugin.Instance.Logger.LogError("maid0 or maid0.body0 is null. Returning default offset.");
+                        Utility.LogWaringWithThrottle("maid0 or maid0.body0 is null. Returning default offset.");
                         return DefaultManBodyOffset;
                     }
 
                     var config = Hooks.GetConfig(maid0.body0);
                     if (config == null)
                     {
-                        Plugin.Instance.Logger.LogError("maid0 ShoesConfig is null. Returning default man body offset.");
+                        Utility.LogWaringWithThrottle("maid0 ShoesConfig is null. Returning default man body offset.");
                         return DefaultManBodyOffset;
                     }
                     lock (_lock)
@@ -115,7 +115,7 @@ namespace COM3D2.Highheel.Plugin.Core
             }
             catch (Exception ex)
             {
-               Plugin.Instance.Logger.LogError($"Error in GetManBodyOffsetForScene: {ex.Message}");
+                Plugin.Instance.Logger.LogError($"Error in GetManBodyOffsetForScene: {ex.Message}");
                 return DefaultManBodyOffset; // Return a safe default value
             }
         }

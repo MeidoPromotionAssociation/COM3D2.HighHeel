@@ -5,6 +5,10 @@ namespace COM3D2.Highheel.Plugin.Core
 {
     public static class Utility
     {
+        private static DateTime _lastLogTime = DateTime.MinValue;
+        private static readonly TimeSpan _logCooldown = TimeSpan.FromSeconds(5);
+
+
         /// <summary>
         ///     Clamps the given angle to be between the specified minimum and maximum angles.
         /// </summary>
@@ -71,6 +75,35 @@ namespace COM3D2.Highheel.Plugin.Core
                 // If found, stop at the delimiter.
                 // example "hhmod_shoeA_xyz" -> "hhmod_shoeA"
                 return rawName.Substring(0, nextSeparator);
+            }
+        }
+
+        /// <summary>
+        /// Logs an error level message with a throttling mechanism to prevent excessive logging.
+        /// </summary>
+        /// <param name="message">The error message to be logged</param>
+        public static void LogErrorWithThrottle(string message)
+        {
+            var now = DateTime.UtcNow;
+            if (now - _lastLogTime > _logCooldown)
+            {
+                _lastLogTime = now;
+                Plugin.Instance.Logger.LogError(message);
+            }
+        }
+
+
+        /// <summary>
+        /// Logs a waring level message with a throttling mechanism to prevent excessive logging.
+        /// </summary>
+        /// <param name="message">The error message to be logged</param>
+        public static void LogWaringWithThrottle(string message)
+        {
+            var now = DateTime.UtcNow;
+            if (now - _lastLogTime > _logCooldown)
+            {
+                _lastLogTime = now;
+                Plugin.Instance.Logger.LogWarning(message);
             }
         }
     }

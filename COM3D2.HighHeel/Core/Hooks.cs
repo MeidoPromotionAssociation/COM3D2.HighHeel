@@ -105,7 +105,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (float.IsNaN(offset) || float.IsInfinity(offset))
             {
-                Plugin.Instance.Logger.LogWarning("Offset contains NaN or Infinity in ProcessMan.");
+                Utility.LogWaringWithThrottle("Offset contains NaN or Infinity in ProcessMan.");
                 return;
             }
 
@@ -158,13 +158,13 @@ namespace COM3D2.Highheel.Plugin.Core
         {
             if (transforms == null || config == null)
             {
-                Plugin.Instance.Logger.LogWarning("Transforms or config is null in ApplyTransformations.");
+                Utility.LogWaringWithThrottle("Transforms or config is null in ApplyTransformations.");
                 return;
             }
 
             if (IsInvalidTransform(transforms.FootL) || IsInvalidTransform(transforms.FootR))
             {
-                Plugin.Instance.Logger.LogWarning("One of the foot transforms contains NaN or Infinity in ApplyTransformations, skiping");
+                Utility.LogWaringWithThrottle("One of the foot transforms contains NaN or Infinity in ApplyTransformations, skiping");
                 return;
             }
 
@@ -172,7 +172,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (float.IsNaN(offset) || float.IsInfinity(offset))
             {
-                Plugin.Instance.Logger.LogWarning("Offset contains NaN or Infinity in ApplyTransformations.");
+                Utility.LogWaringWithThrottle("Offset contains NaN or Infinity in ApplyTransformations.");
                 return;
             }
 
