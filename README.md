@@ -36,6 +36,8 @@ If you modify the configuration file, you can click "reload" in the plugin setti
 
 The configuration file is located in `COM3D2\BepInEx\config\COM3D2.HighHeel\`
 
+The following is a description of each configuration file:
+
 ### Configuration.cfg
 This is an example configuration:
 
@@ -501,6 +503,8 @@ GlobalBodyOffset.json 是一个全局 offset（调整离地高度） 的配置�
 ## 配置文件详解
 
 配置文件位于 `COM3D2\BepInEx\config\COM3D2.HighHeel\`
+
+以下是各个配置文件的说明： 
 
 ### Configuration.cfg
 
