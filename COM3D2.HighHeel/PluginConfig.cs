@@ -21,7 +21,7 @@ namespace COM3D2.Highheel.Plugin
 
             AddGearMenuButton = config.Bind(configSection, nameof(AddGearMenuButton), true, "Add gear menu button");
 
-            EnableGlobalPreSceneOffsetSettings = config.Bind(configSection,nameof(EnableGlobalPreSceneOffsetSettings) , true, "If ture, enable global pre-scene offset settings, else use pre-shoes pre-scene offset settings");
+            EnableGlobalPreSceneOffsetSettings = config.Bind(configSection,nameof(EnableGlobalPreSceneOffsetSettings) , false, "If ture, enable global pre-scene offset settings, else use pre-shoes pre-scene offset settings");
 
             UseManOffset = config.Bind(configSection, nameof(UseManOffset), true, "If ture, use man offset, else don't offset man. This is to align man with maid in yotogi");
         }
