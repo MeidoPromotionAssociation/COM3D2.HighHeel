@@ -400,6 +400,9 @@ To
 
 
 ## How It Works and How to Create High Heels
+
+Chinese Guide: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
+
 The plugin reads the object name (mesh name) of the shoes being worn. You need to include `hhmod_foobar` in the name, which will be used to identify the corresponding configuration file.
 
 The plugin also recognizes names like:
@@ -884,6 +887,8 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 
 ## 工作原理和如何做高跟鞋
+
+中文教学: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
 
 插件会读取所穿鞋子的对象名称（网格名称）。您需要在名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
 
