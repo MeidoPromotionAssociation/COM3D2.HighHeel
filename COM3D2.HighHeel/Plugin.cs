@@ -11,7 +11,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
-[assembly: AssemblyVersion("1.0.9.1")]
+[assembly: AssemblyVersion("1.0.9.2")]
 namespace COM3D2.Highheel.Plugin
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
@@ -19,7 +19,7 @@ namespace COM3D2.Highheel.Plugin
     {
         public const string PluginGuid = "com.inorys.com3d2.highheel";
         public const string PluginName = "COM3D2.HighHeel";
-        public const string PluginVersion = "1.0.9.1";
+        public const string PluginVersion = "1.0.9.2";
         public const string PluginString = PluginName + " " + PluginVersion;
 
         private const string ConfigName = "Configuration.cfg";
