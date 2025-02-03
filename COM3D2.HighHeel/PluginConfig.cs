@@ -19,7 +19,7 @@ namespace COM3D2.Highheel.Plugin
 
             UIShortcut = config.Bind(configSection, nameof(UIShortcut), new KeyboardShortcut(KeyCode.F9, KeyCode.LeftControl), "Shortcut to toggle configuration UI");
 
-            AddGearMenuButton = config.Bind(configSection, nameof(AddGearMenuButton), true, "Add gear menu button");
+            AddGearMenuButton = config.Bind(configSection, nameof(AddGearMenuButton), false, "Add gear menu button");
 
             EnableGlobalPreSceneOffsetSettings = config.Bind(configSection,nameof(EnableGlobalPreSceneOffsetSettings) , false, "If ture, enable global pre-scene offset settings, else use pre-shoes pre-scene offset settings");
 
