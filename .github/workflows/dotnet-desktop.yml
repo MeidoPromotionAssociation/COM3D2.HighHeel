@@ -2,31 +2,38 @@ name: Build
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ "master","main" ]
   pull_request:
-    branches: [ "master", "main" ]
+    branches: [ "master","main" ]
+
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v2
-        with:
-          nuget-version: '5.x'
-
-      - name: Restore NuGet Packages
-        run: nuget restore COM3D2.HighHeel.sln
-
-      - name: Build Solution
+      - name: Setup MSBuild.exe path
         run: |
-          msbuild COM3D2.HighHeel.sln /p:Configuration=Release /p:TargetFrameworkVersion=v3.5 /p:Platform="Any CPU"
+          sudo apt-get install -y apt-transport-https
+          sudo apt-get update
+          sudo apt-get install -y mono-devel
+          sudo apt-get install -y msbuild
+          echo "msbuild: $(which msbuild)"
+
+      - uses: nuget/setup-nuget@v2
+        with:
+          nuget-api-key: ${{ secrets.NuGetAPIKey }}
+          nuget-version: '5.x'
+      - run: nuget restore COM3D2.HighHeel.sln
+
+      - name: Build
+        run: |
+          msbuild /p:Configuration=Release /p:TargetFrameworkVersion=v3.5
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
         with:
           name: COM3D2.HighHeel.Plugin
-          path: COM3D2.HighHeel/bin/Release/net35/COM3D2.Highheel.Plugin.dll
+          path: /home/runner/work/COM3D2.HighHeel/COM3D2.HighHeel/COM3D2.HighHeel/bin/Release/net35/COM3D2.Highheel.Plugin.dll
