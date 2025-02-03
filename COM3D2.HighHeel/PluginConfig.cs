@@ -23,7 +23,7 @@ namespace COM3D2.Highheel.Plugin
 
             EnableGlobalPreSceneOffsetSettings = config.Bind(configSection,nameof(EnableGlobalPreSceneOffsetSettings) , false, "If ture, enable global pre-scene offset settings, else use pre-shoes pre-scene offset settings");
 
-            UseManOffset = config.Bind(configSection, nameof(UseManOffset), true, "If ture, use man offset, else don't offset man. This is to align man with maid in yotogi");
+            UseManOffset = config.Bind(configSection, nameof(UseManOffset), false, "If ture, use man offset, else don't offset man. This is to align man with maid in yotogi");
         }
     }
 }
