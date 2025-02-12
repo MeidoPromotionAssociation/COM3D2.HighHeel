@@ -445,6 +445,10 @@ After modifying the configuration file, click reload in the GUI to take effect.
 
 ## Known MODs
 
+If you don't understand, here's how they do it
+
+To add, use Issue
+
 @COM3D240959451
 - https://ux.getuploader.com/kotone_com_1/
 
@@ -940,6 +944,10 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 ## 已知 MOD
 
+如果您不理解，请参考它们是怎么做的
+
+要添加，请使用 Issue
+
 @COM3D240959451
 - https://ux.getuploader.com/kotone_com_1/
 
@@ -958,7 +966,12 @@ offset 用于调整离地高度，值约大，角色离地面越远
 <br>
 
 
-# COM3D2.HighHeel
+
+
+
+## Original Readme
+
+COM3D2.HighHeel
 
 Dynamically adjust maid's feet for high heels.
 
