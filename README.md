@@ -14,9 +14,10 @@ If you are using someone else's shoes
 
 ### Install the Plugin
 
-Download the plugin.
-
-Place `COM3D2.HighHeel.Plugin` in the folder `COM3D2\BepInEx\Plugin\` or `COM3D2\BepInEx\plugins\COM3D2.HighHeel\`.
+0. Make sure you have BepinEx (there should be a BepinEx folder inside your game folder)
+1. Download the plugin.
+2. Unzip
+3. Directly place the BepinEx folder in the game directory (the compressed package contains the folder structure)
 
 ### Configuration Files
 Place configuration files in `COM3D2\BepInEx\config\COM3D2.HighHeel\`.
@@ -490,8 +491,10 @@ To add, use Issue
 
 #### 安装插件
 
-1. 下载插件
-2. COM3D2.HighHeel.Plugin 放到 `COM3D2\BepInEx\Plugin\` 或 `COM3D2\BepInEx\plugins\COM3D2.HighHeel`
+0. 确保你有 BepinEx（你的游戏文件夹内应该有一个 BepinEx 文件夹）
+1. 下载插件压缩包
+2. 解压
+3. 直接把压缩内的 BepinEx 文件夹放置到游戏目录（压缩包内包含文件夹结构）
 
 #### 配置文件
 
