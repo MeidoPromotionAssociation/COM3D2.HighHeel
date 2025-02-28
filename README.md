@@ -897,7 +897,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 中文教学: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
 
-插件会读取所穿鞋子的对象名称（网格名称）。您需要在名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
+当妹抖穿上鞋时，插件会读取所穿鞋子的对象名称（Blender 中的网格名称）。因此您需要在网格名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
 
 插件还可以识别以下名称：
 
@@ -927,11 +927,11 @@ offset 用于调整离地高度，值约大，角色离地面越远
 而  habeebweeb 1.0.0 版本将读取包含 hhmod_ 的 hhmod_ 之后的完整字符串。
 ```
 
-该插件允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的三个轴，从而实现调整，例如使它们更紧凑或稍微旋转。
+插件还允许您配置脚部旋转的角度（仅限 Z 轴）并分别控制脚趾的三个轴，从而实现调整，例如使脚趾更紧凑或稍微旋转。
 
-创建鞋子时，您只需将鞋子与角色的脚底相匹配即可。
+制作鞋子时，您只需将鞋子与角色的脚底相匹配即可。
 
-进入游戏后由配置文件来决定应该给脚和脚趾旋转多少度，以便和地面平行。
+进入游戏后由对应的配置文件来决定应该给脚和脚趾旋转多少度，以便鞋底和地面平行。
 
 ![shoes_making_example](./img/shoes_making_example.png)
 
