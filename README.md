@@ -28,7 +28,7 @@ The folder `COM3D2\BepInEx\config\COM3D2.HighHeel\Configurations\` contains shoe
 
 If the author provided you with a file named `hhmod_xxxx.json`, you should place it here.
 
-When the object's name (mesh name) of the shoes includes `hhmod_foobar`, the plugin reads the corresponding `hhmod_foobar.json` from the shoe configuration folder.
+The principle is that when the shoe object name (the yellow inverted triangle in Blender) contains hhmod_foobar, the plugin reads the corresponding `hhmod_foobar.json` from the shoe configuration folder. (Note that it is not the file name)
 
 If you modify the configuration file, you can click "reload" in the plugin settings to reload the configuration files.
 
@@ -404,7 +404,7 @@ To
 
 Chinese Guide: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
 
-The plugin reads the object name (mesh name) of the shoes being worn. You need to include `hhmod_foobar` in the name, which will be used to identify the corresponding configuration file.
+The plugin reads the object name () of the shoes being worn. You need to include `hhmod_foobar` in the name, which will be used to identify the corresponding configuration file.
 
 The plugin also recognizes names like:
 
@@ -414,9 +414,9 @@ The plugin also recognizes names like:
 
 All of these will be identified as `hhmod_foobar`.
 
-When a shoe's object name contains `hhmod_foobar`, the plugin reads the configuration file hhmod_foobar.json and applies its settings.
+When a shoe's object name (yellow inverted triangle) contains `hhmod_foobar`, the plugin reads the configuration file hhmod_foobar.json and applies its settings.
 
-![mesh_name](./img/mesh_name.png)
+![object_name](./img/object_name.png)
 
 ```
 Warning:
@@ -506,7 +506,7 @@ GlobalBodyOffset.json 是一个全局 offset（调整离地高度） 的配置�
 
 如果作者给你了一个 `hhmod_xxxx.json` 那么你应该放到这里。
 
-当鞋子的物体名（网格名）带有 hhmod_foobar 时，插件从鞋子配置文件夹中读取对应的 `hhmod_foobar.json`。
+原理是当鞋子的物体名（Blender 中的黄色倒三角）带有 hhmod_foobar 时，插件从鞋子配置文件夹中读取对应的 `hhmod_foobar.json`。（注意不是文件名哦）
 
 如果更改了配置文件，你可以在插件设置中单击 reload，这将重新加载配置文件。
 
@@ -908,7 +908,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 所有这些都将被识别为 `hhmod_foobar`。
 
 
-当鞋子的对象名称包含 `hhmod_foobar` 时，插件会读取配置文件 hhmod_foobar.json 并应用其设置。
+当鞋子的物体名称（黄色倒三角）包含 `hhmod_foobar` 时，插件会读取配置文件 hhmod_foobar.json 并应用其设置。
 插件还可以识别以下名称：
 
 - aaaa_hhmod_foobar_bbbb.json
@@ -919,7 +919,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 (插件也接受  aaaa_hhmod_foobar_bbbb.json 或 hhmod_foobar_bbbb.json 或 aaaa_hhmod_foobar.json，这三种都会被识别为 hhmod_foobar.json)
 
-![mesh_name](./img/mesh_name.png)
+![object_name](./img/object_name.png)
 
 ```
 警告：
