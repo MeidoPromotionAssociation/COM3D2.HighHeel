@@ -404,7 +404,7 @@ To
 
 Chinese Guide: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
 
-The plugin reads the object name () of the shoes being worn. You need to include `hhmod_foobar` in the name, which will be used to identify the corresponding configuration file.
+The plugin reads the object name (Object name in Blender, yellow inverted triangle) of the shoes being worn. You need to include `hhmod_foobar` in the name, which will be used to identify the corresponding configuration file. (Note that foobar is a placeholder and can be replaced with any word you want, including individual foo and bar)
 
 The plugin also recognizes names like:
 
@@ -436,6 +436,8 @@ After entering the game, the configuration file determines how much the foot and
 You can import some mods to see how they do it.
 
 If you have a situation where you are sinking into the ground, use offset, a positive offset will move it towards the positive Z axis (increase height off the ground).
+
+Although the plugin allows you to configure offsets for each scene individually, there may be multiple rooms in a scene, and KISS does not configure the correct floor height for them, so the sinking problem may not be truly solved. If you have a solution, please contact me.
 
 ### About GUI
 
@@ -897,7 +899,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 
 中文教学: [https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie](https://90135.gitbook.io/com3d2_simple_mod_guide_chinese/di-5-ke-zuo-yi-shuang-highhell-cha-jian-gao-gen-xie)
 
-当妹抖穿上鞋时，插件会读取所穿鞋子的对象名称（Blender 中的网格名称）。因此您需要在网格名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。
+当妹抖穿上鞋时，插件会读取所穿鞋子的对象名称（Blender 中的物体名称，黄色倒三角）。因此您需要在物体名称中包含 `hhmod_foobar`，该名称将用于识别相应的配置文件。（注 foobar 是一个占位符，可以替换为你想要的词，包括单独的 foo 和 bar）
 
 插件还可以识别以下名称：
 
@@ -938,6 +940,8 @@ offset 用于调整离地高度，值约大，角色离地面越远
 您看可以导入一些 MOD 看看它们是怎么做的。
 
 如果出现陷入地下的情况，请使用 offset，正数的 offset 将使向正 Z 轴移动（增加离地高度）。
+
+虽然插件允许您未每个场景单独配置 offset，但是一个场景内可能有多个房间，而 KISS 没有给它们配置正确的地板高度，所以下陷问题可能无法真正解决。如果您有解决方案，请联系我。
 
 ### 关于 GUI
 
