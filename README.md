@@ -439,6 +439,14 @@ If you have a situation where you are sinking into the ground, use offset, a pos
 
 Although the plugin allows you to configure offsets for each scene individually, there may be multiple rooms in a scene, and KISS does not configure the correct floor height for them, so the sinking problem may not be truly solved. If you have a solution, please contact me.
 
+#### Another way to make shoes
+
+In addition to aligning the shoe with the flat sole
+
+ymk has made .anm files with 13d, 20d, 27d, and 34d heights. You can use this file to export model by export any pose way.
+
+You can download [hh_anm.zip](https://github.com/InoryS/COM3D2.HighHeel/blob/main/hh_anm.zip) in the warehouse to obtain it (ymk has agreed)
+
 ### About GUI
 
 Some options are not displayed on the GUI, please refer to the configuration file.
@@ -942,6 +950,14 @@ offset 用于调整离地高度，值约大，角色离地面越远
 如果出现陷入地下的情况，请使用 offset，正数的 offset 将使向正 Z 轴移动（增加离地高度）。
 
 虽然插件允许您未每个场景单独配置 offset，但是一个场景内可能有多个房间，而 KISS 没有给它们配置正确的地板高度，所以下陷问题可能无法真正解决。如果您有解决方案，请联系我。
+
+#### 另一种方式做鞋
+
+除了将鞋子与平脚底对齐的方法以外
+
+ymk 大佬制作了 13d、20d、27d、34d 高度的 .anm 文件，使用此文件后以任意姿态导出的方式制作即可。
+
+可以下载仓库内的 [hh_anm.zip](https://github.com/InoryS/COM3D2.HighHeel/blob/main/hh_anm.zip) 获取（已征得同意）
 
 ### 关于 GUI
 
