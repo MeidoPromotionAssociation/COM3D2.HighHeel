@@ -3,10 +3,7 @@
 # English
 # COM3D2.HighHeel-InoryS
 
-
 This is a high-heel plugin that dynamically adjusts the positions of feet and toes to achieve high-heel effects.
-
-I guess I am the one maintaining it now.
 
 ## How to Use
 
@@ -15,7 +12,7 @@ If you are using someone else's shoes
 ### Install the Plugin
 
 0. Make sure you have BepinEx (there should be a BepinEx folder inside your game folder)
-1. Download the plugin.
+1. Download the plugin at [release](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases).
 2. Unzip
 3. Directly place the BepinEx folder in the game directory (the compressed package contains the folder structure)
 
@@ -493,8 +490,6 @@ To add, use Issue
 
 这是一个通过动态调整脚和脚趾的位置来实现高跟鞋的高跟鞋插件。
 
-我猜现在由我维护了。
-
 ## 如何使用
 
 如果您使用别人的鞋子
@@ -502,7 +497,7 @@ To add, use Issue
 #### 安装插件
 
 0. 确保你有 BepinEx（你的游戏文件夹内应该有一个 BepinEx 文件夹）
-1. 下载插件压缩包
+1. 在 [Release ](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases) 内下载插件压缩包
 2. 解压
 3. 直接把压缩内的 BepinEx 文件夹放置到游戏目录（压缩包内包含文件夹结构）
 
