@@ -1,5 +1,8 @@
 [English](#english) | [简体中文](#%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
+[![Github All Releases](https://img.shields.io/github/downloads/MeidoPromotionAssociation/COM3D2.HighHeel/total.svg)]() [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/MeidoPromotionAssociation/COM3D2.HighHeel)
+
+
 # English
 # COM3D2.HighHeel-InoryS
 
