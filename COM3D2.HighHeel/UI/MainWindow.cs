@@ -41,6 +41,9 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset] = new NumberInput("Man Body Offset", editModeConfig.ManBodyOffset);
             inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset].InputChangeEvent += (_, a) => editModeConfig.ManBodyOffset = a.Value;
 
+            inputs[ShoeConfig.ShoeConfigParameter.ToeControl] = new NumberInput("Enable Toe Control", editModeConfig.ToeControl);
+            inputs[ShoeConfig.ShoeConfigParameter.ToeControl].InputChangeEvent += (_, a) => editModeConfig.ToeControl = a.Value;
+
 
 
             inputs[ShoeConfig.ShoeConfigParameter.FootLAngle] = new NumberInput("Foot L Angle", editModeConfig.FootLAngle);
@@ -159,6 +162,7 @@ namespace COM3D2.Highheel.Plugin.UI
             editModeConfig = Plugin.Instance!.EditModeConfig;
             inputs[ShoeConfig.ShoeConfigParameter.BodyOffset].Value = editModeConfig.BodyOffset;
             inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset].Value = editModeConfig.ManBodyOffset;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeControl].Value = editModeConfig.ToeControl;
 
             inputs[ShoeConfig.ShoeConfigParameter.FootLAngle].Value = editModeConfig.FootLAngle;
             inputs[ShoeConfig.ShoeConfigParameter.FootLMax].Value = editModeConfig.FootLMax;

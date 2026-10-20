@@ -321,6 +321,7 @@ An example configuration for `hhmod_27d.json`:
 {
 	"BodyOffset": 0.04, //Default maid BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in, this value is used, otherwise this value will not be used
 	"ManBodyOffset": 0.0, //Default man BodyOffset, if you don't set BodyOffset for the scene separately, this value is applied. //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
+	"ToeControl": 1.0, //Toe bone switch. 1 keeps the plugin's own toe rotation (the ToeXXAngle values below); 0 stops the plugin from touching the toes at all. Mainly for special dance motions, see "ToeControl and special dance motions" below. Defaults to 1 for older configuration files.
 	"PerSceneBodyOffsets": { //If you set EnableGlobalPreSceneOffsetSettings to false in , use this value, otherwise this value will not be used
 		"SceneDaily": 0.02, //Maid BodyOffset set separately for each scene, which means setting the maid BodyOffset of the scene named SceneDaily to 0.02
 		"SceneTrophy": 0.14, //Maid BodyOffset set separately for each scene, which means setting the maid BodyOffset of the scene named SceneTrophy to 0.14
@@ -398,6 +399,15 @@ To
 ```
 "ToeL0AngleZ": 7.0,
 ```
+
+
+#### ToeControl and special dance motions
+
+`ToeControl` is a master switch for the toe bones. With the default value `1` the plugin keeps overwriting the toe bones with the angles above. Set it to `0` and the plugin leaves the toes alone completely, so they go back to being driven by the animation and the shoe model.
+
+This is mainly for special dance motions. Because the shoe follows the toe bones, releasing the toes lets the shoe rotate together with them instead of being pinned to a fixed angle by the plugin — which is what makes effects like the heel of the shoe visibly slipping off the foot (脱根) possible.
+
+Note that the toe angles exist to make the toes fit inside the shoe, so `0` is normally only wanted for the few shoes that are used in such motions. Leaving it at `1` is the safe choice for everyday use.
 
 
 ## How It Works and How to Create High Heels
@@ -822,6 +832,7 @@ offset 用于调整离地高度，值约大，角色离地面越远
 {
   "BodyOffset": 0.04,    //默认女仆 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
   "ManBodyOffset": 0.0,  //默认男人 BodyOffset，如果您没有为场景单独设置 BodyOffset，则应用此值。//如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
+  "ToeControl": 1.0,  //脚趾骨骼总开关。1 表示沿用插件自己的脚趾旋转（即下面那些 ToeXXAngle 值）；0 表示插件完全不碰脚趾。主要用于舞蹈特殊动作，详见下文「ToeControl 与舞蹈特殊动作」。旧配置文件没有此项时默认为 1
   "PerSceneBodyOffsets": {  //如果你在中设置 EnableGlobalPreSceneOffsetSettings 为 false ，则使用此值，否则此值不会被使用
     "SceneDaily":0.02,   //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneDaily 的女仆 BodyOffset 设置为 0.02
     "SceneTrophy": 0.14,  //为每个场景单独设置的女仆 BodyOffset，这表示将场景名为 SceneTrophy 的女仆 BodyOffset 设置为 0.14
@@ -899,6 +910,15 @@ offset 用于调整离地高度，值约大，角色离地面越远
   "ToeL0AngleZ": 7.0,
 ```
 
+
+
+#### ToeControl 与舞蹈特殊动作
+
+`ToeControl` 是脚趾骨骼的总开关。默认值 `1` 表示插件继续用上面那些角度覆盖脚趾骨骼；设为 `0` 后插件完全不再碰脚趾，脚趾交回动画和鞋模自己控制。
+
+这个开关主要是为舞蹈特殊动作准备的。因为鞋子会跟随脚趾骨骼转动，放开脚趾之后鞋子就能跟着脚趾一起转，而不是被插件固定在配置角度上，从而可以做出「脱根」这类效果。
+
+需要注意的是，那些脚趾角度本身是为了让脚趾塞进鞋子里，所以一般只有少数用于此类动作的鞋子才需要设成 `0`。日常使用保持 `1` 就好。
 
 
 ## 工作原理和如何做高跟鞋

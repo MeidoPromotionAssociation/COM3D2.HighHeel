@@ -184,8 +184,15 @@ namespace COM3D2.Highheel.Plugin.Core
             RotateFoot(transforms.FootL, config.FootLAngle, config.FootLMax);
             RotateFoot(transforms.FootR, config.FootRAngle, config.FootRMax);
 
-            RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
-            RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
+            // ToeControl == 0 leaves the toe bones untouched. The plugin normally pins
+            // the toes to the configured angles, which hides any toe motion coming from
+            // the animation; releasing them lets special dance motions show the shoe
+            // following the toes, e.g. the heel visibly slipping off the foot.
+            if (config.ToeControl != 0f)
+            {
+                RotateToesIndividual(transforms.ToesL, GetIndividualAngles(config, "L"), true);
+                RotateToesIndividual(transforms.ToesR, GetIndividualAngles(config, "R"), false);
+            }
 
             // not need because we are now Prefix, the original method will call
             // By avoiding this, we can get a big FPS boost with lots of maids.

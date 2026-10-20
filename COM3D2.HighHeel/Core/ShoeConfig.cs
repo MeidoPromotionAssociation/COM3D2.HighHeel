@@ -10,6 +10,7 @@ namespace COM3D2.Highheel.Plugin.Core
             ManBodyOffset,
             PerSceneBodyOffsets,
             PerSceneManBodyOffsets,
+            ToeControl,
             FootLAngle,
             FootLMax,
             ToeL0AngleX,
@@ -53,6 +54,10 @@ namespace COM3D2.Highheel.Plugin.Core
         }
         public float BodyOffset { get; set; } = 0.04f; // Experience-based values
         public float ManBodyOffset { get; set; } = 0f;
+        // 0 leaves the toe bones to the animation, which is what special dance motions
+        // need (the shoe then follows the toes, e.g. the heel slipping off the foot);
+        // any other value keeps the plugin's own toe rotation
+        public float ToeControl { get; set; } = 1f;
         public Dictionary<string , float> PerSceneBodyOffsets { get; set; } = new();
         public Dictionary<string , float> PerSceneManBodyOffsets { get; set; } = new();
         public float FootLAngle { get; set; }
@@ -113,6 +118,7 @@ namespace COM3D2.Highheel.Plugin.Core
             out float manBodyOffset,
             out Dictionary<string, float> perSceneBodyOffsets,
             out Dictionary<string, float> perSceneManBodyOffsets,
+            out float toeControl,
             out float footLAngle, out float footLMax,
             out float toeL0AngleX, out float toeL01AngleX, out float toeL1AngleX, out float toeL11AngleX,
             out float toeL2AngleX, out float toeL21AngleX,
@@ -133,7 +139,8 @@ namespace COM3D2.Highheel.Plugin.Core
             manBodyOffset = ManBodyOffset;
             perSceneBodyOffsets = PerSceneBodyOffsets;
             perSceneManBodyOffsets = PerSceneManBodyOffsets;
-            
+            toeControl = ToeControl;
+
             footLAngle = FootLAngle;
             footLMax = FootLMax;
 
