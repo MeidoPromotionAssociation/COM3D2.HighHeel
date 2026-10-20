@@ -33,5 +33,5 @@ jobs:
           name: COM3D2.HighHeel.Plugin
           path: |
             COM3D2.HighHeel/bin/Release/COM3D2/net35/COM3D2.Highheel.Plugin.dll
-            COM3D2.HighHeel/bin/Release/COM3D25/net48/COM3D2.Highheel.Plugin.dll
+            COM3D2.HighHeel/bin/Release/COM3D25/net48/COM3D25.Highheel.Plugin.dll
           if-no-files-found: error

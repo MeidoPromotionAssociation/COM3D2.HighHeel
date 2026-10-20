@@ -36,6 +36,7 @@
     <Choose>
         <When Condition="'$(Configuration)|$(Platform)' == 'COM3D2-Debug|AnyCPU'">
             <PropertyGroup>
+                <AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
                 <DefineConstants>COM3D2;DEBUG;TRACE</DefineConstants>
                 <DebugType>full</DebugType>
                 <Optimize>false</Optimize>
@@ -46,6 +47,7 @@
         </When>
         <When Condition="'$(Configuration)|$(Platform)' == 'COM3D2-Release|AnyCPU'">
             <PropertyGroup>
+                <AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
                 <DefineConstants>COM3D2</DefineConstants>
                 <DebugType>pdbonly</DebugType>
                 <Optimize>true</Optimize>
@@ -57,6 +59,7 @@
 
         <When Condition="'$(Configuration)|$(Platform)' == 'COM3D25_UNITY_2022-Debug|AnyCPU'">
             <PropertyGroup>
+                <AssemblyName>COM3D25.Highheel.Plugin</AssemblyName>
                 <DefineConstants>COM3D25_UNITY_2022;DEBUG;TRACE</DefineConstants>
                 <DebugType>full</DebugType>
                 <Optimize>false</Optimize>
@@ -67,6 +70,7 @@
         </When>
         <When Condition="'$(Configuration)|$(Platform)' == 'COM3D25_UNITY_2022-Release|AnyCPU'">
             <PropertyGroup>
+                <AssemblyName>COM3D25.Highheel.Plugin</AssemblyName>
                 <DefineConstants>COM3D25_UNITY_2022</DefineConstants>
                 <DebugType>pdbonly</DebugType>
                 <Optimize>true</Optimize>
@@ -84,7 +88,6 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
         <RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
         <LangVersion>latest</LangVersion>
         <Configurations>COM3D2-Debug;COM3D2-Release;COM3D25_UNITY_2022-Debug;COM3D25_UNITY_2022-Release</Configurations>

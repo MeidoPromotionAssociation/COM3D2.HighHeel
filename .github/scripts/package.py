@@ -5,10 +5,11 @@
 
 每个游戏版本一个包，解压到对应游戏的根目录即可，包内布局与插件运行时读取的路径一致：
 
-    BepInEx/plugins/COM3D2.Highheel.Plugin.dll
+    BepInEx/plugins/COM3D2.Highheel.Plugin.dll    （2.x）
+    BepInEx/plugins/COM3D25.Highheel.Plugin.dll   （3.x）
     README.md
 
-两个包里的 dll 同名，靠 zip 文件名区分（`-COM3D2-` / `-COM3D25-`），只会装其中一个。
+两个版本的 dll 名不同，压缩包也直接用各自的插件名，所以装错了也能一眼看出来。
 
 **只打包插件本体这一个 dll，不做目录通配。**
 `bin/Release/<target>/<tfm>/` 里还会躺着 `Assembly-CSharp.dll`、`Assembly-CSharp-firstpass.dll`、
@@ -16,10 +17,11 @@
 游戏目录里本来就有（而且版本更匹配），打进包里覆盖过去只会把游戏弄坏。
 
 One archive per game version, each mirroring the layout the plugin expects after
-extracting into that game's root. Both carry the same dll name and are told apart by
-the zip name. Only the plugin dll is packaged, deliberately not a directory glob: the
-build output also contains the game assemblies and Newtonsoft.Json that got copied
-there as compile-time references, and overwriting the game's own copies would break it.
+extracting into that game's root. The two builds use different assembly names and each
+archive is named after its own plugin, so a wrong download is obvious at a glance.
+Only the plugin dll is packaged, deliberately not a directory glob: the build output also
+contains the game assemblies and Newtonsoft.Json that got copied there as compile-time
+references, and overwriting the game's own copies would break it.
 """
 
 import argparse
@@ -27,14 +29,21 @@ import os
 import sys
 import zipfile
 
-PLUGIN_DLL = "COM3D2.Highheel.Plugin.dll"
-ZIP_PREFIX = "COM3D2.Highheel.Plugin"
-
-# 目标定义：配置名 -> bin/Release 下的子目录
-# Target definitions: configuration name -> subdirectory under bin/Release
+# 目标定义：bin/Release 下的子目录、插件 dll 名、zip 前缀
+# 两个版本的 dll 名不同（COM3D2. / COM3D25. 前缀），压缩包也直接用各自的插件名
+# Per target: build subdirectory, plugin dll name and zip prefix. The two builds use
+# different assembly names, and each archive is named after its own plugin.
 TARGETS = {
-    "COM3D2": "COM3D2/net35",
-    "COM3D25": "COM3D25/net48",
+    "COM3D2": {
+        "build_dir": "COM3D2/net35",
+        "dll": "COM3D2.Highheel.Plugin.dll",
+        "prefix": "COM3D2.Highheel.Plugin",
+    },
+    "COM3D25": {
+        "build_dir": "COM3D25/net48",
+        "dll": "COM3D25.Highheel.Plugin.dll",
+        "prefix": "COM3D25.Highheel.Plugin",
+    },
 }
 
 PLUGIN_DIR_IN_ZIP = "BepInEx/plugins"
@@ -70,24 +79,26 @@ def main():
     args = parser.parse_args()
 
     repo_root = os.path.abspath(args.repo_root)
-    build_dir = os.path.join(os.path.abspath(args.build_root), TARGETS[args.target])
-    plugin_dll = os.path.join(build_dir, PLUGIN_DLL)
+    target = TARGETS[args.target]
+    plugin_dll_name = target["dll"]
+    build_dir = os.path.join(os.path.abspath(args.build_root), target["build_dir"])
+    plugin_dll = os.path.join(build_dir, plugin_dll_name)
     readme = os.path.join(repo_root, "README.md")
 
     if not os.path.isfile(plugin_dll):
         found = sorted(os.listdir(build_dir)) if os.path.isdir(build_dir) else []
-        sys.exit(f"::error::{PLUGIN_DLL} not found in {build_dir}, got {found}")
+        sys.exit(f"::error::{plugin_dll_name} not found in {build_dir}, got {found}")
     if not os.path.isfile(readme):
         sys.exit(f"::error::missing file: {readme}")
 
     os.makedirs(os.path.join(repo_root, args.output_dir), exist_ok=True)
     zip_path = os.path.join(
-        repo_root, args.output_dir, f"{ZIP_PREFIX}-{args.target}-{args.version}.zip")
+        repo_root, args.output_dir, f"{target['prefix']}-{args.version}.zip")
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         add_dir(zf, "BepInEx")
         add_dir(zf, PLUGIN_DIR_IN_ZIP)
-        add_file(zf, plugin_dll, f"{PLUGIN_DIR_IN_ZIP}/{PLUGIN_DLL}")
+        add_file(zf, plugin_dll, f"{PLUGIN_DIR_IN_ZIP}/{plugin_dll_name}")
         add_file(zf, readme, "README.md")
 
     # 自检：条目必须正好是这两个，多一个少一个都算打包逻辑坏了
@@ -97,14 +108,14 @@ def main():
     expected = {
         "BepInEx/",
         f"{PLUGIN_DIR_IN_ZIP}/",
-        f"{PLUGIN_DIR_IN_ZIP}/{PLUGIN_DLL}",
+        f"{PLUGIN_DIR_IN_ZIP}/{plugin_dll_name}",
         "README.md",
     }
     unexpected = sorted(set(names) - expected)
     if unexpected:
         sys.exit(f"::error::unexpected entries in {zip_path}: {unexpected}")
-    if f"{PLUGIN_DIR_IN_ZIP}/{PLUGIN_DLL}" not in names:
-        sys.exit(f"::error::{PLUGIN_DLL} missing from {zip_path}")
+    if f"{PLUGIN_DIR_IN_ZIP}/{plugin_dll_name}" not in names:
+        sys.exit(f"::error::{plugin_dll_name} missing from {zip_path}")
 
     size = os.path.getsize(zip_path)
     print(f"built {zip_path} ({len(names)} entries, {size} bytes)")

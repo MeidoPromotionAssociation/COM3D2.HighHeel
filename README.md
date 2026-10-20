@@ -16,11 +16,11 @@ If you are using someone else's shoes
 
 0. Make sure you have BepinEx (there should be a BepinEx folder inside your game folder)
 1. Download the plugin at [release](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases).
-2. Pick the archive that matches your game: `...-COM3D2-...zip` for COM3D2 (2.x), `...-COM3D25-...zip` for COM3D2.5 (3.x)
+2. Pick the archive that matches your game: `COM3D2.Highheel.Plugin-...zip` for COM3D2 (2.x), `COM3D25.Highheel.Plugin-...zip` for COM3D2.5 (3.x)
 3. Unzip
 4. Directly place the BepinEx folder in the game directory (the compressed package contains the folder structure)
 
-The two archives contain the same `COM3D2.Highheel.Plugin.dll`, so install only one of them.
+Install only one of them. The two builds use different file names — `COM3D2.Highheel.Plugin.dll` and `COM3D25.Highheel.Plugin.dll` — so a wrong download is easy to spot.
 
 ### COM3D2.5 (3.x)
 
@@ -526,11 +526,11 @@ To add, use Issue
 
 0. 确保你有 BepinEx（你的游戏文件夹内应该有一个 BepinEx 文件夹）
 1. 在 [Release ](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases) 内下载插件压缩包
-2. 选对应你游戏的那个包：COM3D2（2.x）用 `...-COM3D2-...zip`，COM3D2.5（3.x）用 `...-COM3D25-...zip`
+2. 选对应你游戏的那个包：COM3D2（2.x）用 `COM3D2.Highheel.Plugin-...zip`，COM3D2.5（3.x）用 `COM3D25.Highheel.Plugin-...zip`
 3. 解压
 4. 直接把压缩内的 BepinEx 文件夹放置到游戏目录（压缩包内包含文件夹结构）
 
-两个包里的 `COM3D2.Highheel.Plugin.dll` 同名，只需安装其中一个。
+只需安装其中一个。两个版本的文件名不同 —— `COM3D2.Highheel.Plugin.dll` 与 `COM3D25.Highheel.Plugin.dll` —— 下错了能一眼看出来。
 
 #### COM3D2.5（3.x）
 

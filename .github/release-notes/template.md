@@ -2,17 +2,18 @@
 
 This release ships two builds of the same plugin. **Download the one matching your game:**
 
-- `COM3D2.Highheel.Plugin-COM3D2-{{VERSION}}.zip` — for COM3D2 (2.x, Unity 5.6)
-- `COM3D2.Highheel.Plugin-COM3D25-{{VERSION}}.zip` — for COM3D2.5 (3.x, Unity 2022.3)
+- `COM3D2.Highheel.Plugin-{{VERSION}}.zip` — for COM3D2 (2.x, Unity 5.6), contains `COM3D2.Highheel.Plugin.dll`
+- `COM3D25.Highheel.Plugin-{{VERSION}}.zip` — for COM3D2.5 (3.x, Unity 2022.3), contains `COM3D25.Highheel.Plugin.dll`
 
-Both contain the same `COM3D2.Highheel.Plugin.dll`, so install only one of them.
+Install only one of them. The dll names differ, so a wrong download is easy to spot.
 
 # Install
 
 Extract the zip into your game root, so that the file ends up at:
 
 ```
-COM3D2/BepInEx/plugins/COM3D2.Highheel.Plugin.dll
+COM3D2/BepInEx/plugins/COM3D2.Highheel.Plugin.dll     (COM3D2 build)
+COM3D2/BepInEx/plugins/COM3D25.Highheel.Plugin.dll    (COM3D2.5 build)
 ```
 
 Requirements: BepInEx 5.x. Nothing else has to be installed alongside it.
@@ -48,17 +49,18 @@ See the [README](https://github.com/{{REPO}}/blob/main/README.md) for the full f
 
 本次发布提供同一插件的两个版本，**请下载与你的游戏对应的那个**：
 
-- `COM3D2.Highheel.Plugin-COM3D2-{{VERSION}}.zip` — 对应 COM3D2（2.x，Unity 5.6）
-- `COM3D2.Highheel.Plugin-COM3D25-{{VERSION}}.zip` — 对应 COM3D2.5（3.x，Unity 2022.3）
+- `COM3D2.Highheel.Plugin-{{VERSION}}.zip` — 对应 COM3D2（2.x，Unity 5.6），内含 `COM3D2.Highheel.Plugin.dll`
+- `COM3D25.Highheel.Plugin-{{VERSION}}.zip` — 对应 COM3D2.5（3.x，Unity 2022.3），内含 `COM3D25.Highheel.Plugin.dll`
 
-两个包里的 `COM3D2.Highheel.Plugin.dll` 同名，只需安装其中一个。
+只需安装其中一个。两个包的 dll 名不同，下错了能一眼看出来。
 
 # 安装
 
 把 zip 解压到游戏根目录，最终文件位置应为：
 
 ```
-COM3D2/BepInEx/plugins/COM3D2.Highheel.Plugin.dll
+COM3D2/BepInEx/plugins/COM3D2.Highheel.Plugin.dll     （COM3D2 版）
+COM3D2/BepInEx/plugins/COM3D25.Highheel.Plugin.dll    （COM3D2.5 版）
 ```
 
 前置条件：BepInEx 5.x，不需要额外安装其它东西。
