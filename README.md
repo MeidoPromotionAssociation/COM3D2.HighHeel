@@ -16,8 +16,23 @@ If you are using someone else's shoes
 
 0. Make sure you have BepinEx (there should be a BepinEx folder inside your game folder)
 1. Download the plugin at [release](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases).
-2. Unzip
-3. Directly place the BepinEx folder in the game directory (the compressed package contains the folder structure)
+2. Pick the archive that matches your game: `...-COM3D2-...zip` for COM3D2 (2.x), `...-COM3D25-...zip` for COM3D2.5 (3.x)
+3. Unzip
+4. Directly place the BepinEx folder in the game directory (the compressed package contains the folder structure)
+
+The two archives contain the same `COM3D2.Highheel.Plugin.dll`, so install only one of them.
+
+### COM3D2.5 (3.x)
+
+COM3D2.5 has native high-heel support: a shoe whose **model file name** contains `_heel` is treated as a high heel, and the game poses the foot by itself. The plugin reuses that machinery instead of fighting it:
+
+- shoes that carry an `hhmod_` configuration are marked as high heels automatically, so the game's IK takes care of the foot pose;
+- the game's built-in angle is a fixed 25°, so the plugin only adds the difference up to the `FootLAngle` / `FootRAngle` in your configuration — different heel heights still come out right;
+- when the game itself decides not to touch the foot (photo mode, pose editing), the plugin skips as well instead of fighting it;
+- the toe angles and `ToeControl` are applied by the plugin, exactly like on 2.x;
+- the ground clearance comes from `BodyOffset` / `PerSceneBodyOffsets`; the game's own fixed offset is switched off for those shoes so the two do not stack.
+
+Configuration files, GUI and hotkeys are identical on both versions.
 
 ### Configuration Files
 Place configuration files in `COM3D2\BepInEx\config\COM3D2.HighHeel\`.
@@ -511,8 +526,23 @@ To add, use Issue
 
 0. 确保你有 BepinEx（你的游戏文件夹内应该有一个 BepinEx 文件夹）
 1. 在 [Release ](https://github.com/MeidoPromotionAssociation/COM3D2.HighHeel/releases) 内下载插件压缩包
-2. 解压
-3. 直接把压缩内的 BepinEx 文件夹放置到游戏目录（压缩包内包含文件夹结构）
+2. 选对应你游戏的那个包：COM3D2（2.x）用 `...-COM3D2-...zip`，COM3D2.5（3.x）用 `...-COM3D25-...zip`
+3. 解压
+4. 直接把压缩内的 BepinEx 文件夹放置到游戏目录（压缩包内包含文件夹结构）
+
+两个包里的 `COM3D2.Highheel.Plugin.dll` 同名，只需安装其中一个。
+
+#### COM3D2.5（3.x）
+
+COM3D2.5 本身已经有高跟鞋支持：**模型文件名**里带 `_heel` 的鞋子会被当成高跟鞋，脚部姿态由游戏自己处理。插件复用这套机制，而不是跟它抢骨骼：
+
+- 带 `hhmod_` 配置的鞋子会被自动标记成高跟鞋，脚部姿态交给游戏的 IK；
+- 游戏内置的角度是固定 25°，所以插件只补「配置里的 `FootLAngle` / `FootRAngle` 与 25° 的差额」，不同跟高依然准确；
+- 游戏自己决定不转脚的场合（拍照、姿势编辑），插件也跟着跳过，不去抢骨骼；
+- 脚趾角度和 `ToeControl` 由插件负责，和 2.x 完全一致；
+- 离地高度取自 `BodyOffset` / `PerSceneBodyOffsets`；这类鞋子上会关掉游戏自带的固定离地，避免两笔叠加。
+
+配置文件、GUI 和快捷键在两个版本上完全相同。
 
 #### 配置文件
 

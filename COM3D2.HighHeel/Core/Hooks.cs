@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+#if COM3D2
 using System.Reflection.Emit;
+#endif
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,10 +10,12 @@ namespace COM3D2.Highheel.Plugin.Core
 {
     public static class Hooks
     {
+#if COM3D2
         private static readonly float[] ToeX = { 0f, 0f, 0f, 0f, 0f, 0f };
-        private static readonly Dictionary<TBody, MaidTransforms> MaidTransforms = new();
-        private static readonly Dictionary<TBody, string> ShoeConfigs = new();
-        private static string currentSceneName;
+#endif
+        internal static readonly Dictionary<TBody, MaidTransforms> MaidTransforms = new();
+        internal static readonly Dictionary<TBody, string> ShoeConfigs = new();
+        internal static string currentSceneName;
 
         // Subscribe to scene loaded event to update the cached scene index
         static Hooks()
@@ -25,11 +29,10 @@ namespace COM3D2.Highheel.Plugin.Core
         }
 
         //<summary>
-        // This method will be called when any item is equipped.
+        // 槽位加载完成后的公共处理：认出 hhmod_ 鞋子并记下配置名。
+        // Shared handler after a skin slot loads: detect the hhmod_ shoe and remember its config.
         //</summary>
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(TBodySkin), nameof(TBodySkin.Load), typeof(MPN), typeof(Transform), typeof(Transform), typeof(Dictionary<string, Transform>), typeof(string), typeof(string), typeof(string), typeof(string), typeof(int), typeof(bool), typeof(int))]
-        public static void OnTBodySkinLoad(TBodySkin __instance)
+        internal static void HandleShoeLoaded(TBodySkin __instance)
         {
             // If the loaded skin slot not a shoe, return directly
             if (__instance.SlotId != TBody.SlotID.shoes)
@@ -43,7 +46,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             if (ShoeConfigs.ContainsKey(__instance.body))
             {
-                Plugin.Instance.Logger.LogDebug($"{nameof(OnTBodySkinLoad)}: ShoeConfigs already contains {__instance.obj.name}. How?");
+                Plugin.Instance.Logger.LogDebug($"{nameof(HandleShoeLoaded)}: ShoeConfigs already contains {__instance.obj.name}. How?");
 
                 ShoeConfigs.Remove(__instance.body);
             }
@@ -73,6 +76,16 @@ namespace COM3D2.Highheel.Plugin.Core
             ShoeConfigs[__instance.body] = configName;
 
             Plugin.Instance.ImportConfigsAndUpdate(configName);
+        }
+
+#if COM3D2
+        // 2.x 的 TBody.AddItem 调的是 11 参数重载
+        // On COM3D2 2.x the game calls the 11-parameter overload
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(TBodySkin), nameof(TBodySkin.Load), typeof(MPN), typeof(Transform), typeof(Transform), typeof(Dictionary<string, Transform>), typeof(string), typeof(string), typeof(string), typeof(string), typeof(int), typeof(bool), typeof(int))]
+        public static void OnTBodySkinLoad(TBodySkin __instance)
+        {
+            HandleShoeLoaded(__instance);
         }
 
         [HarmonyPrefix]
@@ -138,6 +151,7 @@ namespace COM3D2.Highheel.Plugin.Core
 
             ApplyMaidTransformations(__instance, config, transforms);
         }
+#endif
 
         /// <summary>
         /// Get the corresponding ShoeConfig configuration from the TBody instance
@@ -154,6 +168,16 @@ namespace COM3D2.Highheel.Plugin.Core
             return null;
         }
 
+        /// <summary>
+        /// 当前应当生效的配置：编辑模式用 EditModeConfig，否则用这双鞋自己的配置。
+        /// The config in effect right now: EditModeConfig while editing, otherwise the shoe's own.
+        /// </summary>
+        internal static ShoeConfig GetActiveConfig(TBody body)
+        {
+            return Plugin.Instance.EditMode ? Plugin.Instance.EditModeConfig : GetConfig(body);
+        }
+
+#if COM3D2
         private static void ApplyMaidTransformations(TBody __instance, ShoeConfig config, MaidTransforms transforms)
         {
             if (transforms == null || config == null)
@@ -198,6 +222,7 @@ namespace COM3D2.Highheel.Plugin.Core
             // By avoiding this, we can get a big FPS boost with lots of maids.
             //__instance.SkinMeshUpdate();
         }
+#endif
 
         public static bool IsInvalidTransform(Transform transform)
         {
@@ -217,7 +242,7 @@ namespace COM3D2.Highheel.Plugin.Core
         }
 
 
-        private static List<IndividualAngles> GetIndividualAngles(ShoeConfig config, string side)
+        internal static List<IndividualAngles> GetIndividualAngles(ShoeConfig config, string side)
         {
             if (side == "L")
                 return new List<IndividualAngles>
@@ -243,6 +268,7 @@ namespace COM3D2.Highheel.Plugin.Core
             return new List<IndividualAngles>(); // return an empty list if the side is neither L nor R
         }
 
+#if COM3D2
         private static void RotateFoot(Transform foot, float angle, float max)
         {
             // 270 degrees represents a foot rotation where the toes point upwards
@@ -257,8 +283,9 @@ namespace COM3D2.Highheel.Plugin.Core
 
             foot.localRotation = Quaternion.Euler(rotation);
         }
+#endif
 
-        private static void RotateToesIndividual(IList<Transform> toes, List<IndividualAngles> individualAngles,
+        internal static void RotateToesIndividual(IList<Transform> toes, List<IndividualAngles> individualAngles,
             bool left)
         {
             var inverse = left ? 1f : -1f;
@@ -273,6 +300,7 @@ namespace COM3D2.Highheel.Plugin.Core
             }
         }
 
+#if COM3D2
         // Use RotateToesIndividual instead
         private static void RotateToes(IList<Transform> toes, float angle, bool left)
         {
@@ -293,6 +321,7 @@ namespace COM3D2.Highheel.Plugin.Core
                 toes[i].localRotation = Quaternion.Euler(ToeX[i] * inverse, 0f, angle + offset);
             }
         }
+#endif
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R), typeof(string), typeof(Maid))]
@@ -340,6 +369,7 @@ namespace COM3D2.Highheel.Plugin.Core
         }
 
 
+#if COM3D2
         [HarmonyTranspiler]
         [HarmonyPatch(typeof(Maid), "Update")]
         public static IEnumerable<CodeInstruction> MaidUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
@@ -359,6 +389,7 @@ namespace COM3D2.Highheel.Plugin.Core
                     AccessTools.Method(typeof(HighHeelBodyOffset), nameof(HighHeelBodyOffset.GetSnityouOutScale))));
             return codeMatcher.InstructionEnumeration();
         }
+#endif
     }
 
     public class IndividualAngles

@@ -91,16 +91,25 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      # net35 的引用程序集由 SDK 自动引入 Microsoft.NETFramework.ReferenceAssemblies，
+      # net35 / net48 的引用程序集由 SDK 自动引入 Microsoft.NETFramework.ReferenceAssemblies，
       # 所以 Linux runner 上也能直接编译，不需要额外的 targeting pack
-      # The SDK auto-references Microsoft.NETFramework.ReferenceAssemblies for net35,
-      # so a Linux runner can build it without any targeting pack installed
-      - name: Build
-        run: dotnet build COM3D2.HighHeel.sln -c Release
+      # The SDK auto-references Microsoft.NETFramework.ReferenceAssemblies for the .NET Framework
+      # targets, so a Linux runner can build them without any targeting pack installed
+      - name: Build COM3D2
+        run: dotnet build COM3D2.HighHeel/COM3D2.HighHeel.csproj -c COM3D2-Release
 
-      - name: Package Release Archive
+      - name: Build COM3D25
+        run: dotnet build COM3D2.HighHeel/COM3D2.HighHeel.csproj -c COM3D25_UNITY_2022-Release
+
+      - name: Package Release Archives
         run: |
           python3 .github/scripts/package.py \
+            --target COM3D2 \
+            --version "${{ steps.meta.outputs.version }}" \
+            --build-root COM3D2.HighHeel/bin/Release \
+            --output-dir dist
+          python3 .github/scripts/package.py \
+            --target COM3D25 \
             --version "${{ steps.meta.outputs.version }}" \
             --build-root COM3D2.HighHeel/bin/Release \
             --output-dir dist

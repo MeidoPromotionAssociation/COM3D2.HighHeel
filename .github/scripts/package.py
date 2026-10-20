@@ -3,20 +3,23 @@
 # Function: 组装发布 zip / Assemble the release zip
 """组装发布 zip。
 
-解压到游戏根目录即可，包内布局与插件运行时读取的路径一致：
+每个游戏版本一个包，解压到对应游戏的根目录即可，包内布局与插件运行时读取的路径一致：
 
     BepInEx/plugins/COM3D2.Highheel.Plugin.dll
     README.md
 
+两个包里的 dll 同名，靠 zip 文件名区分（`-COM3D2-` / `-COM3D25-`），只会装其中一个。
+
 **只打包插件本体这一个 dll，不做目录通配。**
-`bin/Release/net35/` 里还会躺着 `Assembly-CSharp.dll`、`Assembly-CSharp-firstpass.dll`、
+`bin/Release/<target>/<tfm>/` 里还会躺着 `Assembly-CSharp.dll`、`Assembly-CSharp-firstpass.dll`、
 `UnityEngine.UI.dll`、`Newtonsoft.Json.dll` —— 这些是编译期引用被顺带复制进来的，
 游戏目录里本来就有（而且版本更匹配），打进包里覆盖过去只会把游戏弄坏。
 
-Only the plugin dll is packaged, deliberately not a directory glob. The build
-output also contains the game assemblies and Newtonsoft.Json that got copied
-there as compile-time references; the game already ships its own copies, so
-putting ours in the archive would overwrite them and break the game.
+One archive per game version, each mirroring the layout the plugin expects after
+extracting into that game's root. Both carry the same dll name and are told apart by
+the zip name. Only the plugin dll is packaged, deliberately not a directory glob: the
+build output also contains the game assemblies and Newtonsoft.Json that got copied
+there as compile-time references, and overwriting the game's own copies would break it.
 """
 
 import argparse
@@ -27,8 +30,12 @@ import zipfile
 PLUGIN_DLL = "COM3D2.Highheel.Plugin.dll"
 ZIP_PREFIX = "COM3D2.Highheel.Plugin"
 
-# dotnet build 在 bin/Release 下按目标框架分目录 / dotnet build splits output by TFM
-BUILD_SUBDIR = "net35"
+# 目标定义：配置名 -> bin/Release 下的子目录
+# Target definitions: configuration name -> subdirectory under bin/Release
+TARGETS = {
+    "COM3D2": "COM3D2/net35",
+    "COM3D25": "COM3D25/net48",
+}
 
 PLUGIN_DIR_IN_ZIP = "BepInEx/plugins"
 
@@ -53,6 +60,8 @@ def add_file(zf, src, arcname):
 
 def main():
     parser = argparse.ArgumentParser(description="Assemble the release zip")
+    parser.add_argument("--target", required=True, choices=sorted(TARGETS),
+                        help="COM3D2 (2.x) 或 COM3D25 (3.x) / which game the archive is for")
     parser.add_argument("--version", required=True, help="例如 1.0.9.2 / e.g. 1.0.9.2")
     parser.add_argument("--build-root", required=True,
                         help="dotnet build 的输出根目录（bin/Release）/ dotnet build output root")
@@ -61,7 +70,7 @@ def main():
     args = parser.parse_args()
 
     repo_root = os.path.abspath(args.repo_root)
-    build_dir = os.path.join(os.path.abspath(args.build_root), BUILD_SUBDIR)
+    build_dir = os.path.join(os.path.abspath(args.build_root), TARGETS[args.target])
     plugin_dll = os.path.join(build_dir, PLUGIN_DLL)
     readme = os.path.join(repo_root, "README.md")
 
@@ -73,7 +82,7 @@ def main():
 
     os.makedirs(os.path.join(repo_root, args.output_dir), exist_ok=True)
     zip_path = os.path.join(
-        repo_root, args.output_dir, f"{ZIP_PREFIX}-{args.version}.zip")
+        repo_root, args.output_dir, f"{ZIP_PREFIX}-{args.target}-{args.version}.zip")
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         add_dir(zf, "BepInEx")

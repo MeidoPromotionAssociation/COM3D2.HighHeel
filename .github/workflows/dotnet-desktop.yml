@@ -9,22 +9,29 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.x'
 
-      - name: Build
-        run: |
-          dotnet build -c Release
+      # 两个游戏版本都要编：COM3D2 是 Unity 5.6 / net35，COM3D2.5 是 Unity 2022 / net48
+      # Both game versions are built: COM3D2 is Unity 5.6 / net35, COM3D2.5 is Unity 2022 / net48
+      - name: Build COM3D2
+        run: dotnet build COM3D2.HighHeel/COM3D2.HighHeel.csproj -c COM3D2-Release
+
+      - name: Build COM3D25
+        run: dotnet build COM3D2.HighHeel/COM3D2.HighHeel.csproj -c COM3D25_UNITY_2022-Release
 
       - name: Publish Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: COM3D2.HighHeel.Plugin
-          path: /home/runner/work/COM3D2.HighHeel/COM3D2.HighHeel/COM3D2.HighHeel/bin/Release/net35/COM3D2.Highheel.Plugin.dll
+          path: |
+            COM3D2.HighHeel/bin/Release/COM3D2/net35/COM3D2.Highheel.Plugin.dll
+            COM3D2.HighHeel/bin/Release/COM3D25/net48/COM3D2.Highheel.Plugin.dll
+          if-no-files-found: error

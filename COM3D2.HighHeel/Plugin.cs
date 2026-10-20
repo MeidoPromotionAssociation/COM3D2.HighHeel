@@ -46,6 +46,22 @@ namespace COM3D2.Highheel.Plugin
                 return;
             }
 
+#if COM3D25_UNITY_2022
+            // COM3D2.5 额外一套补丁：复用官方 _heel，只补差值与脚趾/离地
+            // COM3D2.5 needs its own patch set on top of the shared one
+            try
+            {
+                Harmony.CreateAndPatchAll(typeof(Hooks25));
+            }
+            catch (Exception e)
+            {
+                base.Logger.LogError($"Unable to inject COM3D2.5 patches because: {e.Message}");
+                base.Logger.LogError(e.StackTrace);
+                DestroyImmediate(this);
+                return;
+            }
+#endif
+
             Configuration =
                 new PluginConfig(new ConfigFile(Path.Combine(ConfigPath, ConfigName), false, Info.Metadata));
             Logger = base.Logger;

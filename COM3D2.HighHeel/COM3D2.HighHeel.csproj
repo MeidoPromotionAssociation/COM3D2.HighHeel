@@ -1,53 +1,126 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <!--
+        双版本构建矩阵 / Dual-version build matrix
+
+          COM3D2-Debug / COM3D2-Release
+              -> COM3D2 (2.x, Unity 5.6, net35)，定义 COM3D2
+              -> bin\Debug|Release\COM3D2\net35\
+          COM3D25_UNITY_2022-Debug / COM3D25_UNITY_2022-Release
+              -> COM3D2.5 (3.x, Unity 2022.3, net48)，定义 COM3D25_UNITY_2022
+              -> bin\Debug|Release\COM3D25\net48\
+
+        用法 / Usage:
+          dotnet build -c COM3D2-Release
+          dotnet build -c COM3D25_UNITY_2022-Release
+    -->
+
+    <Choose>
+        <!-- COM3D2 (2.x, Unity 5.6) 依赖 -->
+        <When Condition="$(Configuration.Contains('COM3D2-'))">
+            <ItemGroup>
+                <PackageReference Include="UnityEngine.Modules" IncludeAssets="compile" Version="5.6.3"/>
+                <PackageReference Include="COM3D2.GameLibs" IncludeAssets="compile" Version="2.46.1-r.0"/>
+            </ItemGroup>
+        </When>
+
+        <!-- COM3D2.5 (3.x, Unity 2022.3) 依赖 -->
+        <When Condition="$(Configuration.Contains('COM3D25_UNITY_2022-'))">
+            <ItemGroup>
+                <PackageReference Include="UnityEngine.Modules" IncludeAssets="compile" Version="2022.3.35"/>
+                <PackageReference Include="COM3D2.GameLibs" IncludeAssets="compile" Version="3.46.1-r.0"/>
+            </ItemGroup>
+        </When>
+    </Choose>
+
+    <Choose>
+        <When Condition="'$(Configuration)|$(Platform)' == 'COM3D2-Debug|AnyCPU'">
+            <PropertyGroup>
+                <DefineConstants>COM3D2;DEBUG;TRACE</DefineConstants>
+                <DebugType>full</DebugType>
+                <Optimize>false</Optimize>
+                <OutputPath>bin\Debug\COM3D2\</OutputPath>
+                <TargetFramework>net35</TargetFramework>
+                <WarningLevel>4</WarningLevel>
+            </PropertyGroup>
+        </When>
+        <When Condition="'$(Configuration)|$(Platform)' == 'COM3D2-Release|AnyCPU'">
+            <PropertyGroup>
+                <DefineConstants>COM3D2</DefineConstants>
+                <DebugType>pdbonly</DebugType>
+                <Optimize>true</Optimize>
+                <OutputPath>bin\Release\COM3D2\</OutputPath>
+                <TargetFramework>net35</TargetFramework>
+                <WarningLevel>4</WarningLevel>
+            </PropertyGroup>
+        </When>
+
+        <When Condition="'$(Configuration)|$(Platform)' == 'COM3D25_UNITY_2022-Debug|AnyCPU'">
+            <PropertyGroup>
+                <DefineConstants>COM3D25_UNITY_2022;DEBUG;TRACE</DefineConstants>
+                <DebugType>full</DebugType>
+                <Optimize>false</Optimize>
+                <OutputPath>bin\Debug\COM3D25\</OutputPath>
+                <TargetFramework>net48</TargetFramework>
+                <WarningLevel>4</WarningLevel>
+            </PropertyGroup>
+        </When>
+        <When Condition="'$(Configuration)|$(Platform)' == 'COM3D25_UNITY_2022-Release|AnyCPU'">
+            <PropertyGroup>
+                <DefineConstants>COM3D25_UNITY_2022</DefineConstants>
+                <DebugType>pdbonly</DebugType>
+                <Optimize>true</Optimize>
+                <OutputPath>bin\Release\COM3D25\</OutputPath>
+                <TargetFramework>net48</TargetFramework>
+                <WarningLevel>4</WarningLevel>
+            </PropertyGroup>
+        </When>
+    </Choose>
+
+    <!-- net35 / net48 引用程序集（CI 上没有装 .NET Framework，靠这个包补）
+         Reference assemblies for the .NET Framework targets, needed on Linux CI -->
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" Version="1.0.3"/>
+    </ItemGroup>
+
     <PropertyGroup>
-        <TargetFramework>net35</TargetFramework>
         <AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
+        <RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
         <LangVersion>latest</LangVersion>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <Configurations>COM3D2-Debug;COM3D2-Release;COM3D25_UNITY_2022-Debug;COM3D25_UNITY_2022-Release</Configurations>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+
         <!-- 版本号唯一来源是 Plugin.cs 里的 PluginVersion 常量，csproj 和源码里都不再重复写。
              AssemblyVersion / FileVersion 由 SDK 从下面的 <Version> 推导。
              The PluginVersion constant in Plugin.cs is the single source of the version;
              the SDK derives AssemblyVersion / FileVersion from <Version>. -->
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <Version>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/Plugin.cs')), 'PluginVersion\s*=\s*&quot;([0-9][0-9.]*)&quot;').Groups[1].Value)</Version>
+
         <RestoreAdditionalProjectSources>
             https://api.nuget.org/v3/index.json;
             https://nuget.bepinex.dev/v3/index.json;
             https://nuget.samboy.dev/v3/index.json
         </RestoreAdditionalProjectSources>
-        <RootNamespace>COM3D2.Highheel.Plugin</RootNamespace>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*"/>
-        <PackageReference Include="COM3D2.GameLibs" Version="2.46.1-r.0"/>
         <PackageReference Include="IsExternalInit" Version="1.0.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-        <PackageReference Include="UnityEngine.Modules" Version="5.6.3" IncludeAssets="compile"/>
     </ItemGroup>
+
+    <!-- 没带 -c 时给出可读报错，而不是一堆 CS0246
+         Fail with a readable message instead of a pile of CS0246 -->
+    <Target Name="CheckGameConfiguration" BeforeTargets="BeforeBuild"
+            Condition="'$(Configuration)' != 'COM3D2-Debug' And '$(Configuration)' != 'COM3D2-Release' And '$(Configuration)' != 'COM3D25_UNITY_2022-Debug' And '$(Configuration)' != 'COM3D25_UNITY_2022-Release'">
+        <Error Text="未知的构建配置 '$(Configuration)'。请使用 -c COM3D2-Debug / COM3D2-Release / COM3D25_UNITY_2022-Debug / COM3D25_UNITY_2022-Release 之一。" />
+    </Target>
+
     <!-- 常量读不出来时给出可读报错，而不是悄悄编出 1.0.0.0
          Fail loudly when the constant cannot be read instead of silently building 1.0.0.0 -->
     <Target Name="CheckPluginVersion" BeforeTargets="BeforeBuild" Condition="'$(Version)' == ''">
