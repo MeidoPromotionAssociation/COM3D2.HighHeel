@@ -9,6 +9,10 @@ namespace COM3D2.Highheel.Plugin.UI
     {
         private const int WindowId = 523961;
 
+        private const float WindowWidth = 360f;
+        private const float EditModeHeight = 680f;
+        private const float TitlebarOnlyHeight = 55f;
+
         private static readonly GUILayoutOption NoExpand = GUILayout.ExpandWidth(false);
         private static readonly GUILayoutOption ConfigNameLayout = GUILayout.Width(160f);
 
@@ -19,6 +23,8 @@ namespace COM3D2.Highheel.Plugin.UI
         private static readonly GUIContent ConfigPrefixLabel = new("hhmod_");
         private static readonly GUIContent ImportLabel = new("Import");
         private static readonly GUIContent ExportLabel = new("Export");
+        private static readonly GUIContent ClearSceneLabel = new("Clear offsets for this scene");
+        private readonly GUIContent sceneLabel = new();
 
         private readonly Dictionary<ShoeConfig.ShoeConfigParameter, NumberInput> inputs = new();
 
@@ -27,7 +33,8 @@ namespace COM3D2.Highheel.Plugin.UI
 
         private Vector2 scrollPos = Vector2.zero;
         public bool Visible;
-        private Rect windowRect = new(20f, 20f, 260f, 530f);
+        private Rect windowRect = new(20f, 20f, WindowWidth, EditModeHeight);
+        private string lastSceneName;
 
         private GUIStyle windowStyle;
 
@@ -36,13 +43,36 @@ namespace COM3D2.Highheel.Plugin.UI
             editModeConfig = Plugin.Instance!.EditModeConfig;
 
             inputs[ShoeConfig.ShoeConfigParameter.BodyOffset] = new NumberInput("Body Offset", editModeConfig.BodyOffset);
-            inputs[ShoeConfig.ShoeConfigParameter.BodyOffset].InputChangeEvent += (_, a) => editModeConfig.BodyOffset = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.BodyOffset].InputChangeEvent += (_, a) =>
+            {
+                editModeConfig.BodyOffset = a.Value;
+                // 没有场景覆盖时，场景输入框显示的就是这个默认值，要跟着一起变
+                // Without an override the scene field mirrors this default, so keep it in sync
+                RefreshSceneInputs();
+            };
 
             inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset] = new NumberInput("Man Body Offset", editModeConfig.ManBodyOffset);
-            inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset].InputChangeEvent += (_, a) => editModeConfig.ManBodyOffset = a.Value;
+            inputs[ShoeConfig.ShoeConfigParameter.ManBodyOffset].InputChangeEvent += (_, a) =>
+            {
+                editModeConfig.ManBodyOffset = a.Value;
+                RefreshSceneInputs();
+            };
 
             inputs[ShoeConfig.ShoeConfigParameter.ToeControl] = new NumberInput("Enable Toe Control", editModeConfig.ToeControl);
             inputs[ShoeConfig.ShoeConfigParameter.ToeControl].InputChangeEvent += (_, a) => editModeConfig.ToeControl = a.Value;
+
+            // 逐场景 offset：显示并写入「当前场景」那一项；没有覆盖时显示鞋子的默认值。
+            // Per-scene offset: shows and writes the entry for the current scene, falling back to
+            // the shoe default while there is no override yet.
+            inputs[ShoeConfig.ShoeConfigParameter.SceneBodyOffset] =
+                new NumberInput("Body Offset (this scene)", GetSceneBodyOffset(editModeConfig));
+            inputs[ShoeConfig.ShoeConfigParameter.SceneBodyOffset].InputChangeEvent +=
+                (_, a) => SetSceneBodyOffset(editModeConfig, a.Value);
+
+            inputs[ShoeConfig.ShoeConfigParameter.SceneManBodyOffset] =
+                new NumberInput("Man Offset (this scene)", GetSceneManBodyOffset(editModeConfig));
+            inputs[ShoeConfig.ShoeConfigParameter.SceneManBodyOffset].InputChangeEvent +=
+                (_, a) => SetSceneManBodyOffset(editModeConfig, a.Value);
 
 
 
@@ -171,7 +201,7 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleY].Value = editModeConfig.ToeL0AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL0AngleZ].Value = editModeConfig.ToeL0AngleZ;
 
-            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleX].Value = editModeConfig.ToeL01AngleY;
+            inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleX].Value = editModeConfig.ToeL01AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleY].Value = editModeConfig.ToeL01AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeL01AngleZ].Value = editModeConfig.ToeL01AngleZ;
 
@@ -220,10 +250,73 @@ namespace COM3D2.Highheel.Plugin.UI
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleX].Value = editModeConfig.ToeR21AngleX;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleY].Value = editModeConfig.ToeR21AngleY;
             inputs[ShoeConfig.ShoeConfigParameter.ToeR21AngleZ].Value = editModeConfig.ToeR21AngleZ;
+
+            RefreshSceneInputs();
+        }
+
+        private static string CurrentScene => Hooks.currentSceneName;
+
+        private static float GetSceneBodyOffset(ShoeConfig config)
+        {
+            if (config?.PerSceneBodyOffsets != null && !string.IsNullOrEmpty(CurrentScene) &&
+                config.PerSceneBodyOffsets.TryGetValue(CurrentScene, out var value))
+                return value;
+
+            return config?.BodyOffset ?? 0f;
+        }
+
+        private static float GetSceneManBodyOffset(ShoeConfig config)
+        {
+            if (config?.PerSceneManBodyOffsets != null && !string.IsNullOrEmpty(CurrentScene) &&
+                config.PerSceneManBodyOffsets.TryGetValue(CurrentScene, out var value))
+                return value;
+
+            return config?.ManBodyOffset ?? 0f;
+        }
+
+        private static void SetSceneBodyOffset(ShoeConfig config, float value)
+        {
+            if (config == null || string.IsNullOrEmpty(CurrentScene)) return;
+
+            config.PerSceneBodyOffsets ??= new Dictionary<string, float>();
+            config.PerSceneBodyOffsets[CurrentScene] = value;
+        }
+
+        private static void SetSceneManBodyOffset(ShoeConfig config, float value)
+        {
+            if (config == null || string.IsNullOrEmpty(CurrentScene)) return;
+
+            config.PerSceneManBodyOffsets ??= new Dictionary<string, float>();
+            config.PerSceneManBodyOffsets[CurrentScene] = value;
+        }
+
+        private void RefreshSceneInputs()
+        {
+            inputs[ShoeConfig.ShoeConfigParameter.SceneBodyOffset].Value = GetSceneBodyOffset(editModeConfig);
+            inputs[ShoeConfig.ShoeConfigParameter.SceneManBodyOffset].Value = GetSceneManBodyOffset(editModeConfig);
+        }
+
+        private void ClearSceneOverrides()
+        {
+            if (string.IsNullOrEmpty(CurrentScene)) return;
+
+            editModeConfig.PerSceneBodyOffsets?.Remove(CurrentScene);
+            editModeConfig.PerSceneManBodyOffsets?.Remove(CurrentScene);
+
+            RefreshSceneInputs();
         }
 
         public void Update()
         {
+            // 切场景后逐场景 offset 的显示值要跟着换
+            // The per-scene inputs have to follow the scene we are in
+            var scene = CurrentScene;
+            if (scene != lastSceneName)
+            {
+                lastSceneName = scene;
+                RefreshSceneInputs();
+            }
+
             if (!Visible || Input.mouseScrollDelta.y == 0f) return;
 
             var mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
@@ -234,12 +327,18 @@ namespace COM3D2.Highheel.Plugin.UI
         {
             if (!Visible) return;
 
-            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
-            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
-
             var pluginEnabled = Plugin.Instance!.Configuration.Enabled.Value;
             var editModeEnabled = Plugin.Instance!.EditMode;
-            windowRect.height = pluginEnabled && editModeEnabled ? 560f : 55f;
+
+            // 尺寸每帧按屏幕再夹一次，避免小分辨率下窗口比屏幕还大
+            // Re-clamp against the screen every frame so the window never outgrows it
+            windowRect.width = Mathf.Min(WindowWidth, Screen.width - 40f);
+            windowRect.height = pluginEnabled && editModeEnabled
+                ? Mathf.Min(EditModeHeight, Screen.height - 40f)
+                : TitlebarOnlyHeight;
+
+            windowRect.x = Mathf.Clamp(windowRect.x, -windowRect.width + 20, Screen.width - 20);
+            windowRect.y = Mathf.Clamp(windowRect.y, -windowRect.height + 20, Screen.height - 20);
 
             windowRect = GUILayout.Window(WindowId, windowRect, GuiFunc, string.Empty, WindowStyle);
         }
@@ -294,11 +393,27 @@ namespace COM3D2.Highheel.Plugin.UI
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-            foreach (var input in inputs.Values) input.Draw();
+            sceneLabel.text = string.IsNullOrEmpty(CurrentScene)
+                ? "Current scene: (not loaded yet)"
+                : $"Current scene: {CurrentScene}";
+
+            foreach (var pair in inputs)
+            {
+                // 在逐场景输入框前面标出当前场景，免得对着错误的场景调
+                // Label the per-scene fields with the current scene so they cannot be edited blindly
+                if (pair.Key == ShoeConfig.ShoeConfigParameter.SceneBodyOffset)
+                    GUILayout.Label(sceneLabel);
+
+                pair.Value.Draw();
+            }
 
             GUILayout.EndScrollView();
 
             GUILayout.FlexibleSpace();
+
+            // 逐场景覆盖一旦写进去就没法通过输入框删掉，给一个显式的清除入口
+            // A per-scene override cannot be removed from a number field, so offer an explicit clear
+            if (GUILayout.Button(ClearSceneLabel)) ClearSceneOverrides();
 
             GUILayout.BeginHorizontal();
 

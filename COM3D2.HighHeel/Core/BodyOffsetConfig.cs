@@ -27,6 +27,15 @@ namespace COM3D2.Highheel.Plugin.Core
                 // If in edit mode, use this value directly, since there is a GUI
                 if (Plugin.Instance.EditMode)
                 {
+                    // 编辑模式下也让逐场景覆盖先生效，否则 UI 上调它看不到任何变化
+                    // The per-scene override wins in edit mode too, otherwise tuning it in the
+                    // GUI would show no effect at all
+                    lock (_lock)
+                    {
+                        if (config?.PerSceneBodyOffsets != null &&
+                            config.PerSceneBodyOffsets.TryGetValue(currentSceneName, out var sceneOffset))
+                            return sceneOffset;
+                    }
                     return config.BodyOffset;
                 }
 
@@ -73,7 +82,16 @@ namespace COM3D2.Highheel.Plugin.Core
                 // If in edit mode, use this value directly, since there is a GUI
                 if (Plugin.Instance.EditMode)
                 {
-                    return Plugin.Instance.EditModeConfig.ManBodyOffset;
+                    // 同上：逐场景覆盖优先
+                    // Same as above: the per-scene override wins
+                    var editConfig = Plugin.Instance.EditModeConfig;
+                    lock (_lock)
+                    {
+                        if (editConfig?.PerSceneManBodyOffsets != null &&
+                            editConfig.PerSceneManBodyOffsets.TryGetValue(currentSceneName, out var sceneOffset))
+                            return sceneOffset;
+                    }
+                    return editConfig.ManBodyOffset;
                 }
 
                 if (isGlobal)

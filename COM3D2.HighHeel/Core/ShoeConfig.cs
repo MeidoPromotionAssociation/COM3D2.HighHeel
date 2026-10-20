@@ -50,7 +50,14 @@ namespace COM3D2.Highheel.Plugin.Core
             ToeR1AngleZ,
             ToeR11AngleZ,
             ToeR2AngleZ,
-            ToeR21AngleZ
+            ToeR21AngleZ,
+
+            // 逐场景 offset 不是普通属性，而是字典里的一项；这两个只是 UI 用的槽位，
+            // 永远追加在末尾，避免打乱前面成员的数值。
+            // The per-scene offsets live in dictionaries rather than plain properties;
+            // these two are UI slots only and are always appended to keep the values above stable.
+            SceneBodyOffset,
+            SceneManBodyOffset
         }
         public float BodyOffset { get; set; } = 0.04f; // Experience-based values
         public float ManBodyOffset { get; set; } = 0f;
