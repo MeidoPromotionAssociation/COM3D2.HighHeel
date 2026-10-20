@@ -1,0 +1,190 @@
+name: Release
+
+# 打 tag 即发版；也可以在 Actions 页面手动补发一个已存在的 tag
+# Pushing a tag publishes a release; an existing tag can also be re-published manually from the Actions tab
+on:
+  push:
+    tags: [ "v*" ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "要发布的 tag，必须已存在于仓库中（例如 v1.0.9.2）/ Tag to publish, must already exist (e.g. v1.0.9.2)"
+        required: true
+        type: string
+      regenerate_notes:
+        description: "release 已存在时是否重新生成正文（会覆盖手动编辑）/ Regenerate the body of an existing release (overwrites manual edits)"
+        required: false
+        type: boolean
+        default: false
+
+# 默认不给 GITHUB_TOKEN 任何权限，由各 job 单独声明自己需要的最小权限
+# GITHUB_TOKEN gets no permission by default, each job declares the minimum it needs
+permissions: { }
+
+# 同一个 tag 只允许一个发布流程在跑，避免 push 和手动触发同时创建 release
+# Only one release run per tag, so a push and a manual dispatch cannot create the release twice
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  # 编译阶段只有读权限，即使某个依赖或 action 被污染也改不了仓库内容
+  # The build stage is read-only, so a compromised dependency or action cannot write anything back
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      version: ${{ steps.meta.outputs.version }}
+      prerelease: ${{ steps.meta.outputs.prerelease }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+          fetch-depth: 0
+          # 不把 token 存进 .git/config，编译过程中的代码就读不到它
+          # Keep the token out of .git/config, so code running during the build cannot read it
+          persist-credentials: false
+
+      - name: Resolve Release Metadata
+        id: meta
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          TAG="${INPUT_TAG:-$REF_NAME}"
+          if ! git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            echo "::error::tag ${TAG} does not exist in this repository"
+            exit 1
+          fi
+          # 版本号的唯一来源是 Plugin.cs 里的 PluginVersion 常量（AssemblyVersion 必须与它一致，
+          # 脚本会一并校验），必须与 tag 一致，否则就是漏改了版本号，这里直接拦住
+          # The version comes from the PluginVersion constant in Plugin.cs (the script also checks
+          # that AssemblyVersion agrees) and must match the tag, otherwise a bump was forgotten
+          VERSION="$(python3 .github/scripts/version.py)"
+          if [ -z "${VERSION}" ]; then
+            echo "::error::cannot read the plugin version"
+            exit 1
+          fi
+          if [ "v${VERSION}" != "${TAG}" ]; then
+            echo "::error::plugin version is ${VERSION}, does not match tag ${TAG}"
+            exit 1
+          fi
+          # 带连字符的版本号（v1.0.9.2-rc1 之类）视为预发布
+          # A tag containing a hyphen (v1.0.9.2-rc1 and the like) is treated as a prerelease
+          if [[ "${TAG}" == *-* ]]; then
+            PRERELEASE=true
+          else
+            PRERELEASE=false
+          fi
+          {
+            echo "tag=${TAG}"
+            echo "version=${VERSION}"
+            echo "prerelease=${PRERELEASE}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.x'
+
+      # net35 的引用程序集由 SDK 自动引入 Microsoft.NETFramework.ReferenceAssemblies，
+      # 所以 Linux runner 上也能直接编译，不需要额外的 targeting pack
+      # The SDK auto-references Microsoft.NETFramework.ReferenceAssemblies for net35,
+      # so a Linux runner can build it without any targeting pack installed
+      - name: Build
+        run: dotnet build COM3D2.HighHeel.sln -c Release
+
+      - name: Package Release Archive
+        run: |
+          python3 .github/scripts/package.py \
+            --version "${{ steps.meta.outputs.version }}" \
+            --build-root COM3D2.HighHeel/bin/Release \
+            --output-dir dist
+          ls -l dist/
+
+      - name: Upload Archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-archive
+          path: dist/*.zip
+          retention-days: 1
+          if-no-files-found: error
+
+  # 只有这个 job 拿到写权限，它不编译任何东西，只生成正文并调用 gh 发布
+  # Only this job holds write access, it builds nothing and merely renders the body and calls gh
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # 这里故意不指定 ref，用触发 workflow 的那个 ref，保证脚本和模板与 workflow 定义同源
+      # push tag 触发时取自 tag，手动补发旧 tag 时取自默认分支（旧 tag 上可能还没有这些文件）
+      # The ref is intentionally left out so the scripts and template come from the same ref as the
+      # workflow definition itself, the tag on a tag push, or the default branch when manually
+      # re-releasing an old tag that does not carry these files yet
+      #
+      # 提交列表来自 fetch-depth: 0 拉下来的完整历史和 tag，与检出哪个 ref 无关
+      # The commit list comes from the full history and tags fetched by fetch-depth: 0,
+      # which does not depend on the checked out ref
+      - name: Checkout Code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download Archive
+        uses: actions/download-artifact@v8
+        with:
+          name: release-archive
+          path: dist
+
+      - name: Generate Release Notes
+        env:
+          TAG: ${{ needs.build.outputs.tag }}
+        run: |
+          python3 .github/scripts/release_notes.py \
+            --tag "${TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --template .github/release-notes/template.md \
+            --output release-notes.md
+
+      - name: Publish Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.build.outputs.tag }}
+          PRERELEASE: ${{ needs.build.outputs.prerelease }}
+          REGENERATE_NOTES: ${{ github.event.inputs.regenerate_notes || 'false' }}
+        run: |
+          ASSETS=(dist/*.zip)
+          # release 已存在时更新它，便于手动重跑同一个 tag
+          # Update the release when it already exists, so the same tag can be re-run manually
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            # 正文在 GitHub 上手动改过时，重跑不该把它冲掉，只有明确要求才重新生成
+            # A hand-edited body must survive a re-run, so only regenerate when explicitly asked
+            if [ "${REGENERATE_NOTES}" = "true" ]; then
+              gh release edit "${TAG}" \
+                --title "${TAG}" \
+                --notes-file release-notes.md \
+                --prerelease="${PRERELEASE}"
+            else
+              echo "keeping the existing release body (regenerate_notes=false)"
+              gh release edit "${TAG}" \
+                --title "${TAG}" \
+                --prerelease="${PRERELEASE}"
+            fi
+            gh release upload "${TAG}" "${ASSETS[@]}" --clobber
+          else
+            gh release create "${TAG}" \
+              --verify-tag \
+              --title "${TAG}" \
+              --notes-file release-notes.md \
+              --prerelease="${PRERELEASE}" \
+              "${ASSETS[@]}"
+          fi
+          gh release view "${TAG}" --json assets --jq '.assets[].name'

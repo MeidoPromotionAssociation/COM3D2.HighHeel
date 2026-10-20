@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -11,7 +10,6 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
-[assembly: AssemblyVersion("1.0.9.2")]
 namespace COM3D2.Highheel.Plugin
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]

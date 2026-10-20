@@ -5,7 +5,12 @@
         <AssemblyName>COM3D2.Highheel.Plugin</AssemblyName>
         <LangVersion>latest</LangVersion>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <!-- 版本号唯一来源是 Plugin.cs 里的 PluginVersion 常量，csproj 和源码里都不再重复写。
+             AssemblyVersion / FileVersion 由 SDK 从下面的 <Version> 推导。
+             The PluginVersion constant in Plugin.cs is the single source of the version;
+             the SDK derives AssemblyVersion / FileVersion from <Version>. -->
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <Version>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/Plugin.cs')), 'PluginVersion\s*=\s*&quot;([0-9][0-9.]*)&quot;').Groups[1].Value)</Version>
         <RestoreAdditionalProjectSources>
             https://api.nuget.org/v3/index.json;
             https://nuget.bepinex.dev/v3/index.json;
@@ -43,5 +48,10 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
         <PackageReference Include="UnityEngine.Modules" Version="5.6.3" IncludeAssets="compile"/>
     </ItemGroup>
+    <!-- 常量读不出来时给出可读报错，而不是悄悄编出 1.0.0.0
+         Fail loudly when the constant cannot be read instead of silently building 1.0.0.0 -->
+    <Target Name="CheckPluginVersion" BeforeTargets="BeforeBuild" Condition="'$(Version)' == ''">
+        <Error Text="无法从 Plugin.cs 的 PluginVersion 常量读取版本号，请检查它是否形如 public const string PluginVersion = &quot;1.2.3.4&quot;。" />
+    </Target>
 
 </Project>
