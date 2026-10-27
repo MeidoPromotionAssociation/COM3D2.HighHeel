@@ -323,8 +323,17 @@ namespace COM3D2.Highheel.Plugin.Core
         }
 #endif
 
+        // 3.x 的 Menu 直接调 4 参数重载（2 → 3 → 4 逐层转发），只有补最内层那个才能覆盖所有调用；
+        // 2.x 只有 2 参数版本。
+        // On 3.x the game calls the 4-parameter overload directly and the others forward to it,
+        // so patching the innermost one covers every path. 2.x only has the 2-parameter version.
+#if COM3D2
         [HarmonyPostfix]
         [HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R), typeof(string), typeof(Maid))]
+#else
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(TBody), nameof(TBody.LoadBody_R), typeof(string), typeof(Maid), typeof(int), typeof(bool))]
+#endif
         public static void OnLoadBody_R(TBody __instance)
         {
             if (__instance.boMAN)
@@ -332,7 +341,16 @@ namespace COM3D2.Highheel.Plugin.Core
             if (Plugin.Instance == null)
                 return;
 
-            MaidTransforms[__instance] = new MaidTransforms(__instance);
+            try
+            {
+                MaidTransforms[__instance] = new MaidTransforms(__instance);
+            }
+            catch (System.Exception e)
+            {
+                // Postfix 里抛异常会一路传回游戏的身体加载流程，宁可记日志也不要炸
+                // An exception here would propagate into the game's body loading, so log it instead
+                Plugin.Instance.Logger.LogWarning($"Failed to cache foot/toe bones: {e.Message}");
+            }
         }
 
         [HarmonyPrefix]
